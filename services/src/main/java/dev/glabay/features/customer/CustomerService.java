@@ -28,6 +28,12 @@ public class CustomerService implements CustomerConverter {
             .orElse(null);
     }
 
+    public CustomerDto getCustomerByEmail(String email) {
+        return customerRepository.findByEmailIgnoreCase(email)
+            .map(this::mapToDto)
+            .orElse(null);
+    }
+
     public List<CustomerDto> getAllCustomers() {
         return customerRepository.findAll()
             .stream()

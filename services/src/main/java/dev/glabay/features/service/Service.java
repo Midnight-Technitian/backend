@@ -12,12 +12,8 @@ import jakarta.persistence.*;
 @Table(name = "SERVICES")
 public record Service(
     @Id
-    @SequenceGenerator(
-        name = "services_sequence",
-        sequenceName = "services_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "services_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long serviceId,
     String serviceName,
     String serviceDescription,
     double servicePrice,

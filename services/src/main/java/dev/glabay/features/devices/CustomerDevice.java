@@ -1,8 +1,6 @@
 package dev.glabay.features.devices;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +18,7 @@ import java.util.Date;
 @Table(name = "DROP_OFFS")
 public class CustomerDevice {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer dropOffId;
     private Integer customerId;
     private Date dropOffDate;

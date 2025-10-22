@@ -34,6 +34,14 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getCustomerById(custId));
     }
 
+    @GetMapping("/e/{email}")
+    private ResponseEntity<CustomerDto> getCustomerByEmail(@PathVariable String email) {
+        var customer = customerService.getCustomerByEmail(email);
+        if (customer == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(customer);
+    }
+
     @GetMapping
     public List<CustomerDto> getAllCustomers() {
         return customerService.getAllCustomers();

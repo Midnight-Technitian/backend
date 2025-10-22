@@ -1,8 +1,6 @@
 package dev.glabay.features.employee;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +18,7 @@ import java.time.LocalDate;
 @Table(name = "EMPLOYEES")
 public class Employee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String employeeId;
     private String employeeFirstName;
     private String employeeLastName;
