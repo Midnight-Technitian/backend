@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS drop_offs (
 );
 
 CREATE TABLE IF NOT EXISTS user_profile (
-    uid BIGINT PRIMARY KEY,
+    uid BIGSERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
