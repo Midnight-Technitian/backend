@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationService {
     private final UserProfileRepository userProfileRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public RegistrationService(UserProfileRepository userProfileRepository) {
+    public RegistrationService(UserProfileRepository userProfileRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userProfileRepository = userProfileRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean userExists(String email) {
@@ -25,12 +27,12 @@ public class RegistrationService {
             .isPresent();
     }
 
-    public void registerUser(UserCredentialsDto dto) {
+    public UserProfile registeredUser(UserCredentialsDto dto) {
         var model = new UserProfile();
             model.setEmail(dto.email());
             model.setFirstName(dto.firstName());
             model.setLastName(dto.lastName());
-            model.setEncryptedPassword(new BCryptPasswordEncoder().encode(dto.password()));
-        userProfileRepository.save(model);
+            model.setEncryptedPassword(passwordEncoder.encode(dto.password()));
+        return userProfileRepository.saveAndFlush(model);
     }
 }
