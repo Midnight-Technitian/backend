@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS user_profile (
 );
 
 -- Services
-INSERT INTO services (service_name, service_description, service_price, fixed_rate)
-VALUES ('Destroy', '32-pass Data Erase; Followed with physical destruction.', 22.00, TRUE),
-       ('Re-Image', 'Reinstall the Operating System of a PC/Tablet/Laptop/Mobile device.', 50.00, TRUE),
-       ('Backup', 'Create an archived backup of all essential and user files.', 25.00, TRUE),
-       ('Diagnostic', 'Check the health of the physical Hardware, as well as scan for malicious software', 40.00, TRUE),
-       ('Hardware Upgrade', 'Install new Hardware and Drivers + Device Hardware health Scan.', 20.00, TRUE),
-       ('On-site Tech', 'On-Site technician, $99/first hr then $40/hr additional.', 99.00, FALSE);
+INSERT INTO services (service_id, service_name, service_description, service_price, fixed_rate)
+VALUES (1, 'Destroy', '32-pass Data Erase; Followed with physical destruction.', 22.00, TRUE),
+       (2, 'Re-Image', 'Reinstall the Operating System of a PC/Tablet/Laptop/Mobile device.', 50.00, TRUE),
+       (3, 'Backup', 'Create an archived backup of all essential and user files.', 25.00, TRUE),
+       (4, 'Diagnostic', 'Check the health of the physical Hardware, as well as scan for malicious software', 40.00, TRUE),
+       (5, 'Hardware Upgrade', 'Install new Hardware and Drivers + Device Hardware health Scan.', 20.00, TRUE),
+       (6, 'On-site Tech', 'On-Site technician, $99/first hr then $40/hr additional.', 99.00, FALSE);
 
 -- Employees
 INSERT INTO employees (employee_id, employee_first_name, employee_last_name, employee_start_date, employee_end_date,
