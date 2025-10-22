@@ -1,10 +1,8 @@
-package dev.glabay.services;
+package dev.glabay.features.customer;
 
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.inter.impl.CustomerConverter;
-import dev.glabay.models.Customer;
-import dev.glabay.repos.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

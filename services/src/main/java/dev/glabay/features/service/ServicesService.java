@@ -1,8 +1,7 @@
-package dev.glabay.services;
+package dev.glabay.features.service;
 
 import dev.glabay.dtos.ServiceDto;
 import dev.glabay.inter.impl.ServiceConverter;
-import dev.glabay.repos.ServiceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

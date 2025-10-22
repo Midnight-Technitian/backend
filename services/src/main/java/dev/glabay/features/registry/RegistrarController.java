@@ -1,8 +1,7 @@
-package dev.glabay.controllers;
+package dev.glabay.features.registry;
 
 import dev.glabay.dtos.UserCredentialsDto;
 import dev.glabay.models.request.RegistrationStatus;
-import dev.glabay.services.RegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

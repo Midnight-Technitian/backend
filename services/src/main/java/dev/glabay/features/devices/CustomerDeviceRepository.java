@@ -1,6 +1,5 @@
-package dev.glabay.repos;
+package dev.glabay.features.devices;
 
-import dev.glabay.models.CustomerDevice;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package dev.glabay.services;
+package dev.glabay.features.service;
 
 import dev.glabay.dtos.UserCredentialsDto;
-import dev.glabay.models.UserProfile;
-import dev.glabay.repos.UserProfileRepository;
+import dev.glabay.features.user.UserProfile;
+import dev.glabay.features.user.UserProfileRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

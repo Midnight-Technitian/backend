@@ -2,7 +2,7 @@ package dev.glabay.inter.impl;
 
 import dev.glabay.dtos.ServiceDto;
 import dev.glabay.inter.DtoConverter;
-import dev.glabay.models.Service;
+import dev.glabay.features.service.Service;
 
 /**
  * @author Glabay | Glabay-Studios

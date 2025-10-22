@@ -1,4 +1,4 @@
-package dev.glabay.models;
+package dev.glabay.features.service;
 
 import jakarta.persistence.*;
 

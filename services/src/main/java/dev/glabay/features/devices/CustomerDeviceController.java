@@ -1,7 +1,6 @@
-package dev.glabay.controllers;
+package dev.glabay.features.devices;
 
 import dev.glabay.dtos.CustomerDeviceDto;
-import dev.glabay.services.CustomerDeviceService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,6 +1,5 @@
-package dev.glabay.repos;
+package dev.glabay.features.user;
 
-import dev.glabay.models.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

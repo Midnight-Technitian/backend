@@ -1,7 +1,6 @@
-package dev.glabay.controllers;
+package dev.glabay.features.employee;
 
-import dev.glabay.dtos.ServiceDto;
-import dev.glabay.services.ServicesService;
+import dev.glabay.dtos.EmployeeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +13,15 @@ import java.util.List;
  * @project GlabTech
  * @social Discord: Glabay
  * @since 2024-11-22
- */
+*/
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/services")
-public class ServiceController {
-    public final ServicesService servicesService;
+@RequestMapping("/api/v1/employees")
+public class EmployeeController {
+    private final EmployeeService employeeService;
 
     @GetMapping
-    public List<ServiceDto> getAllServices() {
-        return servicesService.getAllServices();
+    public List<EmployeeDto> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 }

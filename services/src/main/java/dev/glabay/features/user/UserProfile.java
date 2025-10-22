@@ -1,4 +1,4 @@
-package dev.glabay.models;
+package dev.glabay.features.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity(name = "UserProfile")
-@Table(name = "USER_PROFILE")
+@Table(name = "user_profile")
 public class UserProfile {
 
     @Id
@@ -25,27 +25,27 @@ public class UserProfile {
             allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_sequence")
-    @Column(name = "UID", updatable = false)
+    @Column(name = "uid", updatable = false)
     private Long uid;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "CONTACT_NUMBER")
+    @Column(name = "contact_number")
     private String contactNumber;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "encrypted_password")
     private String encryptedPassword;
 
-    @Column(name = "CREATED_AT", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-    @Column(name = "UPDATED_AT")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
 }

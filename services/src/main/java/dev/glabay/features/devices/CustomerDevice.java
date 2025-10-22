@@ -1,4 +1,4 @@
-package dev.glabay.models;
+package dev.glabay.features.devices;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

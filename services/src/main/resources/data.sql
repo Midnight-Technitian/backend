@@ -1,3 +1,49 @@
+-- Create tables
+CREATE TABLE IF NOT EXISTS services (
+    service_id BIGINT PRIMARY KEY,
+    service_name VARCHAR(255) NOT NULL,
+    service_description TEXT,
+    service_price DECIMAL(10, 2) NOT NULL,
+    fixed_rate BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS employees (
+    employee_id VARCHAR(50) PRIMARY KEY,
+    employee_first_name VARCHAR(100) NOT NULL,
+    employee_last_name VARCHAR(100) NOT NULL,
+    employee_start_date DATE NOT NULL,
+    employee_end_date DATE,
+    contact_number VARCHAR(20),
+    position VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS customers (
+    customer_id BIGSERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS drop_offs (
+    drop_off_id BIGINT PRIMARY KEY,
+    customer_id BIGINT NOT NULL,
+    drop_off_date DATE NOT NULL,
+    notes TEXT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE IF NOT EXISTS user_profile (
+    uid BIGINT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(255) NOT NULL,
+    encrypted_password VARCHAR(255) NOT NULL,
+    created_at TEXT,
+    updated_at TEXT
+);
+
 -- Services
 INSERT INTO services (service_name, service_description, service_price, fixed_rate)
 VALUES ('Destroy', '32-pass Data Erase; Followed with physical destruction.', 22.00, TRUE),

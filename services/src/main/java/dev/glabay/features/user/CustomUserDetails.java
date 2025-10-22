@@ -1,4 +1,4 @@
-package dev.glabay.models;
+package dev.glabay.features.user;
 
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;

@@ -3,7 +3,7 @@ package dev.glabay.inter.impl;
 
 import dev.glabay.dtos.CustomerDeviceDto;
 import dev.glabay.inter.DtoConverter;
-import dev.glabay.models.CustomerDevice;
+import dev.glabay.features.devices.CustomerDevice;
 
 /**
  * @author Glabay | Glabay-Studios

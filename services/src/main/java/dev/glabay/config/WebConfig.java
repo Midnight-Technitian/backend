@@ -1,8 +1,8 @@
 package dev.glabay.config;
 
-import dev.glabay.repos.UserProfileRepository;
+import dev.glabay.features.user.UserProfileRepository;
 import dev.glabay.security.BotTokenAuthInterceptor;
-import dev.glabay.services.CustomUserDetailsService;
+import dev.glabay.features.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

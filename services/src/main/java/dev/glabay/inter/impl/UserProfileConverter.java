@@ -3,7 +3,7 @@ package dev.glabay.inter.impl;
 
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.inter.DtoConverter;
-import dev.glabay.models.UserProfile;
+import dev.glabay.features.user.UserProfile;
 
 import java.time.LocalDateTime;
 

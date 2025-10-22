@@ -1,7 +1,5 @@
-package dev.glabay.services;
+package dev.glabay.features.user;
 
-import dev.glabay.models.CustomUserDetails;
-import dev.glabay.repos.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullUnmarked;
 import org.springframework.security.core.userdetails.UserDetails;

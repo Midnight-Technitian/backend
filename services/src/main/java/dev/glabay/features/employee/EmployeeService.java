@@ -1,8 +1,7 @@
-package dev.glabay.services;
+package dev.glabay.features.employee;
 
 import dev.glabay.dtos.EmployeeDto;
 import dev.glabay.inter.impl.EmployeeConverter;
-import dev.glabay.repos.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

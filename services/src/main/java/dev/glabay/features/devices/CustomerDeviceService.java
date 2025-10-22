@@ -1,8 +1,7 @@
-package dev.glabay.services;
+package dev.glabay.features.devices;
 
 import dev.glabay.dtos.CustomerDeviceDto;
 import dev.glabay.inter.impl.CustomerDeviceConverter;
-import dev.glabay.repos.CustomerDeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

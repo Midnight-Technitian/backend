@@ -1,8 +1,7 @@
-package dev.glabay.controllers;
+package dev.glabay.features.customer;
 
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
-import dev.glabay.services.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: midnight-technician-postgres
+    environment:
+      POSTGRES_DB: glabtech_db
+      POSTGRES_USER: ${POSTGRES_USER:-GLABTECH_APP}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-GLABTECH_APP_PASSWORD}
+    ports:
+      - "5464:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-GLABTECH_APP} -d glabtech_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
+    driver: local

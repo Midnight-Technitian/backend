@@ -3,7 +3,7 @@ package dev.glabay.inter.impl;
 
 import dev.glabay.dtos.EmployeeDto;
 import dev.glabay.inter.DtoConverter;
-import dev.glabay.models.Employee;
+import dev.glabay.features.employee.Employee;
 
 /**
  * @author Glabay | Glabay-Studios
