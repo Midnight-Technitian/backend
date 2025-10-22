@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    group = 'dev.glabay'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+// Optional: Create a task that builds all submodules
+task buildAll {
+    dependsOn subprojects.collect { it.tasks.matching { it.name == 'build' } }
+}
