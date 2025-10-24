@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document("MidnightTicketSequence")
+@Document("midnight_technician_sequences")
 public class MidnightTicketSequence {
     private String id;
-    private Long mongoSqq;
+    private Long mongoSeq;
 }
