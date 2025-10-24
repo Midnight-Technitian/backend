@@ -5,6 +5,7 @@ import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.inter.impl.CustomerConverter;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -56,6 +57,8 @@ public class CustomerService implements CustomerConverter {
             customer.setFirstName(dto.firstName());
             customer.setLastName(dto.lastName());
             customer.setEmail(dto.email());
+            customer.setCreatedAt(LocalDateTime.now());
+            customer.setUpdatedAt(LocalDateTime.now());
         // save the Customer
         customerRepository.saveAndFlush(customer);
         return mapToDto(customer);
