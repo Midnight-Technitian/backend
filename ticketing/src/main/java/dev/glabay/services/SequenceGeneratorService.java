@@ -15,10 +15,10 @@ public record SequenceGeneratorService(
     public String getNextSequence(String sequenceName) {
         var counter = mongoOps.findAndModify(
             query(where("id").is(sequenceName)),
-            new Update().inc("mongoSqq", 1),
+            new Update().inc("mongoSeq", 1),
             options().returnNew(true).upsert(true),
             MidnightTicketSequence.class
         );
-        return String.valueOf((counter != null) ? counter.getMongoSqq() : 1L);
+        return String.valueOf((counter != null) ? counter.getMongoSeq() : 1L);
     }
 }
