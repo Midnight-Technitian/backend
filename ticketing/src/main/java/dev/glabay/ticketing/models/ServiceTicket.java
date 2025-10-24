@@ -19,6 +19,8 @@ import java.util.List;
 @Document(collection = "service_ticket")
 public class ServiceTicket {
     @Id
+    private String id;
+
     private String ticketId;
 
     private String status;
