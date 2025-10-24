@@ -1,5 +1,6 @@
 package dev.glabay.ticketing.services;
 
+import dev.glabay.dtos.ServiceTicketDto;
 import dev.glabay.models.ServiceTicketStatus;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.services.SequenceGeneratorService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -51,4 +53,12 @@ public class TicketingService {
     public void saveTicket(ServiceTicket serviceTicket) {
         ticketRepository.save(serviceTicket);
     }
+
+    public List<ServiceTicketDto> getAllOpenTickets(String customerEmail) {
+        return ticketRepository.findAllByCustomerId(customerEmail).stream()
+            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
+            .map(ServiceTicket::mapToDto)
+            .toList();
+    }
+
 }

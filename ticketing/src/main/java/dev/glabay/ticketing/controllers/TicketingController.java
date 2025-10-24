@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Glabay | Glabay-Studios
  * @project backend
@@ -25,7 +27,6 @@ public class TicketingController {
     private final Logger logger = LoggerFactory.getLogger(TicketingController.class);
 
     private final TicketingService ticketingService;
-
 
     @PostMapping()
     private ResponseEntity<ServiceTicketDto> postNewServiceTicket(@RequestBody ServiceRequest requestDto) {
@@ -43,4 +44,16 @@ public class TicketingController {
         return new ResponseEntity<>(ticket.mapToDto(), HttpStatus.CREATED);
     }
 
+
+    @GetMapping("/open")
+    private ResponseEntity<List<ServiceTicketDto>> getOpenTickets(
+        @RequestParam("email") String email
+    ) {
+        var openTickets = ticketingService.getAllOpenTickets(email);
+
+        if (openTickets.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return new ResponseEntity<>(openTickets, HttpStatus.OK);
+    }
 }
