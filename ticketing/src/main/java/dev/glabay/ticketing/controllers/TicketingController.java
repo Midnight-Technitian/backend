@@ -45,11 +45,22 @@ public class TicketingController {
     }
 
 
-    @GetMapping("/open")
-    private ResponseEntity<List<ServiceTicketDto>> getOpenTickets(
+    @GetMapping("/customer")
+    private ResponseEntity<List<ServiceTicketDto>> getOpenTicketsForEmail(
         @RequestParam("email") String email
     ) {
         var openTickets = ticketingService.getAllOpenTickets(email);
+
+        if (openTickets.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return new ResponseEntity<>(openTickets, HttpStatus.OK);
+    }
+
+    @GetMapping("/open")
+    private ResponseEntity<List<ServiceTicketDto>> getOpenTickets() {
+        // TODO: Paging... return by default 0-15
+        var openTickets = ticketingService.getAllOpenTickets();
 
         if (openTickets.isEmpty())
             return ResponseEntity.notFound().build();

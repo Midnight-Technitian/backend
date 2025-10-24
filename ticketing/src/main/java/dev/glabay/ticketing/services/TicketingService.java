@@ -61,4 +61,11 @@ public class TicketingService {
             .toList();
     }
 
+    public List<ServiceTicketDto> getAllOpenTickets() {
+        return ticketRepository.findAll().stream()
+            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
+            .map(ServiceTicket::mapToDto)
+            .toList();
+    }
+
 }
