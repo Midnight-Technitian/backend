@@ -3,7 +3,6 @@ package dev.glabay.ticketing.services;
 import dev.glabay.models.ServiceTicketStatus;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.services.SequenceGeneratorService;
-import dev.glabay.ticketing.models.ServiceNote;
 import dev.glabay.ticketing.models.ServiceTicket;
 import dev.glabay.ticketing.repos.TicketRepository;
 import lombok.RequiredArgsConstructor;
