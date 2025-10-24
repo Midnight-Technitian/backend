@@ -6,6 +6,8 @@ import dev.glabay.inter.impl.CustomerConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -22,7 +24,7 @@ public class CustomerService implements CustomerConverter {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerDto getCustomerById(Integer customerId) {
+    public CustomerDto getCustomerById(Long customerId) {
         return customerRepository.findById(customerId)
             .map(this::mapToDto)
             .orElse(null);
@@ -32,6 +34,13 @@ public class CustomerService implements CustomerConverter {
         return customerRepository.findByEmailIgnoreCase(email)
             .map(this::mapToDto)
             .orElse(null);
+    }
+
+    public Long getCustomerIdByEmail(String email) {
+        var customerId = new AtomicLong(-1L);
+        customerRepository.findByEmailIgnoreCase(email)
+            .ifPresent(customer -> customerId.set(customer.getCustomerId()));
+        return customerId.get();
     }
 
     public List<CustomerDto> getAllCustomers() {

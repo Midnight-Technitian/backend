@@ -1,6 +1,7 @@
 package dev.glabay.features.devices;
 
 import dev.glabay.dtos.CustomerDeviceDto;
+import dev.glabay.features.customer.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,10 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/devices")
 public class CustomerDeviceController {
-
+    private final CustomerService customerService;
     private final CustomerDeviceService customerDeviceService;
 
-    public CustomerDeviceController(CustomerDeviceService customerDeviceService) {
+    public CustomerDeviceController(CustomerService customerService, CustomerDeviceService customerDeviceService) {
+        this.customerService = customerService;
         this.customerDeviceService = customerDeviceService;
     }
 
@@ -30,7 +32,8 @@ public class CustomerDeviceController {
     }
 
     @GetMapping
-    public List<CustomerDeviceDto> getCustomerDevices(@RequestParam Integer customerId) {
+    public List<CustomerDeviceDto> getCustomerDevices(@RequestParam("email") String email) {
+        var customerId = customerService.getCustomerIdByEmail(email);
         return customerDeviceService.getCustomerDevices(customerId);
     }
 }

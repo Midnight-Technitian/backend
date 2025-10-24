@@ -30,7 +30,7 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     private ResponseEntity<CustomerDto> getCustomerById(@PathVariable String customerId) {
-        var custId = Integer.parseInt(customerId);
+        var custId = Long.parseLong(customerId);
         return ResponseEntity.ok(customerService.getCustomerById(custId));
     }
 

@@ -26,7 +26,7 @@ public class CustomerDeviceService implements CustomerDeviceConverter {
             .toList();
     }
 
-    public List<CustomerDeviceDto> getCustomerDevices(Integer customerId) {
+    public List<CustomerDeviceDto> getCustomerDevices(Long customerId) {
         return customerDeviceRepository.findByCustomerId(customerId)
             .stream()
             .map(this::mapToDto)

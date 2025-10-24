@@ -15,12 +15,12 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity(name = "customer_device")
-@Table(name = "DROP_OFFS")
+@Table(name = "CUSTOMER_DEVICE")
 public class CustomerDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer dropOffId;
-    private Integer customerId;
+    private Long deviceId;
+    private Long customerId;
     private Date dropOffDate;
     private String notes;
 }
