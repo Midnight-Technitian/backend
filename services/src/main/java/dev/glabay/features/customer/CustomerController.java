@@ -2,6 +2,7 @@ package dev.glabay.features.customer;
 
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +35,8 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getCustomerById(custId));
     }
 
-    @GetMapping("/e/{email}")
-    private ResponseEntity<CustomerDto> getCustomerByEmail(@PathVariable String email) {
+    @GetMapping("/email")
+    private ResponseEntity<CustomerDto> getCustomerByEmail(@Param("email") String email) {
         var customer = customerService.getCustomerByEmail(email);
         if (customer == null)
             return ResponseEntity.notFound().build();
