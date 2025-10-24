@@ -21,4 +21,37 @@ public record SequenceGeneratorService(
         );
         return String.valueOf((counter != null) ? counter.getMongoSeq() : 1L);
     }
+
+    public String getNextTicketSequence() {
+        var counter = mongoOps.findAndModify(
+            query(where("id").is("midnight_ticket_seq")),
+            new Update().inc("mongoSeq", 1),
+            options().returnNew(true).upsert(true),
+            MidnightTicketSequence.class
+        );
+        var id = (counter != null) ? counter.getMongoSeq() : 1L;
+        return "TICKET-%d".formatted(id);
+    }
+
+    public String getNextDeviceSequence() {
+        var counter = mongoOps.findAndModify(
+            query(where("id").is("midnight_device_seq")),
+            new Update().inc("mongoSeq", 1),
+            options().returnNew(true).upsert(true),
+            MidnightTicketSequence.class
+        );
+        var id = (counter != null) ? counter.getMongoSeq() : 1L;
+        return "DEVICE-%d".formatted(id);
+    }
+
+    public String getNextNoteSequence() {
+        var counter = mongoOps.findAndModify(
+            query(where("id").is("midnight_service_note_seq")),
+            new Update().inc("mongoSeq", 1),
+            options().returnNew(true).upsert(true),
+            MidnightTicketSequence.class
+        );
+        var id = (counter != null) ? counter.getMongoSeq() : 1L;
+        return "SERVICE-NOTE-%d".formatted(id);
+    }
 }
