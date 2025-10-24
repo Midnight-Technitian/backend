@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/tickets")
-@CrossOrigin(origins = "http://localhost:80")
 public class TicketingController {
     private final Logger logger = LoggerFactory.getLogger(TicketingController.class);
 
@@ -30,11 +29,11 @@ public class TicketingController {
 
     @PostMapping()
     private ResponseEntity<ServiceTicketDto> postNewServiceTicket(@RequestBody ServiceRequest requestDto) {
-        if (requestDto.serviceDescription().isBlank()) {
+        if (requestDto.serviceDescription() == null || requestDto.serviceDescription().isBlank()) {
             logger.error("Service description is blank");
             return ResponseEntity.badRequest().build();
         }
-        if (requestDto.customerEmail().isBlank()) {
+        if (requestDto.customerEmail() == null || requestDto.customerEmail().isBlank()) {
             logger.error("Customer email is blank");
             return ResponseEntity.badRequest().build();
         }

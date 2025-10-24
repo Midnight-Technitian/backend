@@ -1,0 +1,6 @@
+{
+  "timestamp": "2025-10-24T15:34:59.651Z",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/api/v1/tickets"
+}
