@@ -1,7 +1,7 @@
 package dev.glabay.ticketing.controllers;
 
+import dev.glabay.dtos.ServiceTicketDto;
 import dev.glabay.models.request.ServiceRequest;
-import dev.glabay.ticketing.models.ServiceTicket;
 import dev.glabay.ticketing.services.TicketingService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
@@ -29,7 +29,7 @@ public class TicketingController {
 
 
     @PostMapping()
-    private ResponseEntity<ServiceTicket> postNewServiceTicket(@RequestBody ServiceRequest requestDto) {
+    private ResponseEntity<ServiceTicketDto> postNewServiceTicket(@RequestBody ServiceRequest requestDto) {
         if (requestDto.serviceDescription().isBlank()) {
             logger.error("Service description is blank");
             return ResponseEntity.badRequest().build();
@@ -40,7 +40,8 @@ public class TicketingController {
         }
 
         var ticket = ticketingService.createServiceTicket(requestDto);
-        return new ResponseEntity<>(ticket, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(ticket.mapToDto(), HttpStatus.CREATED);
     }
 
 }
