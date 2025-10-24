@@ -14,10 +14,11 @@ public interface ServiceConverter extends DtoConverter<Service, ServiceDto> {
     @Override
     default ServiceDto mapToDto(Service model) {
         return new ServiceDto(
-            model.serviceName(),
-            model.serviceDescription(),
-            model.servicePrice(),
-            model.fixedRate()
+            model.getServiceId(),
+            model.getServiceName(),
+            model.getServiceDescription(),
+            model.getServicePrice(),
+            model.isFixedRate()
         );
     }
 }

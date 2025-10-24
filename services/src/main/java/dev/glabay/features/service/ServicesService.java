@@ -2,7 +2,6 @@ package dev.glabay.features.service;
 
 import dev.glabay.dtos.ServiceDto;
 import dev.glabay.inter.impl.ServiceConverter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +13,15 @@ import java.util.List;
  * @since 2024-11-22
  */
 @Service
-@RequiredArgsConstructor
 public class ServicesService implements ServiceConverter {
     private final ServiceRepository serviceRepository;
 
+    public ServicesService(ServiceRepository serviceRepository) {
+        this.serviceRepository = serviceRepository;
+    }
+
     public List<ServiceDto> getAllServices() {
-        return serviceRepository.findAll()
-            .stream()
-            .map(this::mapToDto)
-            .toList();
+        var services = serviceRepository.findAll();
+        return services.stream().map(this::mapToDto).toList();
     }
 }

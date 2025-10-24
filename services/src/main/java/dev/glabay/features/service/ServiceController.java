@@ -2,6 +2,7 @@ package dev.glabay.features.service;
 
 import dev.glabay.dtos.ServiceDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,8 @@ public class ServiceController {
     public final ServicesService servicesService;
 
     @GetMapping
-    public List<ServiceDto> getAllServices() {
-        return servicesService.getAllServices();
+    public ResponseEntity<List<ServiceDto>> getAllServices() {
+        var services = servicesService.getAllServices();
+        return ResponseEntity.ok().body(services);
     }
 }
