@@ -17,8 +17,10 @@ public interface CustomerDeviceConverter extends DtoConverter<CustomerDevice, Cu
         return new CustomerDeviceDto(
             model.getDeviceId(),
             model.getCustomerId(),
-            model.getDropOffDate(),
-            model.getNotes()
+            model.getCreatedAt(),
+            model.getUpdatedAt(),
+            model.getDeviceName(),
+            model.getDeviceType()
         );
     }
 }

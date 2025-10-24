@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Glaba
  * @project GlabTech
@@ -22,4 +24,7 @@ public class Customer {
     private String lastName;
     private String email;
     private String contactNumber;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

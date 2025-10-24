@@ -19,7 +19,9 @@ public interface CustomerConverter extends DtoConverter<Customer, CustomerDto> {
             model.getFirstName(),
             model.getLastName(),
             model.getEmail(),
-            model.getContactNumber()
+            model.getContactNumber(),
+            model.getCreatedAt(),
+            model.getUpdatedAt()
         );
     }
 }
