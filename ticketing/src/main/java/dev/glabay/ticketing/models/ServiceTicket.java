@@ -1,5 +1,7 @@
 package dev.glabay.ticketing.models;
 
+import dev.glabay.dtos.ServiceTicketDto;
+import dev.glabay.models.ServiceNote;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -36,4 +38,20 @@ public class ServiceTicket {
     private String serviceId;
 
     private List<ServiceNote> notes;
+
+    public ServiceTicketDto mapToDto() {
+        return new ServiceTicketDto(
+            getTicketId(),
+            getStatus(),
+            getTitle(),
+            getDescription(),
+            getCustomerId(),
+            getCustomerDeviceId(),
+            getEmployeeId(),
+            getServiceId(),
+            getNotes(),
+            getCreatedAt(),
+            getUpdatedAt()
+        );
+    }
 }
