@@ -22,14 +22,18 @@ CREATE TABLE IF NOT EXISTS customers (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
+    created_at DATE NOT NULL,
+    updated_at DATE,
     contact_number VARCHAR(20)
 );
 
-CREATE TABLE IF NOT EXISTS drop_offs (
-    drop_off_id BIGINT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS customer_device (
+    device_id BIGINT PRIMARY KEY,
     customer_id BIGINT NOT NULL,
-    drop_off_date DATE NOT NULL,
-    notes TEXT,
+    device_name VARCHAR(255) NOT NULL,
+    device_type VARCHAR(50) NOT NULL,
+    created_at DATE NOT NULL,
+    updated_at DATE,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 
@@ -62,13 +66,13 @@ VALUES ('emp001', 'Mike', 'Glabay', '2008-06-01', null, '555-0101', 'Owner'),
        ('emp004', 'Alice', 'Johnson', '2023-03-01', null, '555-0104', 'Manager');
 
 -- Insert mock data into customers
-INSERT INTO customers (customer_id, first_name, last_name, email, contact_number)
-VALUES (1, 'John', 'Doe', 'john.doe@example.com', '555-0201'),
-       (2, 'Sarah', 'Connor', 'sarah.connor@example.com', '555-0202'),
-       (3, 'Bruce', 'Wayne', 'bruce.wayne@example.com', '555-0203');
+INSERT INTO customers (customer_id, first_name, last_name, email, contact_number, created_at, updated_at)
+VALUES (1, 'John', 'Doe', 'john.doe@example.com', '555-0201', '2024-02-18', '2024-02-18'),
+       (2, 'Sarah', 'Connor', 'sarah.connor@example.com', '555-0202', '2024-02-18', '2024-02-18'),
+       (3, 'Bruce', 'Wayne', 'bruce.wayne@example.com', '555-0203', '2024-02-18', '2024-02-18');
 
 -- Insert mock data into drop_offs
-INSERT INTO drop_offs (drop_off_id, customer_id, drop_off_date, notes)
-VALUES (1, 1, '2024-02-18', 'Customer requests express service.'),
-       (2, 2, '2024-02-19', 'Screen replacement required.'),
-       (3, 3, '2024-02-20', 'Battery replacement required.');
+INSERT INTO customer_device (device_id, customer_id, created_at, updated_at, device_name, device_type)
+    VALUES (1, 1, '2024-02-18', '2024-02-18', 'HOME_PC.', 'DESKTOP'),
+       (2, 2, '2024-02-19', '2024-02-19', 'Kids fun.', 'TABLET'),
+       (3, 3, '2024-02-20', '2024-02-20', 'WORK_LAPTOP', 'LAPTOP');
