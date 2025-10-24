@@ -18,6 +18,18 @@ services:
       retries: 3
       start_period: 40s
 
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongo-technician
+    ports:
+      - "27042:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONOGO_USER:-M_T_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONOGO_PASSWORD:-M_T_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+
 volumes:
+  mongo_data:
   postgres_data:
     driver: local

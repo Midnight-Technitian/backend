@@ -2,5 +2,6 @@ rootProject.name = "backend"
 
 include(
         "services",
-        "shared"
+        "shared",
+        "ticketing"
 )
