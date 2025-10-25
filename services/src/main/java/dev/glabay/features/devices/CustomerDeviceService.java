@@ -2,9 +2,11 @@ package dev.glabay.features.devices;
 
 import dev.glabay.dtos.CustomerDeviceDto;
 import dev.glabay.inter.impl.CustomerDeviceConverter;
+import dev.glabay.models.device.RegisteringDevice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -31,5 +33,21 @@ public class CustomerDeviceService implements CustomerDeviceConverter {
             .stream()
             .map(this::mapToDto)
             .toList();
+    }
+
+    public CustomerDeviceDto createNewCustomerDevice(RegisteringDevice dto) {
+        var device = new CustomerDevice();
+            device.setCustomerEmail(dto.getCustomerEmail());
+            device.setDeviceName(dto.getDeviceName());
+            device.setDeviceType(dto.getDeviceType());
+            device.setDeviceInfo(dto.getDeviceInfo());
+            device.setCreatedAt(LocalDateTime.now());
+            device.setUpdatedAt(LocalDateTime.now());
+        saveCustomerDevice(device);
+        return mapToDto(device);
+    }
+
+    private void saveCustomerDevice(CustomerDevice device) {
+        customerDeviceRepository.save(device);
     }
 }
