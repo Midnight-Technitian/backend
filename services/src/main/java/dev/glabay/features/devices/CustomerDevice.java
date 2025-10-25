@@ -21,10 +21,11 @@ public class CustomerDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deviceId;
-    private Long customerId;
+    private String customerEmail;
 
     private String deviceName;
     private String deviceType;
+    private String deviceInfo;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
