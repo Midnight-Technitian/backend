@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS customers (
 
 CREATE TABLE IF NOT EXISTS customer_device (
     device_id BIGINT PRIMARY KEY,
-    customer_email BIGINT NOT NULL,
+    customer_email VARCHAR(255) NOT NULL,
     device_name VARCHAR(255) NOT NULL,
     device_type VARCHAR(50) NOT NULL,
     device_info VARCHAR(255) NOT NULL,
@@ -70,3 +70,14 @@ INSERT INTO customers (customer_id, first_name, last_name, email, contact_number
 VALUES (1, 'John', 'Doe', 'john.doe@example.com', '555-0201', '2024-02-18', '2024-02-18'),
        (2, 'Sarah', 'Connor', 'sarah.connor@example.com', '555-0202', '2024-02-18', '2024-02-18'),
        (3, 'Bruce', 'Wayne', 'bruce.wayne@example.com', '555-0203', '2024-02-18', '2024-02-18');
+
+-- Insert mock data into drop_offs
+INSERT INTO customer_device (device_id, customer_email, device_name, device_type, device_info, created_at, updated_at)
+    VALUES (1,
+            'java_guru@live.com',
+            'Glabay-Studios-HQ',
+            'Desktop',
+            'Home Office Development PC.',
+            '2024-02-18',
+            '2024-02-18'
+           );
