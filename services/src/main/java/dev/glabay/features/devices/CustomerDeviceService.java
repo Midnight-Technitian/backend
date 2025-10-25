@@ -1,6 +1,7 @@
 package dev.glabay.features.devices;
 
 import dev.glabay.dtos.CustomerDeviceDto;
+import dev.glabay.features.customer.Customer;
 import dev.glabay.inter.impl.CustomerDeviceConverter;
 import dev.glabay.models.device.RegisteringDevice;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class CustomerDeviceService implements CustomerDeviceConverter {
             .toList();
     }
 
-    public List<CustomerDeviceDto> getCustomerDevices(Long customerId) {
-        return customerDeviceRepository.findByCustomerId(customerId)
+    public List<CustomerDeviceDto> getCustomerDevices(String email) {
+        return customerDeviceRepository.findByCustomerEmailIgnoreCase(email)
             .stream()
             .map(this::mapToDto)
             .toList();
@@ -43,11 +44,11 @@ public class CustomerDeviceService implements CustomerDeviceConverter {
             device.setDeviceInfo(dto.getDeviceInfo());
             device.setCreatedAt(LocalDateTime.now());
             device.setUpdatedAt(LocalDateTime.now());
-        saveCustomerDevice(device);
-        return mapToDto(device);
+        var cached = saveCustomerDevice(device);
+        return mapToDto(cached);
     }
 
-    private void saveCustomerDevice(CustomerDevice device) {
-        customerDeviceRepository.save(device);
+    private CustomerDevice saveCustomerDevice(CustomerDevice device) {
+        return customerDeviceRepository.saveAndFlush(device);
     }
 }

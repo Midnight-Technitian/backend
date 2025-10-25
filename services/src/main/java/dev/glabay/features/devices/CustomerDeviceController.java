@@ -2,10 +2,9 @@ package dev.glabay.features.devices;
 
 import dev.glabay.dtos.CustomerDeviceDto;
 import dev.glabay.features.customer.CustomerService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import dev.glabay.models.device.RegisteringDevice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +32,14 @@ public class CustomerDeviceController {
 
     @GetMapping
     public List<CustomerDeviceDto> getCustomerDevices(@RequestParam("email") String email) {
-        var customerId = customerService.getCustomerIdByEmail(email);
-        return customerDeviceService.getCustomerDevices(customerId);
+        return customerDeviceService.getCustomerDevices(email);
+    }
+
+    @PostMapping
+    private ResponseEntity<CustomerDeviceDto> createCustomerDevice(@RequestBody RegisteringDevice dto) {
+        var deviceDto = customerDeviceService.createNewCustomerDevice(dto);
+        if (deviceDto == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(deviceDto);
     }
 }

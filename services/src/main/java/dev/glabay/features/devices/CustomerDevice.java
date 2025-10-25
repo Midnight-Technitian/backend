@@ -19,7 +19,8 @@ import java.util.Date;
 @Table(name = "CUSTOMER_DEVICE")
 public class CustomerDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "device_seq")
+    @SequenceGenerator(name = "device_seq", sequenceName = "device_id_seq", allocationSize = 1)
     private Long deviceId;
     private String customerEmail;
 
