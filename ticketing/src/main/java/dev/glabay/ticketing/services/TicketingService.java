@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -52,6 +53,17 @@ public class TicketingService {
         log.info("Creating service ticket {}", ticket);
         saveTicket(ticket);
         return ticket;
+    }
+
+    public Optional<ServiceTicket> getServiceTicket(String ticketId) {
+        log.info("Getting service ticket {}", ticketId);
+        var serviceTicket = ticketRepository.findByTicketId(ticketId);
+        if (serviceTicket.isPresent()) {
+            log.info("Service ticket found {}", serviceTicket.get());
+            return serviceTicket;
+        }
+        log.info("Service ticket not found {}", ticketId);
+        return Optional.empty();
     }
 
     public void saveTicket(ServiceTicket serviceTicket) {

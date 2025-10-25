@@ -2,10 +2,10 @@ package dev.glabay.ticketing.repos;
 
 import dev.glabay.ticketing.models.ServiceTicket;
 import org.jspecify.annotations.NullMarked;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -21,4 +21,6 @@ public interface TicketRepository extends MongoRepository<ServiceTicket, String>
     Collection<ServiceTicket> findAllByCustomerDeviceId(String customerDeviceId);
     Collection<ServiceTicket> findAllByEmployeeId(String employeeId);
     Collection<ServiceTicket> findAllByServiceId(String serviceId);
+
+    Optional<ServiceTicket> findByTicketId(String ticketId);
 }
