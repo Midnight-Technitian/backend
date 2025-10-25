@@ -1,12 +1,12 @@
 package dev.glabay.ticketing.controllers;
 
 import dev.glabay.dtos.ServiceTicketDto;
+import dev.glabay.logging.MidnightLogger;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.ticketing.services.TicketingService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/tickets")
 public class TicketingController {
-    private final Logger logger = LoggerFactory.getLogger(TicketingController.class);
+    private final Logger logger = MidnightLogger.getLogger(TicketingController.class);
 
     private final TicketingService ticketingService;
 
@@ -40,30 +40,37 @@ public class TicketingController {
         }
 
         var ticket = ticketingService.createServiceTicket(requestDto);
-
+        logger.info("Created service ticket with id {}", ticket.getId());
         return new ResponseEntity<>(ticket.mapToDto(), HttpStatus.CREATED);
     }
 
 
     @GetMapping("/customer")
     private ResponseEntity<List<ServiceTicketDto>> getOpenTicketsForEmail(
-        @RequestParam("email") String email
+        @RequestParam("email") String email,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "15") int size
     ) {
-        var openTickets = ticketingService.getAllOpenTickets(email);
-
-        if (openTickets.isEmpty())
+        var openTickets = ticketingService.getAllOpenTickets(email, page, size);
+        if (openTickets.isEmpty()) {
+            logger.error("No open tickets found for email {}", email);
             return ResponseEntity.notFound().build();
-
+        }
+        logger.info("Found {} open tickets for email {}", openTickets.size(), email);
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
     }
 
     @GetMapping("/open")
-    private ResponseEntity<List<ServiceTicketDto>> getOpenTickets() {
-        // TODO: Paging... return by default 0-15
-        var openTickets = ticketingService.getAllOpenTickets();
+    private ResponseEntity<List<ServiceTicketDto>> getOpenTickets(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "15") int size
+    ) {
+        var openTickets = ticketingService.getAllOpenTickets(page,  size);
 
-        if (openTickets.isEmpty())
+        if (openTickets.isEmpty()) {
+            logger.error("No open tickets found");
             return ResponseEntity.notFound().build();
+        }
 
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
     }

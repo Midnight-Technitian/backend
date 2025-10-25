@@ -9,7 +9,10 @@ import dev.glabay.ticketing.repos.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.List;
  * @since 2025-10-22
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TicketingService {
     private final Logger log = LoggerFactory.getLogger(TicketingService.class);
@@ -54,15 +58,22 @@ public class TicketingService {
         ticketRepository.save(serviceTicket);
     }
 
-    public List<ServiceTicketDto> getAllOpenTickets(String customerEmail) {
-        return ticketRepository.findAllByCustomerId(customerEmail).stream()
+    public List<ServiceTicketDto> getAllOpenTickets(String customerEmail, int page, int size) {
+        if (size <= 0)
+            size = 15;
+        var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        return ticketRepository.findAllByCustomerId(customerEmail, pageable).stream()
             .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
             .map(ServiceTicket::mapToDto)
             .toList();
     }
 
-    public List<ServiceTicketDto> getAllOpenTickets() {
-        return ticketRepository.findAll().stream()
+    public List<ServiceTicketDto> getAllOpenTickets(int page, int size) {
+        if (size <= 0)
+            size = 15;
+        var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return ticketRepository.findAll(pageable).stream()
             .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
             .map(ServiceTicket::mapToDto)
             .toList();
