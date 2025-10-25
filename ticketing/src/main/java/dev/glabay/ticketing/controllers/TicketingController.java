@@ -2,6 +2,7 @@ package dev.glabay.ticketing.controllers;
 
 import dev.glabay.dtos.ServiceTicketDto;
 import dev.glabay.logging.MidnightLogger;
+import dev.glabay.models.ServiceNote;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.ticketing.services.TicketingService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,19 @@ public class TicketingController {
         var ticket = ticketingService.createServiceTicket(requestDto);
         logger.info("Created service ticket with id {}", ticket.getId());
         return new ResponseEntity<>(ticket.mapToDto(), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/note")
+    private ResponseEntity<ServiceTicketDto> addNoteToTicket(@RequestBody ServiceNote noteDto) {
+        var ticketId = noteDto.ticketId();
+        var optionalTicket = ticketingService.getServiceTicket(ticketId);
+        if (optionalTicket.isPresent()) {
+            var serviceTicket = optionalTicket.get();
+                serviceTicket.getNotes().add(noteDto);
+            ticketingService.saveTicket(serviceTicket);
+            return new ResponseEntity<>(serviceTicket.mapToDto(), HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 
