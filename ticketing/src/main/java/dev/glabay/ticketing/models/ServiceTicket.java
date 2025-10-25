@@ -40,18 +40,18 @@ public class ServiceTicket {
     private List<ServiceNote> notes;
 
     public ServiceTicketDto mapToDto() {
-        return new ServiceTicketDto(
-            getTicketId(),
-            getStatus(),
-            getTitle(),
-            getDescription(),
-            getCustomerId(),
-            getCustomerDeviceId(),
-            getEmployeeId(),
-            getServiceId(),
-            getNotes(),
-            getCreatedAt(),
-            getUpdatedAt()
-        );
+        var dto = new ServiceTicketDto();
+            dto.setTicketId(this.ticketId);
+            dto.setStatus(this.status);
+            dto.setTitle(this.title);
+            dto.setDescription(this.description);
+            dto.setCustomerId(this.customerId);
+            dto.setCustomerDeviceId(this.customerDeviceId);
+            dto.setEmployeeId(this.employeeId);
+            dto.setServiceId(this.serviceId);
+            dto.setNotes(this.notes);
+            dto.setCreatedAt(this.createdAt);
+            dto.setUpdatedAt(this.updatedAt);
+        return dto;
     }
 }
