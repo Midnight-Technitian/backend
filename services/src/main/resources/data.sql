@@ -29,12 +29,12 @@ CREATE TABLE IF NOT EXISTS customers (
 
 CREATE TABLE IF NOT EXISTS customer_device (
     device_id BIGINT PRIMARY KEY,
-    customer_id BIGINT NOT NULL,
+    customer_email BIGINT NOT NULL,
     device_name VARCHAR(255) NOT NULL,
     device_type VARCHAR(50) NOT NULL,
+    device_info VARCHAR(255) NOT NULL,
     created_at DATE NOT NULL,
-    updated_at DATE,
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    updated_at DATE
 );
 
 CREATE TABLE IF NOT EXISTS user_profile (
@@ -70,9 +70,3 @@ INSERT INTO customers (customer_id, first_name, last_name, email, contact_number
 VALUES (1, 'John', 'Doe', 'john.doe@example.com', '555-0201', '2024-02-18', '2024-02-18'),
        (2, 'Sarah', 'Connor', 'sarah.connor@example.com', '555-0202', '2024-02-18', '2024-02-18'),
        (3, 'Bruce', 'Wayne', 'bruce.wayne@example.com', '555-0203', '2024-02-18', '2024-02-18');
-
--- Insert mock data into drop_offs
-INSERT INTO customer_device (device_id, customer_id, created_at, updated_at, device_name, device_type)
-    VALUES (1, 1, '2024-02-18', '2024-02-18', 'HOME_PC.', 'DESKTOP'),
-       (2, 2, '2024-02-19', '2024-02-19', 'Kids fun.', 'TABLET'),
-       (3, 3, '2024-02-20', '2024-02-20', 'WORK_LAPTOP', 'LAPTOP');
