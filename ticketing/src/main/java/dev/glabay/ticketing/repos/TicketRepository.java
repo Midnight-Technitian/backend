@@ -16,7 +16,7 @@ import java.util.Collection;
 @NullMarked
 public interface TicketRepository extends MongoRepository<ServiceTicket, String> {
     Collection<ServiceTicket> findAllByCustomerIdAndStatus(String customerId, String status);
-    Collection<ServiceTicket> findAllByCustomerId(String customerId, Pageable pageable);
+    Collection<ServiceTicket> findAllByCustomerId(String customerId);
     Collection<ServiceTicket> findAllByStatus(String status);
     Collection<ServiceTicket> findAllByCustomerDeviceId(String customerDeviceId);
     Collection<ServiceTicket> findAllByEmployeeId(String employeeId);

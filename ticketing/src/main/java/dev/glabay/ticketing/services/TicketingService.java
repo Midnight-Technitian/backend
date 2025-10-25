@@ -63,7 +63,7 @@ public class TicketingService {
             size = 15;
         var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
-        return ticketRepository.findAllByCustomerId(customerEmail, pageable).stream()
+        return ticketRepository.findAllByCustomerId(customerEmail).stream()
             .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
             .map(ServiceTicket::mapToDto)
             .toList();
