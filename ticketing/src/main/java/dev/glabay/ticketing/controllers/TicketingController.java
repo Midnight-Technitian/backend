@@ -118,4 +118,26 @@ public class TicketingController {
 
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
     }
+
+    @GetMapping("/open-count")
+    private ResponseEntity<Long> getOpenCountTickets() {
+        var count = ticketingService.getTotalOpenTickets();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping("/closed-count")
+    private ResponseEntity<Long> getClosedCountTickets() {
+        var count = ticketingService.getTotalClosedTickets();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping("/recent")
+    private ResponseEntity<List<ServiceTicketDto>> getRecentTickets() {
+        var recentTickets = ticketingService.findAllRecentTickets();
+        if (recentTickets.isEmpty()) {
+            logger.error("No recent tickets found");
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(recentTickets, HttpStatus.OK);
+    }
 }

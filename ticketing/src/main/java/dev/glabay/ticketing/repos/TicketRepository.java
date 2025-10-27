@@ -4,6 +4,7 @@ import dev.glabay.ticketing.models.ServiceTicket;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -23,4 +24,6 @@ public interface TicketRepository extends MongoRepository<ServiceTicket, String>
     Collection<ServiceTicket> findAllByServiceId(String serviceId);
 
     Optional<ServiceTicket> findByTicketId(String ticketId);
+
+    Collection<ServiceTicket> findByCreatedAtAfter(LocalDateTime createdAt);
 }

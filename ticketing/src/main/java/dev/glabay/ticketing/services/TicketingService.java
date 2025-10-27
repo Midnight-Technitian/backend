@@ -55,6 +55,32 @@ public class TicketingService {
         return ticket;
     }
 
+    public void saveTicket(ServiceTicket serviceTicket) {
+        ticketRepository.save(serviceTicket);
+    }
+
+    public Long getTotalOpenTickets() {
+        var openTickets = ticketRepository.findAll().stream()
+            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
+            .toList();
+        return (long) openTickets.size();
+    }
+
+    public Long getTotalClosedTickets() {
+        var closedTickets = ticketRepository.findAll().stream()
+            .filter(ticket -> ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
+            .toList();
+        return (long) closedTickets.size();
+    }
+
+    public List<ServiceTicketDto> findAllRecentTickets() {
+        var sevenDaysAgo = LocalDateTime.now().minusDays(7);
+        return ticketRepository.findByCreatedAtAfter(sevenDaysAgo)
+            .stream()
+            .map(ServiceTicket::mapToDto)
+            .toList();
+    }
+
     public Optional<ServiceTicket> getServiceTicket(String ticketId) {
         log.info("Getting service ticket {}", ticketId);
         var serviceTicket = ticketRepository.findByTicketId(ticketId);
@@ -64,10 +90,6 @@ public class TicketingService {
         }
         log.info("Service ticket not found {}", ticketId);
         return Optional.empty();
-    }
-
-    public void saveTicket(ServiceTicket serviceTicket) {
-        ticketRepository.save(serviceTicket);
     }
 
     public List<ServiceTicketDto> getAllOpenTickets(String customerEmail, int page, int size) {
