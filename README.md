@@ -19,9 +19,10 @@ An open-source full-stack Java platform for technician management and customer s
 5. [Contributing](#contributing)
 6. [License](#license)
 
+---
 # About
 Midnight Technician is a collaborative open-source project designed to streamline technician-customer interactions and service management. The project includes:
-- Backend: Spring Boot 4 + PostgreSQL
+- Backend: Spring Boot 4 + PostgresSQL
 - Frontend: Thymeleaf and modern UI components
 - Shared Module: Common DTOs and utilities for backend and frontend
 
@@ -51,21 +52,28 @@ It’s perfect for developers looking to contribute to a real-world Java/Spring 
 1. Clone the repositories
     ```shell
     git clone https://github.com/Midnight-Technitian/backend.git
-    git clone https://github.com/Midnight-Technitian/frontend.git
     ```
 2. Set up the backend
    - Configure application.properties with your DB credentials
    - Configure your environment variables
-3. Set up the frontend
-   - Configure the backend API URL if needed
-   - Run with your IDE or via Gradle
-4. Open the app
-   - Access the dashboard via http://localhost
-   - Default roles are assigned to new users, and you can expand them dynamically
+   - Services Module:  resources/data.sql to initialize the Postgres database
+   - Connect to MongoDB from your Intellij Datasource panel
+      - Create a new connection with the following details:
+        - url: `mongodb://M_T_USER:M_T_PASSWORD@localhost:27042/midnight-technician?authSource=admin`
+      - Create the databases in the MongoDB shell:
+        - Use the command `use midnight-employee` to create the database
+          - Use the command `db.createCollection("employee")` to create the collection
+          - Use the command `db.createCollection("midnight_wmployee_sequences")` to create the collection
+        - Use the command `use midnight-ticketing` to create the database
+          - Use the command `db.createCollection("service_ticket")` to create the collection
+          - Use the command `db.createCollection("midnight_technician_sequences")` to create the collection
+3. Running the Microservices:
+   - Inside the Services View in Intellij, Click the + icon to add Spring Boot configuration
+   - Run the applications in any order
 ---
 # Contributing
 We welcome contributions from developers of all levels!
-- Fork the repository
+- Clone the repository
 - Create a feature branch (git checkout -b feature/my-feature)
 - Commit your changes (git commit -am 'Add new feature')
 - Push to the branch (git push origin feature/my-feature)
