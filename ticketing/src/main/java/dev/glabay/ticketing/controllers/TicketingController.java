@@ -68,7 +68,7 @@ public class TicketingController {
         var openTickets = ticketingService.getAllOpenTickets(email, page, size);
         if (openTickets.isEmpty()) {
             logger.error("No open tickets found for email {}", email);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(List.of(), HttpStatus.OK);
         }
         logger.info("Found {} open tickets for email {}", openTickets.size(), email);
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
