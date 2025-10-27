@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,7 +98,7 @@ public class TicketingController {
 
         if (openTickets.isEmpty()) {
             logger.error("No open tickets found");
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
@@ -112,7 +113,7 @@ public class TicketingController {
 
         if (openTickets.isEmpty()) {
             logger.error("No open tickets found");
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
