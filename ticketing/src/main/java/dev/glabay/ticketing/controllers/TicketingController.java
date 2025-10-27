@@ -58,7 +58,6 @@ public class TicketingController {
         return ResponseEntity.badRequest().build();
     }
 
-
     @GetMapping("/customer")
     private ResponseEntity<List<ServiceTicketDto>> getOpenTicketsForEmail(
         @RequestParam("email") String email,
@@ -79,7 +78,37 @@ public class TicketingController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "15") int size
     ) {
-        var openTickets = ticketingService.getAllOpenTickets(page,  size);
+        var openTickets = ticketingService.getAllOpenTickets(page, size);
+
+        if (openTickets.isEmpty()) {
+            logger.error("No open tickets found");
+            return ResponseEntity.notFound().build();
+        }
+
+        return new ResponseEntity<>(openTickets, HttpStatus.OK);
+    }
+
+    @GetMapping("/claimed")
+    private ResponseEntity<List<ServiceTicketDto>> getOpenClaimedTickets(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "15") int size
+    ) {
+        var openTickets = ticketingService.getAllOpenClaimedTickets(page, size);
+
+        if (openTickets.isEmpty()) {
+            logger.error("No open tickets found");
+            return ResponseEntity.notFound().build();
+        }
+
+        return new ResponseEntity<>(openTickets, HttpStatus.OK);
+    }
+
+    @GetMapping("/unclaimed")
+    private ResponseEntity<List<ServiceTicketDto>> getOpenUnclaimedTickets(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "15") int size
+    ) {
+        var openTickets = ticketingService.getAllOpenUnclaimedTickets(page, size);
 
         if (openTickets.isEmpty()) {
             logger.error("No open tickets found");
