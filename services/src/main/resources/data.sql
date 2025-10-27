@@ -47,6 +47,12 @@ CREATE TABLE IF NOT EXISTS user_profile (
     created_at TEXT,
     updated_at TEXT
 );
+-- auto-generated definition
+CREATE TABLE IF NOT EXISTS user_role (
+    uid   BIGSERIAL NOT NULL PRIMARY KEY,
+    email varchar(255) NOT NULL,
+    role  varchar(255) NOT NULL
+);
 
 -- Services
 INSERT INTO services (service_id, service_name, service_description, service_price, fixed_rate)
