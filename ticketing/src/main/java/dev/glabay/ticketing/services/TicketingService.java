@@ -101,7 +101,8 @@ public class TicketingService {
             // check the status is not CLOSED
             .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
             // check the employee is not blank, or unassigned
-            .filter(ticket -> !ticket.getEmployeeId().isBlank() || !ticket.getEmployeeId().equalsIgnoreCase("Not-Assigned"))
+            .filter(ticket -> !ticket.getEmployeeId().isBlank() &&
+                !ticket.getEmployeeId().equalsIgnoreCase("Not-Assigned"))
             // map to a DTO
             .map(ServiceTicket::mapToDto)
             // return the list
@@ -116,7 +117,7 @@ public class TicketingService {
         return ticketRepository.findAll(pageable).stream()
             // check the status is not CLOSED
             .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
-            // check the employee is not blank, or unassigned
+            // check the employee is blank, or unassigned
             .filter(ticket -> ticket.getEmployeeId().isBlank() || ticket.getEmployeeId().equalsIgnoreCase("Not-Assigned"))
             // map to a DTO
             .map(ServiceTicket::mapToDto)
