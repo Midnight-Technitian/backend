@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -24,6 +25,12 @@ public class EmployeeService implements EmployeeConverter {
 
     public boolean employeeExists(String email) {
         return employeeRepository.existsByEmailIgnoreCase(email);
+    }
+
+    public List<EmployeeDto> getEmployees() {
+        return employeeRepository.findAll().stream()
+            .map(this::mapToDto)
+            .toList();
     }
 
     public EmployeeDto findEmployeeDtoByEmail(String email) {

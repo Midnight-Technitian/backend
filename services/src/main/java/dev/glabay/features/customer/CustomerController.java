@@ -3,8 +3,10 @@ package dev.glabay.features.customer;
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.logging.MidnightLogger;
+import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import java.util.List;
  * @social Discord: Glabay
  * @since 2024-11-22
  */
+@NullMarked
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
@@ -52,8 +55,8 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDto> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerDto>> getAllCustomers() {
+        return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
     }
 
 }
