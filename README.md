@@ -67,7 +67,13 @@ It’s perfect for developers looking to contribute to a real-world Java/Spring 
         - Use the command `use midnight-ticketing` to create the database
           - Use the command `db.createCollection("service_ticket")` to create the collection
           - Use the command `db.createCollection("midnight_technician_sequences")` to create the collection
-3. Running the Microservices:
+3. Setting up the environment variables
+    - Review the `.env.example` file for the required token names
+    - Navigate to https://sentry.io/auth/login/ and on your dashboard create a new project
+    - Create the project name as `midnight-technician` for the application conventions
+    - From here you can find your AUTH_TOKEN, and DNS you need
+    - For the SENTRY_ENVIRONMENT leave this as `development`
+4. Running the Microservices:
    - Inside the Services View in Intellij, Click the + icon to add Spring Boot configuration
    - Run the applications in any order
 ---
