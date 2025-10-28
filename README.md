@@ -66,7 +66,7 @@ It’s perfect for developers looking to contribute to a real-world Java/Spring 
           - Use the command `db.createCollection("midnight_wmployee_sequences")` to create the collection
         - Use the command `use midnight-ticketing` to create the database
           - Use the command `db.createCollection("service_ticket")` to create the collection
-          - Use the command `db.createCollection("midnight_technician_sequences")` to create the collection
+          - Use the command `db.createCollection("midnight_ticket_sequences")` to create the collection
 3. Setting up the environment variables
     - Review the `.env.example` file for the required token names
     - Navigate to https://sentry.io/auth/login/ and on your dashboard create a new project
