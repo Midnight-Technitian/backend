@@ -38,7 +38,7 @@ public class TicketingService {
         var ticket = new ServiceTicket();
         // Create a unique ID for Mongo
         if (ticket.getId() == null)
-            ticket.setId(sequenceGeneratorService.getNextSequence("midnight_technician_seq"));
+            ticket.setId(sequenceGeneratorService.getNextSequence("midnight_ticket_seq"));
         ticket.setTicketId(sequenceGeneratorService.getNextTicketSequence());
         ticket.setStatus(ServiceTicketStatus.PENDING.getStatus());
         ticket.setTitle(serviceRequest.deviceName());

@@ -59,6 +59,14 @@ public class TicketingController {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping
+    private ResponseEntity<ServiceTicketDto> getServiceTicket(@RequestParam("ticketId") String ticketId) {
+        var optionalTicket = ticketingService.getServiceTicket(ticketId);
+        return optionalTicket.map(serviceTicket ->
+                new ResponseEntity<>(serviceTicket.mapToDto(), HttpStatus.OK))
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/customer")
     private ResponseEntity<List<ServiceTicketDto>> getOpenTicketsForEmail(
         @RequestParam("email") String email,
