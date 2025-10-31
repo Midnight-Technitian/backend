@@ -1,9 +1,9 @@
-package dev.glabay.inter.impl;
+package dev.glabay.customer.device;
 
 
+import dev.glabay.customer.device.models.CustomerDevice;
 import dev.glabay.dtos.CustomerDeviceDto;
 import dev.glabay.inter.DtoConverter;
-import dev.glabay.features.devices.CustomerDevice;
 
 /**
  * @author Glabay | Glabay-Studios

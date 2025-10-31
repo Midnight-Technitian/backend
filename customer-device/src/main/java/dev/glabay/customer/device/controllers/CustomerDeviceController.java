@@ -1,7 +1,7 @@
-package dev.glabay.features.devices;
+package dev.glabay.customer.device.controllers;
 
+import dev.glabay.customer.device.services.CustomerDeviceService;
 import dev.glabay.dtos.CustomerDeviceDto;
-import dev.glabay.features.customer.CustomerService;
 import dev.glabay.models.device.RegisteringDevice;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/devices")
 public class CustomerDeviceController {
-    private final CustomerService customerService;
     private final CustomerDeviceService customerDeviceService;
 
-    public CustomerDeviceController(CustomerService customerService, CustomerDeviceService customerDeviceService) {
-        this.customerService = customerService;
+    public CustomerDeviceController(CustomerDeviceService customerDeviceService) {
         this.customerDeviceService = customerDeviceService;
     }
 
@@ -39,7 +37,7 @@ public class CustomerDeviceController {
     public ResponseEntity<List<CustomerDeviceDto>> getCustomerDevices(@RequestParam("email") String email) {
         var devices = customerDeviceService.getCustomerDevices(email);
         if (devices.isEmpty())
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(List.of());
         return ResponseEntity.ok(devices);
     }
 

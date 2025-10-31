@@ -1,10 +1,12 @@
-package dev.glabay.features.devices;
+package dev.glabay.customer.device.services;
 
+import dev.glabay.customer.device.models.CustomerDevice;
+import dev.glabay.customer.device.repos.CustomerDeviceRepository;
 import dev.glabay.dtos.CustomerDeviceDto;
-import dev.glabay.features.customer.Customer;
-import dev.glabay.inter.impl.CustomerDeviceConverter;
+import dev.glabay.customer.device.CustomerDeviceConverter;
 import dev.glabay.models.device.RegisteringDevice;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,10 +18,11 @@ import java.util.List;
  * @social Discord: Glabay
  * @since 2024-11-22
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomerDeviceService implements CustomerDeviceConverter {
-
+    private final SequenceGeneratorService sequenceGeneratorService;
     private final CustomerDeviceRepository customerDeviceRepository;
 
     public CustomerDeviceDto getCustomerDeviceById(Long deviceId) {
@@ -44,17 +47,21 @@ public class CustomerDeviceService implements CustomerDeviceConverter {
 
     public CustomerDeviceDto createNewCustomerDevice(RegisteringDevice dto) {
         var device = new CustomerDevice();
-            device.setCustomerEmail(dto.getCustomerEmail());
-            device.setDeviceName(dto.getDeviceName());
-            device.setDeviceType(dto.getDeviceType());
-            device.setDeviceInfo(dto.getDeviceInfo());
-            device.setCreatedAt(LocalDateTime.now());
-            device.setUpdatedAt(LocalDateTime.now());
+        if (device.getDeviceId() == null)
+            device.setDeviceId(sequenceGeneratorService.getNextCustomerSequence("midnight_customer_device_sequences"));
+        device.setCustomerEmail(dto.getCustomerEmail());
+        device.setDeviceName(dto.getDeviceName());
+        device.setDeviceType(dto.getDeviceType());
+        device.setDeviceInfo(dto.getDeviceInfo());
+        device.setCreatedAt(LocalDateTime.now());
+        device.setUpdatedAt(LocalDateTime.now());
         var cached = saveCustomerDevice(device);
         return mapToDto(cached);
     }
 
     private CustomerDevice saveCustomerDevice(CustomerDevice device) {
-        return customerDeviceRepository.saveAndFlush(device);
+        var cached = customerDeviceRepository.save(device);
+        log.info("New device registered: {}", cached);
+        return cached;
     }
 }
