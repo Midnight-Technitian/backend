@@ -24,4 +24,10 @@ public class ServicesService implements ServiceConverter {
         var services = serviceRepository.findAll();
         return services.stream().map(this::mapToDto).toList();
     }
+
+    public ServiceDto getServiceById(Long serviceId) {
+        return serviceRepository.findById(serviceId)
+                .map(this::mapToDto)
+                .orElseThrow(() -> new IllegalArgumentException("Service not found with ID: " + serviceId));
+    }
 }

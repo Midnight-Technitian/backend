@@ -4,6 +4,7 @@ import dev.glabay.dtos.ServiceDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +26,11 @@ public class ServiceController {
     public ResponseEntity<List<ServiceDto>> getAllServices() {
         var services = servicesService.getAllServices();
         return ResponseEntity.ok().body(services);
+    }
+
+    @GetMapping("/{serviceId}")
+    public ResponseEntity<ServiceDto> getServiceById(@PathVariable("serviceId") Long serviceId) {
+        var service = servicesService.getServiceById(serviceId);
+        return ResponseEntity.ok().body(service);
     }
 }
