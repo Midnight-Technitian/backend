@@ -1,6 +1,7 @@
-package dev.glabay.features.service;
+package dev.glabay.service.controllers;
 
 import dev.glabay.dtos.ServiceDto;
+import dev.glabay.service.services.ServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

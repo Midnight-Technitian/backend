@@ -1,5 +1,6 @@
-package dev.glabay.features.service;
+package dev.glabay.service.repos;
 
+import dev.glabay.service.model.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

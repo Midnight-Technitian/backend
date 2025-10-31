@@ -1,4 +1,4 @@
-package dev.glabay.features.service;
+package dev.glabay.service.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
