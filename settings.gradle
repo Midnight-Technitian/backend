@@ -4,5 +4,7 @@ include(
         "services",
         "shared",
         "ticketing",
-        "employee"
+        "employee",
+        "customer",
+        "customer-device",
 )
