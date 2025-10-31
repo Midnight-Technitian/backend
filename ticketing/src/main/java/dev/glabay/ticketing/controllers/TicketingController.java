@@ -46,6 +46,17 @@ public class TicketingController {
         return new ResponseEntity<>(ticket.mapToDto(), HttpStatus.CREATED);
     }
 
+    @PutMapping()
+    private ResponseEntity<ServiceTicketDto> updateServiceTicket(@RequestBody ServiceTicketDto dto) {
+        var optionalTicket = ticketingService.getServiceTicket(dto.getTicketId());
+        if (optionalTicket.isEmpty()) {
+            logger.error("Service ticket not found with id {}", dto.getTicketId());
+            return ResponseEntity.notFound().build();
+        }
+        var ticket = ticketingService.updateServiceTicket(dto);
+        return ResponseEntity.ok(ticket.mapToDto());
+    }
+
     @PostMapping("/note")
     private ResponseEntity<ServiceTicketDto> addNoteToTicket(@RequestBody ServiceNote noteDto) {
         var ticketId = noteDto.ticketId();

@@ -55,6 +55,27 @@ public class TicketingService {
         return ticket;
     }
 
+    public ServiceTicket updateServiceTicket(ServiceTicketDto dto) {
+        var optionalServiceTicket = getServiceTicket(dto.getTicketId());
+        if (optionalServiceTicket.isEmpty())
+            return null;
+        var ticket = optionalServiceTicket.get();
+            ticket.setTicketId(dto.getTicketId());
+            ticket.setStatus(dto.getStatus());
+            ticket.setTitle(dto.getTitle());
+            ticket.setDescription(dto.getDescription());
+            ticket.setCreatedAt(dto.getCreatedAt());
+            ticket.setUpdatedAt(LocalDateTime.now());
+            ticket.setCustomerId(dto.getCustomerId());
+            ticket.setCustomerDeviceId(dto.getCustomerDeviceId());
+            ticket.setEmployeeId(dto.getEmployeeId());
+            ticket.setServiceId(dto.getServiceId());
+            ticket.setNotes(dto.getNotes());
+        log.info("Updating service ticket {}", ticket);
+        saveTicket(ticket);
+        return ticket;
+    }
+
     public void saveTicket(ServiceTicket serviceTicket) {
         ticketRepository.save(serviceTicket);
     }
