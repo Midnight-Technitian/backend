@@ -1,9 +1,9 @@
-package dev.glabay.inter.impl;
+package dev.glabay.services;
 
 
+import dev.glabay.customer.models.Customer;
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.inter.DtoConverter;
-import dev.glabay.features.customer.Customer;
 
 /**
  * @author Glabay | Glabay-Studios

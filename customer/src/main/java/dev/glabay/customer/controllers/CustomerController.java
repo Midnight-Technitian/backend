@@ -1,5 +1,6 @@
-package dev.glabay.features.customer;
+package dev.glabay.customer.controllers;
 
+import dev.glabay.customer.services.CustomerService;
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.logging.MidnightLogger;

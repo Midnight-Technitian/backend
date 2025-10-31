@@ -1,13 +1,15 @@
-package dev.glabay.features.customer;
+package dev.glabay.customer.services;
 
+import dev.glabay.customer.models.Customer;
+import dev.glabay.customer.repos.CustomerRepository;
 import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
-import dev.glabay.inter.impl.CustomerConverter;
+import dev.glabay.services.CustomerConverter;
+import dev.glabay.services.SequenceGeneratorService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -18,11 +20,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Service
 public class CustomerService implements CustomerConverter {
-
     private final CustomerRepository customerRepository;
+    private final SequenceGeneratorService sequenceGeneratorService;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, SequenceGeneratorService sequenceGeneratorService) {
         this.customerRepository = customerRepository;
+        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     public CustomerDto getCustomerById(Long customerId) {
@@ -53,14 +56,16 @@ public class CustomerService implements CustomerConverter {
 
     public CustomerDto createCustomer(UserProfileDto dto) {
         var customer = new Customer();
-            customer.setContactNumber(dto.contactNumber());
-            customer.setFirstName(dto.firstName());
-            customer.setLastName(dto.lastName());
-            customer.setEmail(dto.email());
-            customer.setCreatedAt(LocalDateTime.now());
-            customer.setUpdatedAt(LocalDateTime.now());
+        if (customer.getCustomerId() == null)
+            customer.setCustomerId(sequenceGeneratorService.getNextCustomerSequence("midnight_customer_sequences"));
+        customer.setContactNumber(dto.contactNumber());
+        customer.setFirstName(dto.firstName());
+        customer.setLastName(dto.lastName());
+        customer.setEmail(dto.email());
+        customer.setCreatedAt(LocalDateTime.now());
+        customer.setUpdatedAt(LocalDateTime.now());
         // save the Customer
-        customerRepository.saveAndFlush(customer);
+        customerRepository.save(customer);
         return mapToDto(customer);
     }
 }
