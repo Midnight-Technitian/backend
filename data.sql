@@ -7,26 +7,6 @@ CREATE TABLE IF NOT EXISTS services (
     fixed_rate BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS customers (
-    customer_id BIGSERIAL PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    created_at DATE NOT NULL,
-    updated_at DATE,
-    contact_number VARCHAR(20)
-);
-
-CREATE TABLE IF NOT EXISTS customer_device (
-    device_id BIGINT PRIMARY KEY,
-    customer_email VARCHAR(255) NOT NULL,
-    device_name VARCHAR(255) NOT NULL,
-    device_type VARCHAR(50) NOT NULL,
-    device_info VARCHAR(255) NOT NULL,
-    created_at DATE NOT NULL,
-    updated_at DATE
-);
-
 CREATE TABLE IF NOT EXISTS user_profile (
     uid BIGSERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
