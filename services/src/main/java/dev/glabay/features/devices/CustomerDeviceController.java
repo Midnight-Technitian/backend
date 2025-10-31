@@ -3,6 +3,7 @@ package dev.glabay.features.devices;
 import dev.glabay.dtos.CustomerDeviceDto;
 import dev.glabay.features.customer.CustomerService;
 import dev.glabay.models.device.RegisteringDevice;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @social Discord: Glabay
  * @since 2024-11-22
  */
+@NullMarked
 @RestController
 @RequestMapping("/api/v1/devices")
 public class CustomerDeviceController {
@@ -26,13 +28,27 @@ public class CustomerDeviceController {
     }
 
     @GetMapping("/all")
-    public List<CustomerDeviceDto> getAllCustomerDevices() {
-        return customerDeviceService.getAllCustomerDevices();
+    public ResponseEntity<List<CustomerDeviceDto>> getAllCustomerDevices() {
+        var devices = customerDeviceService.getAllCustomerDevices();
+        if (devices.isEmpty())
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(devices);
     }
 
     @GetMapping
-    public List<CustomerDeviceDto> getCustomerDevices(@RequestParam("email") String email) {
-        return customerDeviceService.getCustomerDevices(email);
+    public ResponseEntity<List<CustomerDeviceDto>> getCustomerDevices(@RequestParam("email") String email) {
+        var devices = customerDeviceService.getCustomerDevices(email);
+        if (devices.isEmpty())
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(devices);
+    }
+
+    @GetMapping("/device")
+    public ResponseEntity<CustomerDeviceDto> getCustomerDeviceByID(@RequestParam("deviceId") Long deviceId) {
+        var device = customerDeviceService.getCustomerDeviceById(deviceId);
+        if (device == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(device);
     }
 
     @PostMapping

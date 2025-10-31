@@ -22,6 +22,12 @@ public class CustomerDeviceService implements CustomerDeviceConverter {
 
     private final CustomerDeviceRepository customerDeviceRepository;
 
+    public CustomerDeviceDto getCustomerDeviceById(Long deviceId) {
+        return customerDeviceRepository.findById(deviceId)
+                .map(this::mapToDto)
+                .orElseThrow(() -> new IllegalArgumentException("Device not found with ID: " + deviceId));
+    }
+
     public List<CustomerDeviceDto> getAllCustomerDevices() {
         return customerDeviceRepository.findAll()
             .stream()
