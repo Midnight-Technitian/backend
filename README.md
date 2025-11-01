@@ -63,7 +63,7 @@ It’s perfect for developers looking to contribute to a real-world Java/Spring 
       - Create the databases in the MongoDB shell:
         - Use the command `use midnight-employee` to create the database
           - Use the command `db.createCollection("employee")` to create the collection
-          - Use the command `db.createCollection("midnight_wmployee_sequences")` to create the collection
+          - Use the command `db.createCollection("midnight_employee_sequences")` to create the collection
         - Use the command `use midnight-ticketing` to create the database
           - Use the command `db.createCollection("service_ticket")` to create the collection
           - Use the command `db.createCollection("midnight_ticket_sequences")` to create the collection
