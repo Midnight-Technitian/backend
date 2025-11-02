@@ -1,6 +1,6 @@
 package dev.glabay.customer.device.services;
 
-import dev.glabay.kafka.CustomerDeviceRegistrationEvent;
+import dev.glabay.kafka.events.CustomerDeviceRegistrationEvent;
 import dev.glabay.logging.MidnightLogger;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
