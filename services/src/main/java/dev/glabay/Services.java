@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Services {
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         SentryConfig.initialize();
         SpringApplication.run(Services.class, args);
     }
