@@ -151,7 +151,7 @@ public class TicketingService {
         var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         return ticketRepository.findAllByCustomerId(customerEmail).stream()
-            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
+            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equalsIgnoreCase(ticket.getStatus()))
             .map(ServiceTicket::mapToDto)
             .toList();
     }
@@ -162,25 +162,17 @@ public class TicketingService {
         var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         return ticketRepository.findAll(pageable).stream()
-            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
+            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equalsIgnoreCase(ticket.getStatus()))
             .map(ServiceTicket::mapToDto)
             .toList();
     }
 
     public List<ServiceTicketDto> getAllOpenClaimedTickets(int page, int size) {
-        if (size <= 0)
-            size = 15;
-        var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-
-        return ticketRepository.findAll(pageable).stream()
-            // check the status is not CLOSED
-            .filter(ticket -> !ServiceTicketStatus.CLOSED.getStatus().equals(ticket.getStatus()))
-            // check the employee is not blank, or unassigned
+        var openTickets = getAllOpenTickets(page, size);
+        return openTickets.stream()
+            // check the employee is not blank or unassigned
             .filter(ticket -> !ticket.getEmployeeId().isBlank() &&
                 !ticket.getEmployeeId().equalsIgnoreCase("Not-Assigned"))
-            // map to a DTO
-            .map(ServiceTicket::mapToDto)
-            // return the list
             .toList();
     }
 
