@@ -1,6 +1,8 @@
 package dev.glabay.ticketing.controllers;
 
 import dev.glabay.dtos.ServiceTicketDto;
+import dev.glabay.kafka.KafkaTopics;
+import dev.glabay.kafka.events.ServiceTicketEvents;
 import dev.glabay.logging.MidnightLogger;
 import dev.glabay.models.ServiceNote;
 import dev.glabay.models.ServiceTicketStatus;
@@ -11,6 +13,7 @@ import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ import java.util.List;
 public class TicketingController {
     private final Logger logger = MidnightLogger.getLogger(TicketingController.class);
 
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final TicketingService ticketingService;
 
     @PostMapping()
@@ -72,18 +76,22 @@ public class TicketingController {
         ticket.setEmployeeId(employeeId);
         ticket.setStatus(String.valueOf(ServiceTicketStatus.OPEN));
         ticketingService.saveTicket(ticket);
+        var event = new ServiceTicketEvents.ServiceTicketClaimedEvent(ticket.mapToDto());
+        kafkaTemplate.send(KafkaTopics.SERVICE_TICKET_CLAIMED.getTopicName(), event);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/close")
-    private ResponseEntity<ServiceTicketDto> closeServiceTicket(@RequestBody ServiceTicketDto dto) {
-        var optionalTicket = ticketingService.getServiceTicket(dto.getTicketId());
+    private ResponseEntity<Void> closeServiceTicket(@RequestParam("ticketId") String ticketId) {
+        var optionalTicket = ticketingService.getServiceTicket(ticketId);
         if (optionalTicket.isEmpty()) {
-            logger.error("Service ticket not found with id {}", dto.getTicketId());
+            logger.error("Service ticket not found with id {}", ticketId);
             return ResponseEntity.notFound().build();
         }
-        var ticket = ticketingService.closeServiceTicket(dto);
-        return ResponseEntity.ok(ticket.mapToDto());
+        var cachedTicket = optionalTicket.get();
+        cachedTicket.setStatus(String.valueOf(ServiceTicketStatus.CLOSED));
+        ticketingService.closeServiceTicket(cachedTicket.mapToDto());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/note")
