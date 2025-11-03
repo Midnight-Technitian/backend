@@ -97,7 +97,7 @@ public class ApiRequestController {
         return "redirect:/dashboard/ticket";
     }
 
-    @PostMapping("/service-ticket/claim")
+    @PostMapping("/service-ticket/assign")
     private String claimServiceTicket(
         @RequestParam("employeeId") String employeeId,
         @RequestParam("ticketId") String ticketId
