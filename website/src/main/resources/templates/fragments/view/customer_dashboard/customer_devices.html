@@ -22,36 +22,74 @@
             <div class="device-card">
                 <!-- check for an icon to use based on deviceType -->
                 <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'desktop')}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
                         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                         <line x1="8" y1="21" x2="16" y2="21"></line>
                         <line x1="12" y1="17" x2="12" y2="21"></line>
                     </svg>
                 </div>
                 <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'laptop')}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                        <line x1="8" y1="21" x2="16" y2="21"></line>
-                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="12" rx="2" ry="2"></rect>
+                        <path d="M2 20h20l-2-4H4l-2 4z"></path>
                     </svg>
                 </div>
-                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'phone')}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'mobile')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
                         <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
                         <line x1="12" y1="18" x2="12.01" y2="18"></line>
                     </svg>
                 </div>
                 <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'tablet')}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
                         <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
                         <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'smart device')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <rect x="8" y="5" width="8" height="14" rx="2" ry="2"></rect>
+                        <path d="M10 1h4v4h-4zM10 19h4v4h-4z"></path>
+                    </svg>
+                </div>
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'server')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="13" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="7" x2="6.01" y2="7"></line>
+                        <line x1="6" y1="17" x2="6.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'iot device')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a8 8 0 0 0 0-6M4.6 9a8 8 0 0 0 0 6"></path>
+                        <path d="M22 12a10 10 0 0 0-20 0 10 10 0 0 0 20 0z"></path>
                     </svg>
                 </div>
                 <!-- device info -->
                 <h3 class="device-name" th:text="${device.deviceName}">Device name"</h3>
                 <p class="device-info" th:text="${device.deviceInfo}">Device info here</p>
-                <!-- TODO: Add a way of tracking if this device is in repair or not -->
-                <div class="device-status healthy">
+
+                <div class="device-status repair" th:if="${devicesInRepair.contains(device.deviceId)}">
+                    <span class="status-dot"></span>
+                    In Repair
+                </div>
+                <div class="device-status healthy" th:unless="${devicesInRepair.contains(device.deviceId)}">
                     <span class="status-dot"></span>
                     Healthy
                 </div>

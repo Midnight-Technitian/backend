@@ -62,6 +62,8 @@ public class DashboardController {
             return "redirect:/error";
         var serviceTicketDto = optionalServiceTicketDto.get();
 
+        // TODO: Check if the Ticket is connected with the Customer, else redirect to error page
+
         var deviceResponseSpec = restClient.get()
             .uri("http://localhost:8084/api/v1/devices/device?deviceId={deviceId}", serviceTicketDto.getCustomerDeviceId())
                 .retrieve();
@@ -131,12 +133,21 @@ public class DashboardController {
 
         var deviceTypes = List.of(DeviceType.values());
 
+        var unhealthyDevices = new ArrayList<Long>();
+        for (var ticket : openTickets) {
+            var deviceIdAsString = ticket.getCustomerDeviceId();
+            if (deviceIdAsString == null) continue;
+            var deviceId = Long.parseLong(deviceIdAsString);
+            unhealthyDevices.add(deviceId);
+        }
+
         model.addAttribute("deviceTypes", deviceTypes);
         model.addAttribute("customerEmail", email);
         model.addAttribute("customer", customerDto);
         model.addAttribute("services", services);
         model.addAttribute("openTickets", openTickets);
         model.addAttribute("devices", devices);
+        model.addAttribute("devicesInRepair", unhealthyDevices);
         return "dashboards/customer/dashboard";
     }
 

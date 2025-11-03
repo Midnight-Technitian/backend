@@ -14,7 +14,7 @@
                 <label for="deviceType">Device Type</label>
                 <select id="deviceType" name="deviceType" required>
                     <option th:each="type : ${deviceTypes}"
-                            th:value="${type.id}"
+                            th:value="${type.name}"
                             th:text="${type.name}">
                     </option>
                 </select>
