@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @Entity(name = "dim_ticket")
 public class ServiceTicketEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dim_ticket_seq_gen")
+    @SequenceGenerator(name = "dim_ticket_seq_gen", sequenceName = "dim_ticket_seq", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
 
