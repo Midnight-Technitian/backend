@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="new_ticket">
+    <div id="newTicketModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNewTicketModal()">&times;</span>
+            <h2>New Service Ticket</h2>
+            <form id="newServiceRequest" onsubmit="submitNewTicket(event)">
+                <!--  Have the customerId as an element in the form, so that it can be sent with the request  -->
+                <label for="customerEmail">Contact email/Type</label>
+                <input type="text" id="customerEmail" name="customerEmail" th:value="${customerEmail}" required>
+
+                <label for="deviceId">Select Existing Device</label>
+                <select id="deviceId" name="deviceId">
+                    <th:block th:if="${#lists.isEmpty(devices)}">
+                        <option value="">Unregistered Device</option>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(devices)}">
+                        <option value="">New Device</option>
+                        <option th:each="device : ${devices}"
+                                th:value="${device.deviceId()}"
+                                th:text="${device.deviceName()}">
+                        </option>
+                    </th:block>
+                </select>
+
+                <label for="deviceName">Device Name/Type</label>
+                <input type="text" id="deviceName" name="deviceName" placeholder="e.g. Gaming Desktop" required>
+
+                <label for="serviceId">Service Type</label>
+                <!-- TODO: Fetch a list of services from the backend -->
+                <select id="serviceId" name="serviceId" required>
+                    <option th:each="service : ${services}"
+                            th:value="${service.serviceId}"
+                            th:text="${service.serviceName}">
+                    </option>
+                </select>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" placeholder="Describe the issue or request..." required></textarea>
+
+                <button type="submit" class="submit-btn">Submit Ticket</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

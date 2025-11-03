@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @NullMarked
 @RequiredArgsConstructor
 public class CustomerListener {
-    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final CustomerService customerService;
 
     @KafkaListener(topics = "user-registered", groupId = "customer-service")
@@ -26,9 +25,6 @@ public class CustomerListener {
         System.out.println("Received event: " + event);
         var userDto = event.userDto();
         customerService.createCustomer(userDto);
-        // TODO: produce another event for the email service
-//        var customerCreated = new CustomerCreatedEvent(user.email(), user.firstName(), user.lastName());
-//        kafkaTemplate.send(KafkaTopics.CUSTOMER_CREATION.getTopicName(), user.email(), customerCreated);
     }
 }
 

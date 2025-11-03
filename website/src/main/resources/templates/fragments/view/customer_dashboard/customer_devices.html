@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="customer_devices">
+    <div class="section-header">
+        <h2 class="section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            My Devices
+        </h2>
+        <span class="device-count"th:text="${#lists.size(devices)} + ' Registered'">42 Registered</span>
+    </div>
+
+    <div class="devices-grid">
+        <div th:unless="${!#lists.isEmpty(devices)}">
+            <p>No devices registered.</p>
+        </div>
+        <!-- Loop over each device passed in -->
+        <div th:if="${!#lists.isEmpty(devices)}" th:each="device : ${devices}">
+            <div class="device-card">
+                <!-- check for an icon to use based on deviceType -->
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'desktop')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'laptop')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'phone')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <div th:if="${#strings.equalsIgnoreCase(device.deviceType, 'tablet')}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <!-- device info -->
+                <h3 class="device-name" th:text="${device.deviceName}">Device name"</h3>
+                <p class="device-info" th:text="${device.deviceInfo}">Device info here</p>
+                <!-- TODO: Add a way of tracking if this device is in repair or not -->
+                <div class="device-status healthy">
+                    <span class="status-dot"></span>
+                    Healthy
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

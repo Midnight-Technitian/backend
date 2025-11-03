@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="new_employee">
+    <div id="newEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNewEmployeeModal()">&times;</span>
+            <h2>New Employee</h2>
+            <form id="newEmployeeRequest" onsubmit="submitNewEmployee(event)">
+                <label for="createdBy">Created By</label>
+                <input type="text" id="createdBy" name="createdBy" th:value="${employee.firstName() + ' ' + employee.lastName()}" required>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="firstName"
+                               placeholder="John"
+                               autocomplete="given-name"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="lastName"
+                               placeholder="Doe"
+                               autocomplete="family-name"
+                               required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email"
+                           class="form-control"
+                           id="email"
+                           placeholder="john.doe@example.com"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNumber" class="form-label">Contact Number</label>
+                    <input type="tel"
+                           class="form-control"
+                           id="contactNumber"
+                           placeholder="+1 (555) 123-4567"
+                           autocomplete="tel"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="positionTitle" class="form-label">Position Title</label>
+                    <input type="text"
+                           class="form-control"
+                           id="positionTitle"
+                           placeholder="Technician"
+                           required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Employee</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -6,7 +6,7 @@ plugins {
 
 group = 'dev.glabay'
 version = '0.0.1-SNAPSHOT'
-description = 'ticketing'
+description = 'website'
 
 java {
     toolchain {
@@ -27,20 +27,23 @@ repositories {
 dependencies {
     implementation(project(":shared"))
 
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
+    implementation("org.springframework.kafka:spring-kafka:4.0.0-M3")
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0")
 
-    implementation("org.springframework.kafka:spring-kafka:4.0.0-M3")
-
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    runtimeOnly 'org.postgresql:postgresql'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

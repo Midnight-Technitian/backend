@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!--  Meta Data and SEO  -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Midnight Technician: Your Trusted Partner for Tech Repairs and Services.">
+
+    <!--  Scripts to preload  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/index.css">
+
+    <title>Midnight Technician - Tech Repairs and Services</title>
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="brand-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+        </div>
+        <h1 class="main-title">Midnight Technician</h1>
+        <p class="main-subtitle">Your Trusted Partner for Tech Repairs and Services</p>
+    </div>
+</div>
+
+<div class="container">
+    <section class="intro-section">
+        <p class="intro-text">
+            Welcome to <strong>Midnight Technician</strong>, where innovation meets reliability!<br>
+            At Midnight Technician, we specialize in delivering top-notch repair and maintenance services for all your tech needs.<br>
+            From smartphones and laptops to gaming systems and home electronics, our certified technicians ensure your devices are restored to peak performance with precision and care.
+        </p>
+    </section>
+
+    <section class="features-section">
+        <h2 class="section-title">Why Choose Midnight Technician?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon expert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Expert Technicians</h3>
+                <p>Certified professionals with years of experience in the latest technology.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon speed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                </div>
+                <h3>Quick Turnaround</h3>
+                <p>Fast, efficient service to minimize your downtime and get you back online.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon price">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+                        <path d="M12 18V6"></path>
+                    </svg>
+                </div>
+                <h3>Affordable Solutions</h3>
+                <p>Transparent pricing with no hidden fees - quality service at fair rates.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon support">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <h3>Comprehensive Support</h3>
+                <p>Complete solutions: repairs, upgrades, data recovery, and preventive maintenance.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <div class="cta-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+            </div>
+            <h2>Ready to Fix Your Tech?</h2>
+            <p>
+                Whether you're dealing with a cracked screen, slow performance, or complex hardware issues, <strong>Midnight Technician</strong> is here to help.<br>
+                Visit us today and experience the perfect blend of expertise and customer care.
+            </p>
+            <button class="cta-button">Get Started Today</button>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p class="tagline"><em>Midnight Technician – Technology Made Easy.</em></p>
+    </footer>
+</div>
+</body>
+</html>

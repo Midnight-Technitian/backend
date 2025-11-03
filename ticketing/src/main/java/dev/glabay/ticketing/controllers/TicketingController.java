@@ -57,6 +57,17 @@ public class TicketingController {
         return ResponseEntity.ok(ticket.mapToDto());
     }
 
+    @PutMapping("/close")
+    private ResponseEntity<ServiceTicketDto> closeServiceTicket(@RequestBody ServiceTicketDto dto) {
+        var optionalTicket = ticketingService.getServiceTicket(dto.getTicketId());
+        if (optionalTicket.isEmpty()) {
+            logger.error("Service ticket not found with id {}", dto.getTicketId());
+            return ResponseEntity.notFound().build();
+        }
+        var ticket = ticketingService.closeServiceTicket(dto);
+        return ResponseEntity.ok(ticket.mapToDto());
+    }
+
     @PostMapping("/note")
     private ResponseEntity<ServiceTicketDto> addNoteToTicket(@RequestBody ServiceNote noteDto) {
         var ticketId = noteDto.ticketId();

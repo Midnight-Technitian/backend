@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="newServiceNote">
+    <div id="addNoteModal" class="modal">
+        <div class="modal-content">
+            <form id="addNoteForm" onsubmit="submitNewNote(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNoteModalLabel">Add New Note</h5>
+                    <button type="button" class="btn-close" onclick="closeAddNoteModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="noteMessage" class="form-label">Message</label>
+                        <textarea id="noteMessage" class="form-control" name="noteMessage" rows="3" required></textarea>
+                    </div>
+                    <input type="hidden" id="serviceNoteId" name="serviceNoteId" th:value="${'SERVICE_NOTE-' + serviceTicket.getNotes().size()}" />
+                    <input type="hidden" id="serviceTicketId" name="serviceTicketId" th:value="${serviceTicket.ticketId}" />
+                    <input type="hidden" id="technicianId" name="technicianId" th:value="${employee.employeeId()}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddNoteModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

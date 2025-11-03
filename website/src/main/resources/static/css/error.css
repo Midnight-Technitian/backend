@@ -1,0 +1,86 @@
+body {
+    background: radial-gradient(circle at top, #0b0c10, #000);
+    color: var(--text-light, #d1d1d1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.error-container {
+    background: rgba(25, 25, 35, 0.7);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+    padding: 3rem 2rem;
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 700px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.error-title {
+    font-size: 2.5rem;
+    color: var(--accent-cyan, #02c1c9);
+    margin-bottom: 0.5rem;
+}
+
+.error-code {
+    font-size: 3rem;
+    color: var(--accent-green, #00ff99);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.error-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #b5b5b5;
+    margin-bottom: 2rem;
+}
+
+.snippet-title {
+    color: var(--accent-cyan, #02c1c9);
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.snippet-poem {
+    color: var(--accent-green, #29ff9a);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.back-home {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.7rem 1.5rem;
+    background: var(--accent-cyan, #02c1c9);
+    border: none;
+    color: #000;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-home:hover {
+    background: #00e5ff;
+    box-shadow: 0 0 10px #00e5ff;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

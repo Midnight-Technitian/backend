@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link href="/webjars/bootstrap/5.2.3/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <script type="text/javascript" src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Midnight Technician | Register</title>
+</head>
+<body>
+<div class="register-container">
+    <div class="brand-section">
+        <div class="brand-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+        </div>
+        <h1 class="brand-title">Midnight Technician</h1>
+        <p class="brand-subtitle">Join us today! Create your account to get started.</p>
+    </div>
+
+    <!-- Error Messages -->
+    <div th:if="${param.noCreds}" class="alert alert-danger">
+        <span class="alert-icon">⚠️</span>
+        <span>No credentials were provided.</span>
+    </div>
+    <div th:if="${param.userExists}" class="alert alert-warning">
+        <span class="alert-icon">👤</span>
+        <span>This email already exists. Please use another.</span>
+    </div>
+    <div th:if="${param.passMissMatch}" class="alert alert-danger">
+        <span class="alert-icon">🔒</span>
+        <span>Passwords do not match.</span>
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger">
+        <span class="alert-icon">❌</span>
+        <span>An error occurred during registration. Please try again.</span>
+    </div>
+
+    <!-- Registration Form -->
+    <form action="#" th:action="@{/auth/register}" th:object="${newUser}" method="post">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="firstName"
+                       placeholder="John"
+                       th:field="*{firstName}"
+                       autocomplete="given-name"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="lastName"
+                       placeholder="Doe"
+                       th:field="*{lastName}"
+                       autocomplete="family-name"
+                       required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email"
+                   class="form-control"
+                   id="email"
+                   placeholder="john.doe@example.com"
+                   th:field="*{email}"
+                   autocomplete="email"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="contactNumber" class="form-label">Contact Number</label>
+            <input type="tel"
+                   class="form-control"
+                   id="contactNumber"
+                   placeholder="+1 (555) 123-4567"
+                   th:field="*{contactNumber}"
+                   autocomplete="tel"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   placeholder="Create a strong password"
+                   th:field="*{password}"
+                   autocomplete="new-password"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="rePassword" class="form-label">Confirm Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="rePassword"
+                   placeholder="Re-enter your password"
+                   th:field="*{rePassword}"
+                   autocomplete="new-password"
+                   required>
+        </div>
+
+        <button type="submit" class="btn-register">Create Account</button>
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a th:href="@{/auth/login}">Sign in</a>
+    </div>
+</div>
+</body>
+</html>

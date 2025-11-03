@@ -1,6 +1,8 @@
 package dev.glabay.ticketing.services;
 
 import dev.glabay.dtos.ServiceTicketDto;
+import dev.glabay.kafka.KafkaTopics;
+import dev.glabay.kafka.events.ServiceTicketEvents;
 import dev.glabay.models.ServiceTicketStatus;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.services.SequenceGeneratorService;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,7 @@ import java.util.Optional;
 public class TicketingService {
     private final Logger log = LoggerFactory.getLogger(TicketingService.class);
 
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final TicketRepository ticketRepository;
 
@@ -52,6 +56,9 @@ public class TicketingService {
         ticket.setNotes(new ArrayList<>());
         log.info("Creating service ticket {}", ticket);
         saveTicket(ticket);
+
+        var event = new ServiceTicketEvents.ServiceTicketCreatedEvent(ticket.mapToDto());
+        kafkaTemplate.send(KafkaTopics.SERVICE_TICKET_CREATED.getTopicName(), ticket.getCustomerId(), event);
         return ticket;
     }
 
@@ -73,6 +80,31 @@ public class TicketingService {
             ticket.setNotes(dto.getNotes());
         log.info("Updating service ticket {}", ticket);
         saveTicket(ticket);
+        var event = new ServiceTicketEvents.ServiceTicketUpdatedEvent(ticket.mapToDto());
+        kafkaTemplate.send(KafkaTopics.SERVICE_TICKET_UPDATED.getTopicName(), ticket.getCustomerId(), event);
+        return ticket;
+    }
+
+    public ServiceTicket closeServiceTicket(ServiceTicketDto dto) {
+        var optionalServiceTicket = getServiceTicket(dto.getTicketId());
+        if (optionalServiceTicket.isEmpty())
+            return null;
+        var ticket = optionalServiceTicket.get();
+            ticket.setTicketId(dto.getTicketId());
+            ticket.setStatus(String.valueOf(ServiceTicketStatus.CLOSED));
+            ticket.setTitle(dto.getTitle());
+            ticket.setDescription(dto.getDescription());
+            ticket.setCreatedAt(dto.getCreatedAt());
+            ticket.setUpdatedAt(LocalDateTime.now());
+            ticket.setCustomerId(dto.getCustomerId());
+            ticket.setCustomerDeviceId(dto.getCustomerDeviceId());
+            ticket.setEmployeeId(dto.getEmployeeId());
+            ticket.setServiceId(dto.getServiceId());
+            ticket.setNotes(dto.getNotes());
+        log.info("Updating service ticket {}", ticket);
+        saveTicket(ticket);
+        var event = new ServiceTicketEvents.ServiceTicketUpdatedEvent(ticket.mapToDto());
+        kafkaTemplate.send(KafkaTopics.SERVICE_TICKET_CLOSED.getTopicName(), ticket.getCustomerId(), event);
         return ticket;
     }
 

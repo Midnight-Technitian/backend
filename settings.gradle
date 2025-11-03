@@ -7,4 +7,6 @@ include(
         "employee",
         "customer",
         "customer-device",
+        "analytic",
+        "website"
 )

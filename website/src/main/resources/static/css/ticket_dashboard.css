@@ -1,0 +1,6 @@
+.status-claimed::before {
+    background: var(--accent-green);
+}
+.status-unclaimed::before {
+    background: var(--accent-orange);
+}

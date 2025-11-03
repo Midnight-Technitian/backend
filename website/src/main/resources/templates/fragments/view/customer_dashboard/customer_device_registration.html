@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="new_device">
+    <div id="newDeviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNewDeviceModal()">&times;</span>
+            <h2>New Device Registration</h2>
+            <form id="newDeviceRequest" onsubmit="submitNewDeviceRegistration(event)">
+
+                <label for="customerEmail">Contact email/Type</label>
+                <input type="text" id="customerEmail" name="customerEmail" th:value="${customerEmail}" required>
+
+                <label for="deviceType">Device Type</label>
+                <select id="deviceType" name="deviceType" required>
+                    <option th:each="type : ${deviceTypes}"
+                            th:value="${type.id}"
+                            th:text="${type.name}">
+                    </option>
+                </select>
+
+                <label for="deviceName">Device Name</label>
+                <input type="text" id="deviceName" name="deviceName" placeholder="e.g. Gaming Desktop" required>
+
+                <label for="deviceInfo">Device Info</label>
+                <input type="text" id="deviceInfo" name="deviceInfo" placeholder="e.g. 2025 iPhone 17" required>
+
+                <button type="submit" class="submit-btn">Submit new Device</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

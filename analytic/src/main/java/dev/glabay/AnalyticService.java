@@ -1,15 +1,15 @@
-package dev.glabay.customer.device;
+package dev.glabay;
 
 import dev.glabay.logging.SentryConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CustomerDeviceServices {
+public class AnalyticService {
 
     public static void main(String[] args) {
         SentryConfig.initialize();
-        SpringApplication.run(CustomerDeviceServices.class, args);
+        SpringApplication.run(AnalyticService.class, args);
     }
 
 }
