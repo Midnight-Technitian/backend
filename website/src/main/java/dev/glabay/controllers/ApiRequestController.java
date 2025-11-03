@@ -94,7 +94,7 @@ public class ApiRequestController {
         if (responseSpec.toBodilessEntity().getStatusCode() != HttpStatus.OK)
             return "redirect:/error";
 
-        return "redirect:/dashboard/ticket";
+        return "redirect:/dashboard/ticketing";
     }
 
     @PostMapping("/service-ticket/assign")
