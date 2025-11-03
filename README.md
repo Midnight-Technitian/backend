@@ -51,7 +51,7 @@ It’s perfect for developers looking to contribute to a real-world Java/Spring 
 # Getting Started
 1. Clone the repositories
     ```shell
-    git clone https://github.com/Midnight-Technitian/backend.git
+    git clone https://github.com/Midnight-Technician/backend.git
     ```
 2. Set up the backend
    - Configure application.properties with your DB credentials
