@@ -67,6 +67,26 @@ public class ServiceTicketConsumer {
         logger.info("Saved service ticket entity: {}", cachedRecord);
     }
 
+    @KafkaListener(topics = "service-ticket-claimed", groupId = "analytic-service")
+    public void handleClaimingServiceTicket(ServiceTicketEvents.ServiceTicketClaimedEvent event) {
+        logger.info("Received event: {}", event);
+        var request = event.requestDto();
+        var optionalTicketDim = serviceTicketEntityRepository.findByTicketId(request.getTicketId());
+        if (optionalTicketDim.isEmpty()) {
+            logger.error("Service ticket not found with id {}", request.getTicketId());
+            return;
+        }
+        var ticketDim = optionalTicketDim.get();
+            ticketDim.setServiceId(request.getServiceId());
+            ticketDim.setDeviceId(request.getCustomerDeviceId());
+            ticketDim.setEmployeeId(request.getEmployeeId());
+            ticketDim.setCreatedAt(request.getCreatedAt());
+            ticketDim.setClaimedAt(LocalDateTime.now());
+
+        var cachedRecord = serviceTicketEntityRepository.save(ticketDim);
+        logger.info("Saved service ticket entity: {}", cachedRecord);
+    }
+
     @KafkaListener(topics = "service-ticket-closed", groupId = "analytic-service")
     public void handleClosingServiceTicket(ServiceTicketEvents.ServiceTicketUpdatedEvent event) {
         logger.info("Received event: {}", event);
