@@ -31,6 +31,7 @@ function saveServiceTicket(event) {
     })
         .then(response => {
             if (response.ok) {
+                location.reload();
                 alert('Ticket saved successfully.');
             }
             else {
@@ -71,6 +72,7 @@ function claimServiceTicket(event) {
     })
         .then(response => {
             if (response.ok) {
+                location.reload();
                 alert('Ticket assigned successfully.');
             }
             else {
