@@ -1,4 +1,4 @@
-rootProject.name = "backend"
+rootProject.name = "midnight-technician"
 
 include(
         "services",
