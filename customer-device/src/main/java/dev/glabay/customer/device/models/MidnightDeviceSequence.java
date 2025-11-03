@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document("midnight_customer_sequences")
+@Document("midnight_customer_device_sequences")
 public class MidnightDeviceSequence {
     private String id;
     private Long mongoSeq;
