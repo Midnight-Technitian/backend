@@ -3,6 +3,7 @@ package dev.glabay.ticketing.controllers;
 import dev.glabay.dtos.ServiceTicketDto;
 import dev.glabay.logging.MidnightLogger;
 import dev.glabay.models.ServiceNote;
+import dev.glabay.models.ServiceTicketStatus;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.ticketing.services.TicketingService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,23 @@ public class TicketingController {
         }
         var ticket = ticketingService.updateServiceTicket(dto);
         return ResponseEntity.ok(ticket.mapToDto());
+    }
+
+    @PutMapping("/claim")
+    private ResponseEntity<Void> claimServiceTicket(
+        @RequestParam("ticketId") String ticketId,
+        @RequestParam("employeeId") String employeeId
+    ) {
+        var optionalTicket = ticketingService.getServiceTicket(ticketId);
+        if (optionalTicket.isEmpty()) {
+            logger.error("Service ticket not found with id {}", ticketId);
+            return ResponseEntity.notFound().build();
+        }
+        var ticket = optionalTicket.get();
+        ticket.setEmployeeId(employeeId);
+        ticket.setStatus(String.valueOf(ServiceTicketStatus.OPEN));
+        ticketingService.saveTicket(ticket);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/close")
