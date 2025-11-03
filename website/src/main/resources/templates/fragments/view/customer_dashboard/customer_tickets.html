@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div th:if="${#strings.equalsIgnoreCase(ticket.status, 'In Progress')}">
+            <div th:if="${#strings.equalsIgnoreCase(ticket.status, 'In_Progress')}">
                 <div class="ticket-card status-progress">
                     <div class="ticket-header">
                         <span class="ticket-id" th:text="${ticket.ticketId}">#TCK-001</span>
