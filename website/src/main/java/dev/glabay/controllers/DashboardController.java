@@ -99,6 +99,38 @@ public class DashboardController {
         return "dashboards/customer/ticket_view";
     }
 
+
+    @GetMapping("/user/ticket/device")
+    @PreAuthorize("hasRole('USER')")
+    public String getCustomerTicketHistoryForDeviceDashboard(
+        @RequestParam("id") String deviceId,
+        HttpServletRequest request,
+        Model model
+    ) {
+        var email = request.getRemoteUser();
+        var customerDto = restClient.get()
+            .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
+            .getBody();
+
+        // fetch customer Devices (up to a maximum of 6)
+        var device = restClient.get()
+            .uri("http://localhost:8084/api/v1/devices/device?deviceId={deviceId}", deviceId)
+            .retrieve()
+            .body(new ParameterizedTypeReference<CustomerDeviceDto>() {});
+
+        var ticketHistory = restClient.get()
+            .uri("http://localhost:8081/api/v1/tickets/customer/device?deviceId={deviceId}", deviceId)
+            .retrieve()
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
+
+        model.addAttribute("customer", customerDto);
+        model.addAttribute("ticketHistory", ticketHistory);
+        model.addAttribute("device", device);
+        return "dashboards/customer/ticket_device_view";
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public String getDashboard(HttpServletRequest request, Model model) {

@@ -130,6 +130,22 @@ public class TicketingController {
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
     }
 
+
+    @GetMapping("/customer/device")
+    private ResponseEntity<List<ServiceTicketDto>> getAllTicketsForDevice(
+        @RequestParam("deviceId") String deviceId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "15") int size
+    ) {
+        var ticketHistoryForEmail = ticketingService.getTicketHistoryForDevice(deviceId, page, size);
+        if (ticketHistoryForEmail.isEmpty()) {
+            logger.error("No tickets found for deviceId {}", deviceId);
+            return new ResponseEntity<>(List.of(), HttpStatus.OK);
+        }
+        logger.info("Found {} tickets for deviceId {}", ticketHistoryForEmail.size(), deviceId);
+        return new ResponseEntity<>(ticketHistoryForEmail, HttpStatus.OK);
+    }
+
     @GetMapping("/open")
     private ResponseEntity<List<ServiceTicketDto>> getOpenTickets(
         @RequestParam(defaultValue = "0") int page,

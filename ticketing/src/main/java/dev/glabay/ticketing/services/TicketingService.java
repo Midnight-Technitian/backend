@@ -145,6 +145,17 @@ public class TicketingService {
         return Optional.empty();
     }
 
+
+    public List<ServiceTicketDto> getTicketHistoryForDevice(String deviceId, int page, int size) {
+        if (size <= 0)
+            size = 15;
+        var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        return ticketRepository.findAllByCustomerDeviceId(deviceId).stream()
+            .map(ServiceTicket::mapToDto)
+            .toList();
+    }
+
     public List<ServiceTicketDto> getAllOpenTickets(String customerEmail, int page, int size) {
         if (size <= 0)
             size = 15;
