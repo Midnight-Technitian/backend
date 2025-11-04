@@ -31,26 +31,31 @@
         <div class="actions-grid">
             <button class="action-card" onclick="openNewEmployeeModal()">
                 <div class="action-icon">👷‍♂️</div>
-                <h3>Employees</h3>
+                <h3>Create Employee</h3>
                 <p th:text="${#lists.size(employees)} + ' active'">8 active</p>
             </button>
 
             <div class="action-card">
                 <div class="action-icon">💼</div>
-                <h3>Customers</h3>
-                <p th:text="${#lists.size(customers)} + ' registered'">120 registered</p>
+                <h3>Add Customer</h3>
+                <p th:text="${#lists.size(customers)} + ' customers'">120 registered</p>
             </div>
 
             <div class="action-card">
                 <div class="action-icon">🎫</div>
-                <h3>Active Tickets</h3>
-                <p th:text="${activeTicketCount} + ' open'">42 open</p>
+                <h3>Add Device</h3>
+                <p th:text="${activeTicketCount} + ' devices'">42 open</p>
             </div>
 
             <div class="action-card">
                 <div class="action-icon">✅</div>
-                <h3>Resolved This Month</h3>
-                <p th:text="${resolvedTicketCount} + ' closed'">80 closed</p>
+                <h3>Create Ticket</h3>
+                <p th:text="${activeTicketCount} + ' tickets'">80 closed</p>
+            </div>
+
+            <div class="action-card">
+                <div class="action-icon">✅</div>
+                <h3>Monthly Report</h3>
             </div>
         </div>
     </section>
