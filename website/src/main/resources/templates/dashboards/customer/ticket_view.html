@@ -19,11 +19,12 @@
             <h1 class="welcome-title">
                 Welcome back, <span th:text="${customer.firstName()}" class="customer-name">User</span>!
             </h1>
+            <p class="welcome-subtitle">Here's your Service Ticket</p>
         </div>
     </div>
 </div>
-<h1>Service Ticket Details</h1>
-<div class="container">
+<h2>Service Ticket Details</h2>
+<div class="ticket-container">
     <div id="ticket-form">
         <input type="hidden" id="ticketId" th:value="${serviceTicket.ticketId}"/>
 
