@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
-<div th:fragment="customer_tickets">
+<div th:fragment="customer_tickets(openTickets)">
 
     <div class="section-header">
         <h2 class="section-title">
@@ -12,7 +12,13 @@
             </svg>
             Active Service Tickets
         </h2>
-        <span class="ticket-count" th:text="${#lists.size(openTickets)} + ' Open'">42 Open</span>
+        <div class="d-flex">
+            <span class="ticket-count" th:text="${#lists.size(openTickets)} + ' Open'">42 Open</span>
+            <a class="ticket-view-btn btn btn-primary"
+               th:href="@{/dashboard/user/ticket/history}">
+                View History
+            </a>
+        </div>
     </div>
 
     <div th:unless="${!#lists.isEmpty(openTickets)}">

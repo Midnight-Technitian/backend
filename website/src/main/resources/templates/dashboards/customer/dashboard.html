@@ -65,12 +65,12 @@
 
     <!-- Service Tickets Section -->
     <section class="tickets-section">
-        <div th:replace="~{fragments/view/customer_dashboard/customer_tickets::customer_tickets}"></div>
+        <div th:replace="~{fragments/view/customer_dashboard/customer_tickets::customer_tickets(${openTickets})}"></div>
     </section>
 
     <!-- Registered Devices Section -->
     <section class="devices-section">
-        <div th:replace="~{fragments/view/customer_dashboard/customer_devices::customer_devices}"></div>
+        <div th:replace="~{fragments/view/customer_dashboard/customer_devices::customer_devices(${devices})}"></div>
     </section>
 
     <!-- Footer -->
