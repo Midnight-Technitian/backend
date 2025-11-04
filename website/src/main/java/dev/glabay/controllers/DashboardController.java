@@ -100,6 +100,27 @@ public class DashboardController {
     }
 
 
+    @GetMapping("/user/ticket/history")
+    @PreAuthorize("hasRole('USER')")
+    public String getCustomerTicketHistoryDashboard(HttpServletRequest request, Model model) {
+        var email = request.getRemoteUser();
+        var customerDto = restClient.get()
+            .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
+            .getBody();
+
+        var ticketHistory = restClient.get()
+            .uri("http://localhost:8081/api/v1/tickets/customer/history?email={email}", email)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
+            .getBody();
+
+        model.addAttribute("customer", customerDto);
+        model.addAttribute("ticketHistory", ticketHistory);
+        return "dashboards/customer/ticket_history_view";
+    }
+
     @GetMapping("/user/ticket/device")
     @PreAuthorize("hasRole('USER')")
     public String getCustomerTicketHistoryForDeviceDashboard(
