@@ -4,14 +4,11 @@ import dev.glabay.dtos.UserCredentialsDto;
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.feaures.users.UserProfile;
 import dev.glabay.feaures.users.UserProfileRepository;
-import dev.glabay.kafka.KafkaTopics;
-import dev.glabay.kafka.events.UserRegisteredEvent;
 import dev.glabay.models.request.RegistrationStatus;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +25,7 @@ import java.time.LocalDateTime;
 public class AuthenticationService {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaEventService kafkaEventService;
     private final UserProfileRepository userProfileRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -71,8 +68,6 @@ public class AuthenticationService {
             newUser.getUpdatedAt()
         );
         // Create an event to make a new customer
-        var event = new UserRegisteredEvent(dto, ipAddress);
-        kafkaTemplate.send(KafkaTopics.USER_REGISTRATION.getTopicName(), dto.email(), event);
-        logger.info("User Registered Event sent to Kafka {}", event);
+        kafkaEventService.publishUserRegistration(dto, ipAddress);
     }
 }

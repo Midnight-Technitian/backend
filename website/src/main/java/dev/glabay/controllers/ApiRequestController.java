@@ -1,11 +1,8 @@
 package dev.glabay.controllers;
 
 import dev.glabay.dtos.EmployeeDto;
-import dev.glabay.dtos.ServiceTicketDto;
-import dev.glabay.kafka.events.CustomerDeviceRegistrationEvent;
-import dev.glabay.kafka.KafkaTopics;
-import dev.glabay.models.ServiceNote;
 import dev.glabay.models.device.RegisteringDevice;
+import dev.glabay.services.KafkaEventService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.core.ParameterizedTypeReference;
@@ -29,13 +26,12 @@ import org.springframework.web.client.RestClient;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class ApiRequestController {
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaEventService kafkaEventService;
     private final RestClient restClient;
 
     @PostMapping("/device")
     private String postNewDevice(@RequestBody RegisteringDevice body) {
-        var event = new CustomerDeviceRegistrationEvent(body);
-        kafkaTemplate.send(KafkaTopics.CUSTOMER_DEVICE_REGISTRATION.getTopicName(), body.getCustomerEmail(), event);
+        kafkaEventService.publishDeviceRegistration(body);
         return "redirect:/dashboard";
     }
 
