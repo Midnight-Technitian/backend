@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,4 +51,50 @@ public class ApiRequestController {
         return "redirect:/dashboard/admin";
     }
 
+    @PostMapping("/schedule/punch-in")
+    private ResponseEntity<Void> punchIn(@RequestParam("employeeId") String employeeId) {
+        try {
+            restClient.post()
+                .uri("http://localhost:8086/api/v1/schedule/clock-in?employeeId={employeeId}", employeeId)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                    (_, response) -> {
+                        if (response.getStatusCode() == HttpStatus.CONFLICT)
+                            throw new ConflictException();
+                    })
+                .toBodilessEntity();
+            return ResponseEntity.ok().build();
+        }
+        catch (ConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+        }
+    }
+
+    @PostMapping("/schedule/punch-out")
+    private ResponseEntity<Void> punchOut(@RequestParam("employeeId") String employeeId) {
+        try {
+            restClient.post()
+                .uri("http://localhost:8086/api/v1/schedule/clock-out?employeeId={employeeId}", employeeId)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                    (_, response) -> {
+                        if (response.getStatusCode() == HttpStatus.CONFLICT)
+                            throw new ConflictException();
+                    })
+                .toBodilessEntity();
+            return ResponseEntity.ok().build();
+        }
+        catch (ConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+        }
+    }
+
+
+    private static class ConflictException extends RuntimeException {}
 }

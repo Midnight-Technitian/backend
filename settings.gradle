@@ -8,5 +8,6 @@ include(
         "customer",
         "customer-device",
         "analytic",
-        "website"
+        "website",
+        "scheduling"
 )

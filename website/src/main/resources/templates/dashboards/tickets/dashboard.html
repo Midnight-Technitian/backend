@@ -4,6 +4,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/dashboard.css" rel="stylesheet">
     <link href="/css/header.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/ScheduleAction.js"></script>
     <title>Employee Dashboard - Midnight Technician</title>
 </head>
 <body>
@@ -23,11 +24,12 @@
 
 <!-- Main Dashboard -->
 <div class="container dashboard-container">
+    <input type="hidden" id="employeeId" th:value="${employee.employeeId}">
 
     <!-- Quick Overview -->
     <section class="quick-actions-section">
         <div class="actions-grid">
-            <div class="action-card">
+            <button class="action-card punch-card" onclick="punchIn()">
                 <div class="action-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor"
                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -36,11 +38,11 @@
                         <circle cx="18" cy="21" r="2"></circle>
                     </svg>
                 </div>
-                <h3>Open Tickets</h3>
-                <p th:text="${#lists.size(openTickets)} + ' tickets pending'">12 tickets pending</p>
-            </div>
+                <h3>Clock-In</h3>
+                <p>Clock-In for the day</p>
+            </button>
 
-            <div class="action-card">
+            <button class="action-card punch-card" onclick="punchOut()">
                 <div class="action-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor"
                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -48,9 +50,9 @@
                         <path d="M22 7V3H2v4"></path>
                     </svg>
                 </div>
-                <h3>Claimed Tickets</h3>
-                <p th:text="${#lists.size(claimedTickets)} + ' in progress'">5 in progress</p>
-            </div>
+                <h3>Clock-Out</h3>
+                <p>Clock-Out for the day</p>
+            </button>
         </div>
     </section>
 
