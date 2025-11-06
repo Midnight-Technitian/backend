@@ -42,8 +42,7 @@ public class ApiRequestController {
             .uri("http://localhost:8082/api/v1/employees")
             .body(body)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<EmployeeDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<EmployeeDto>() {});
 
         if (deviceDto == null)
             return "redirect:/error";
