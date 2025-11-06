@@ -2,7 +2,7 @@ package dev.glabay.analytic.services;
 
 import dev.glabay.analytic.models.UserAnalyticsEntity;
 import dev.glabay.analytic.repos.UserAnalyticsEntityRepository;
-import dev.glabay.kafka.events.UserRegisteredEvent;
+import dev.glabay.kafka.events.user.UserRegisteredEvent;
 import dev.glabay.logging.MidnightLogger;
 import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;

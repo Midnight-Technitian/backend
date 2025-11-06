@@ -2,7 +2,7 @@ package dev.glabay.ticketing.services;
 
 import dev.glabay.dtos.ServiceTicketDto;
 import dev.glabay.kafka.KafkaTopics;
-import dev.glabay.kafka.events.ServiceTicketEvents;
+import dev.glabay.kafka.events.ticket.ServiceTicketEvents;
 import dev.glabay.models.ServiceTicketStatus;
 import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.services.SequenceGeneratorService;

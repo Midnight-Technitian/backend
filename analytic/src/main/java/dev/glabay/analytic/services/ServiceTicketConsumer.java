@@ -2,7 +2,7 @@ package dev.glabay.analytic.services;
 
 import dev.glabay.analytic.models.ServiceTicketEntity;
 import dev.glabay.analytic.repos.ServiceTicketEntityRepository;
-import dev.glabay.kafka.events.ServiceTicketEvents;
+import dev.glabay.kafka.events.ticket.ServiceTicketEvents;
 import dev.glabay.logging.MidnightLogger;
 import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;

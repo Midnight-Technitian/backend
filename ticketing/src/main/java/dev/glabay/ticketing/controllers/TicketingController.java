@@ -2,7 +2,7 @@ package dev.glabay.ticketing.controllers;
 
 import dev.glabay.dtos.ServiceTicketDto;
 import dev.glabay.kafka.KafkaTopics;
-import dev.glabay.kafka.events.ServiceTicketEvents;
+import dev.glabay.kafka.events.ticket.ServiceTicketEvents;
 import dev.glabay.logging.MidnightLogger;
 import dev.glabay.models.ServiceNote;
 import dev.glabay.models.ServiceTicketStatus;

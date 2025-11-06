@@ -1,11 +1,10 @@
 package dev.glabay.services;
 
 import dev.glabay.customer.services.CustomerService;
-import dev.glabay.kafka.events.UserRegisteredEvent;
+import dev.glabay.kafka.events.user.UserRegisteredEvent;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,6 +1,6 @@
 package dev.glabay.services;
 
-import dev.glabay.kafka.events.ServiceTicketCreationEvent;
+import dev.glabay.kafka.events.ticket.ServiceTicketCreationEvent;
 import dev.glabay.logging.MidnightLogger;
 import dev.glabay.ticketing.services.TicketingService;
 import lombok.RequiredArgsConstructor;
