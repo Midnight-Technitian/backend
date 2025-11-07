@@ -8,6 +8,7 @@ import dev.glabay.models.request.ServiceRequest;
 import dev.glabay.services.SequenceGeneratorService;
 import dev.glabay.ticketing.models.ServiceTicket;
 import dev.glabay.ticketing.repos.TicketRepository;
+import dev.glabay.ticketing.email.TicketEmailPublisher;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class TicketingService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final TicketRepository ticketRepository;
+    private final TicketEmailPublisher ticketEmailPublisher;
 
     public ServiceTicket createServiceTicket(ServiceRequest serviceRequest) {
         var ticket = new ServiceTicket();
@@ -59,6 +61,16 @@ public class TicketingService {
 
         var event = new ServiceTicketEvents.ServiceTicketCreatedEvent(ticket.mapToDto());
         kafkaTemplate.send(KafkaTopics.SERVICE_TICKET_CREATED.getTopicName(), ticket.getCustomerId(), event);
+
+        // Publish email notification for ticket creation
+        ticketEmailPublisher.sendTicketCreatedEmail(
+            ticket.getTicketId(),
+            serviceRequest.customerEmail(),
+            "Customer",
+            ticket.getDescription(),
+            ticket.getCreatedAt(),
+            "ticketing-service"
+        );
         return ticket;
     }
 

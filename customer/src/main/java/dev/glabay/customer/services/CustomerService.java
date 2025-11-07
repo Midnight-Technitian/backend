@@ -6,6 +6,7 @@ import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.services.CustomerConverter;
 import dev.glabay.services.SequenceGeneratorService;
+import dev.glabay.customer.email.CustomerEmailPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,10 +23,12 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CustomerService implements CustomerConverter {
     private final CustomerRepository customerRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final CustomerEmailPublisher customerEmailPublisher;
 
-    public CustomerService(CustomerRepository customerRepository, SequenceGeneratorService sequenceGeneratorService) {
+    public CustomerService(CustomerRepository customerRepository, SequenceGeneratorService sequenceGeneratorService, CustomerEmailPublisher customerEmailPublisher) {
         this.customerRepository = customerRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.customerEmailPublisher = customerEmailPublisher;
     }
 
     public CustomerDto getCustomerById(Long customerId) {
@@ -66,6 +69,14 @@ public class CustomerService implements CustomerConverter {
         customer.setUpdatedAt(LocalDateTime.now());
         // save the Customer
         customerRepository.save(customer);
+
+        // Publish welcome email
+        customerEmailPublisher.sendWelcomeEmail(
+            String.valueOf(customer.getCustomerId()),
+            customer.getEmail(),
+            customer.getFirstName() != null ? customer.getFirstName() : "Customer",
+            "customer-service"
+        );
         return mapToDto(customer);
     }
 }

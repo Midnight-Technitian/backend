@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Ticket Created</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .ticket-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666666;
+            margin-bottom: 30px;
+        }
+        .ticket-details {
+            background-color: #f8f9ff;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .detail-row {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .detail-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .detail-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888888;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .detail-value {
+            font-size: 15px;
+            color: #333333;
+            line-height: 1.5;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #666666;
+        }
+        .footer {
+            background-color: #f4f7fa;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #888888;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🎫 Ticket Created</h1>
+        </div>
+        <div class="content">
+            <div style="text-align: center;">
+                <span class="status-badge">✓ Successfully Created</span>
+                <div class="ticket-number">
+                    #<span th:text="${ticketId}">12345</span>
+                </div>
+            </div>
+            <div class="greeting">
+                Hello <span th:text="${customerName}">Customer</span>,
+            </div>
+            <p class="message">
+                Your support ticket has been successfully created. Our technical team has been notified 
+                and will begin working on your issue shortly. You'll receive updates as we make progress.
+            </p>
+            <div class="ticket-details">
+                <div class="detail-row">
+                    <div class="detail-label">📋 Summary</div>
+                    <div class="detail-value" th:text="${summary}">Issue summary description goes here</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">🕐 Created At</div>
+                    <div class="detail-value" th:text="${createdAt}">2025-11-06 14:30:00</div>
+                </div>
+            </div>
+            <div class="info-box">
+                <strong>💡 What happens next?</strong><br/>
+                Our support team will review your ticket and respond within 24 hours. 
+                You can track the status of your ticket at any time through your account dashboard.
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="cta-button">View Ticket Details</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+                Need immediate assistance? <a href="#">Contact Support</a><br/>
+                © 2025 Midnight Technician. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

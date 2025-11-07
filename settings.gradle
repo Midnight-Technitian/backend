@@ -9,5 +9,6 @@ include(
         "customer-device",
         "analytic",
         "website",
-        "scheduling"
+        "scheduling",
+        "email"
 )

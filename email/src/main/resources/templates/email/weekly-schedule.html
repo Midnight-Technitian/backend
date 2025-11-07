@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Weekly Schedule</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .week-range {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 20px 0 30px 0;
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .schedule-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+        }
+        .schedule-table th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .schedule-table tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.2s;
+        }
+        .schedule-table tbody tr:hover {
+            background-color: #f8f9ff;
+        }
+        .schedule-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .schedule-table td {
+            padding: 16px;
+            font-size: 15px;
+            color: #555555;
+        }
+        .schedule-table td:first-child {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .time-badge {
+            background-color: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .info-note {
+            background-color: #fff4e6;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #666666;
+        }
+        .footer {
+            background-color: #f4f7fa;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #888888;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>📅 Weekly Schedule</h1>
+        </div>
+        <div class="content">
+            <div class="greeting">
+                Hello <span th:text="${employeeName}">Employee</span>,
+            </div>
+            <p style="color: #666666; margin-bottom: 20px;">Here is your schedule for the upcoming week:</p>
+            <div style="text-align: center;">
+                <div class="week-range">
+                    📆 <span th:text="${weekStart}">2025-11-10</span> to <span th:text="${weekEnd}">2025-11-16</span>
+                </div>
+            </div>
+            <table class="schedule-table">
+                <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="shift : ${shifts}">
+                    <td th:text="${shift.day}">Monday</td>
+                    <td><span class="time-badge" th:text="${shift.startTime}">09:00</span></td>
+                    <td><span class="time-badge" th:text="${shift.endTime}">17:00</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="info-note">
+                <strong>⏰ Reminder:</strong> Please arrive 10 minutes before your scheduled start time. 
+                Contact your supervisor if you need to request any schedule changes.
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+                Questions about your schedule? <a href="#">Contact HR</a><br/>
+                © 2025 Midnight Technician. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Service Ticket Created</title>
+</head>
+<body>
+<h2>Ticket <span th:text="${ticketId}">#</span> Created</h2>
+<p>Hello <span th:text="${customerName}">Customer</span>,</p>
+<p>Your ticket has been created.</p>
+<p>
+    Summary: <span th:text="${summary}">Issue summary</span><br/>
+    Created At: <span th:text="${createdAt}">2025-11-06</span>
+</p>
+</body>
+</html>

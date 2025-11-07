@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Service Ticket Closed</title>
+</head>
+<body>
+<h2>Ticket <span th:text="${ticketId}">#</span> Closed</h2>
+<p>Hello <span th:text="${customerName}">Customer</span>,</p>
+<p>Your ticket has been closed.</p>
+<p>
+    Closed At: <span th:text="${closedAt}">2025-11-06</span><br/>
+    Resolution: <span th:text="${resolutionSummary}">Summary</span>
+</p>
+</body>
+</html>
