@@ -1,9 +1,9 @@
 package dev.glabay.config;
 
+import dev.glabay.security.ApiTokenAuthInterceptor;
 import org.jspecify.annotations.NullMarked;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -14,18 +14,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @NullMarked
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
+    private final ApiTokenAuthInterceptor botTokenAuthInterceptor;
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry
-                    .addMapping("/**")
-                    .allowedOrigins("http://localhost:80")
-                    .allowedMethods("POST");
-            }
-        };
+    public WebConfig(ApiTokenAuthInterceptor botTokenAuthInterceptor) {
+        this.botTokenAuthInterceptor = botTokenAuthInterceptor;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(botTokenAuthInterceptor)
+            .addPathPatterns("/api/**");
     }
 }

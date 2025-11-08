@@ -1,5 +1,6 @@
 package dev.glabay.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -15,11 +16,15 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
+    @Value( "${backend.api.token}")
+    private String spiToken;
+
     @Bean
     public RestClient getRestClient() {
         return RestClient.builder()
             .requestFactory(new JdkClientHttpRequestFactory())
             .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeader("X-API-Key", spiToken)
             .build();
     }
 }

@@ -1,6 +1,6 @@
-package dev.glabay.config;
+package dev.glabay.customer.device.config;
 
-import dev.glabay.security.ApiTokenAuthInterceptor;
+import dev.glabay.customer.device.security.ApiTokenAuthInterceptor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
