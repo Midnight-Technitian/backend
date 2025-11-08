@@ -1,21 +1,101 @@
-MIT License
+# 🛠️ The Midnight Technician Non-Commercial Educational License (MTE License v1.0)
 
-Copyright (c) 2025 Midnight Technician
+**Version:** 1.0
+**Date:** November 8, 2025
+**Copyright (c) 2025** *Glabay — The Midnight Technician*
+All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+---
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## 1. Preamble
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The Midnight Technician project is dedicated to empowering developers and students through open educational access to software technologies.
+This license allows individuals and organizations to study, modify, and share the software for **educational and non-commercial purposes only**.
+
+Commercial use, redistribution for profit, or integration into for-profit services is **not permitted** under this license without prior written authorization from the copyright holder.
+
+For clarity, this license provides **source-available**, but not **open-source** rights as defined by the Open Source Initiative (OSI).
+
+---
+
+## 2. Definitions
+
+For purposes of this license:
+
+* **“Software”** means any source code, binary, assets, documentation, or associated materials made available under this license.
+* **“Educational Use”** means use for personal learning, teaching, academic study, demonstration, or non-profit research.
+* **“Non-Commercial Use”** means use that does not generate revenue, direct or indirect, monetary or otherwise, from use of the Software.
+* **“Commercial Use”** includes, but is not limited to:
+
+  * Selling, licensing, or renting the Software or derivative works.
+  * Using the Software as part of a paid service or subscription.
+  * Distributing the Software as part of a monetized product or system.
+  * Hosting the Software in a commercial SaaS or PaaS offering.
+
+---
+
+## 3. Grant of Permission
+
+Permission is hereby granted, free of charge, to any individual, academic institution, or organization to use, copy, modify, and distribute the Software and derivative works **solely for educational or non-commercial purposes**, provided that the following conditions are met:
+
+1. **Attribution**
+   All copies or substantial portions of the Software must include this license text and clear attribution to
+   “The Midnight Technician — [https://themidnighttechnician.com”](https://themidnighttechnician.com”)
+   along with the copyright notice above.
+
+2. **No Commercial Use**
+   The Software may not be used for any commercial purpose without prior written consent from the copyright holder.
+   To inquire about commercial licensing or partnerships, contact:
+   📧 **[Contact Mike Glabay](mailto:GlabayStudios@outlook.com)**
+
+3. **Notice of Modification**
+   Any modified versions must include a prominent notice stating that changes were made, along with the date of modification.
+
+---
+
+## 4. Redistribution
+
+Redistribution of the Software, modified or unmodified, is permitted for educational purposes if all of the following conditions are met:
+
+* The license text and copyright notice are included.
+* The redistribution remains non-commercial in nature.
+* The software is not misrepresented as an official or commercial release of *The Midnight Technician*.
+
+---
+
+## 5. Commercial Licensing
+
+Parties seeking to use, integrate, or redistribute the Software for profit or in a commercial context **must obtain a separate commercial license** from the copyright holder.
+
+Such licensing agreements may include fees, royalties, or partnership arrangements at the discretion of the author.
+
+---
+
+## 6. Disclaimer of Warranty
+
+The Software is provided “as is”, without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from the use or inability to use the Software.
+
+---
+
+## 7. Termination
+
+Violation of the terms of this license automatically terminates the rights granted herein.
+Upon termination, the violator must immediately cease use of the Software and destroy all copies in possession.
+
+---
+
+## 8. Governing Law
+
+This license shall be governed by and construed in accordance with the laws of **Canada**, without regard to conflict of law principles.
+
+---
+
+## 9. Contact
+
+For questions regarding licensing, usage permissions, or partnership opportunities, contact:
+📧 **[Contact Mike Glabay](mailto:GlabayStudios@outlook.com)**
+
+---
+
+**End of The Midnight Technician Non-Commercial Educational License (MTE License v1.0)**
