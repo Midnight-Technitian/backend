@@ -156,7 +156,12 @@
                 You can track the status of your ticket at any time through your account dashboard.
             </div>
             <div style="text-align: center;">
-                <a href="#" class="cta-button">View Ticket Details</a>
+                <a href="#"
+                   style="background-color: #667eea; display: inline-block; text-decoration: none"
+                   th:href="|http://localhost/dashboard/user/ticket?id=${ticketId}|"
+                   class="cta-button">
+                    View Ticket Details
+                </a>
             </div>
         </div>
         <div class="footer">
