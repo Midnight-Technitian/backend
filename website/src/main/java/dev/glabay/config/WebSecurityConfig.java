@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                     "/auth/login",
                     "/auth/register",
                     "/css/**",
+                    "/img/**",
                     "/webjars/**"
                 ).permitAll()
                 // User-Relate (requires a logged-in user to have a ROLE_USER to access)
