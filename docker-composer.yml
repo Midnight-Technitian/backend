@@ -3,7 +3,7 @@ services:
     image: postgres:16-alpine
     container_name: midnight-technician-postgres
     environment:
-      POSTGRES_DB: glabtech_db
+      POSTGRES_DB: midnight_database
       POSTGRES_USER: ${POSTGRES_USER:-GLABTECH_APP}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-GLABTECH_APP_PASSWORD}
     ports:
