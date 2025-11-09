@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @Entity(name = "dim_user")
 public class UserAnalyticsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dim_user_seq_gen")
+    @SequenceGenerator(name = "dim_user_seq_gen", sequenceName = "dim_user_seq", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
 
