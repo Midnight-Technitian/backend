@@ -60,6 +60,9 @@ public class WebSecurityConfig {
                 .logoutUrl("/auth/logout")
                 .logoutSuccessUrl("/")
                 .permitAll()
+            )
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/api/**") // If you have APIs
             );
         return http.build();
     }
