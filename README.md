@@ -54,31 +54,51 @@ It’s perfect for developers looking to contribute to a real-world Java/Spring 
     git clone https://github.com/Midnight-Technician/backend.git
     ```
 2. Set up the backend
-   - Configure application.properties with your DB credentials
-   - Configure your environment variables
-   - Services Module:  resources/data.sql to initialize the Postgres database
+   - Rune the `docker-composer.ymll` file to initialize the Database Containers & Kafka services
+   - Configure `application.properties` with your DB credentials
+   - Configure PostgreSQL with the following: 
+     - analytic Module: `resources/data.sql` to initialize the database tables
+     - services Module: `resources/data.sql` to initialize the database tables
+     - website Module: `resources/data.sql` to initialize the database tables
    - Connect to MongoDB from your Intellij Datasource panel
       - Create a new connection with the following details:
         - url: `mongodb://M_T_USER:M_T_PASSWORD@localhost:27042/midnight-technician?authSource=admin`
       - Create the databases in the MongoDB shell:
-        - Use the command `use midnight-employee` to create the database
-          - Use the command `db.createCollection("employee")` to create the collection
-          - Use the command `db.createCollection("midnight_employee_sequences")` to create the collection
-        - Use the command `use midnight-ticketing` to create the database
-          - Use the command `db.createCollection("service_ticket")` to create the collection
-          - Use the command `db.createCollection("midnight_ticket_sequences")` to create the collection
-        - Use the command `use midnight-customer` to create the database
-          - Use the command `db.createCollection("customer")` to create the collection
-          - Use the command `db.createCollection("midnight_customer_sequences")` to create the collection
-        - Use the command `use midnight-customer-device` to create the database
-          - Use the command `db.createCollection("customer_device")` to create the collection
-          - Use the command `db.createCollection("midnight_customer_device_sequences")` to create the collection
+        ```shell
+        use midnight-employee
+
+        db.createCollection("employee")
+        db.createCollection("midnight_employee_sequences")
+     
+        use midnight-ticketing
+     
+        db.createCollection("service_ticket")
+        db.createCollection("midnight_ticket_sequences")
+     
+        use midnight-customer
+     
+        db.createCollection("customer")
+        db.createCollection("midnight_customer_sequences")
+     
+        use midnight-customer-device
+     
+        db.createCollection("customer_device")
+        db.createCollection("midnight_customer_device_sequences")
+     
+        use midnight-employee-scheduling
+     
+        db.createCollection("schedules")
+        db.createCollection("time_records")
+        db.createCollection("midnight_schedule_sequences")
+         ```
 3. Setting up the environment variables
+    - Navigate to the example file
+        - The example file can be found in the **shared module**: `.env.example`
     - Review the `.env.example` file for the required token names
     - Navigate to https://sentry.io/auth/login/ and on your dashboard create a new project
     - Create the project name as `midnight-technician` for the application conventions
-    - From here you can find your AUTH_TOKEN, and DNS you need
-    - For the SENTRY_ENVIRONMENT leave this as `development`
+    - From here you can find your `AUTH_TOKEN`, and `SENTRY_HOST` you need
+    - For the `SENTRY_ENVIRONMENT` leave this as `development` for now
 4. Running the Microservices:
    - Inside the Services View in Intellij, Click the + icon to add Spring Boot configuration
    - Run the applications in any order
