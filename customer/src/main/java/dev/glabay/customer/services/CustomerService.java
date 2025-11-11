@@ -6,7 +6,7 @@ import dev.glabay.dtos.CustomerDto;
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.services.CustomerConverter;
 import dev.glabay.services.SequenceGeneratorService;
-import dev.glabay.customer.email.CustomerEmailPublisher;
+import dev.glabay.services.KafkaProducerService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,12 +23,15 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CustomerService implements CustomerConverter {
     private final CustomerRepository customerRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
-    private final CustomerEmailPublisher customerEmailPublisher;
+    private final KafkaProducerService kafkaProducerService;
 
-    public CustomerService(CustomerRepository customerRepository, SequenceGeneratorService sequenceGeneratorService, CustomerEmailPublisher customerEmailPublisher) {
+    public CustomerService(CustomerRepository customerRepository,
+                           SequenceGeneratorService sequenceGeneratorService,
+                           KafkaProducerService kafkaProducerService
+    ) {
         this.customerRepository = customerRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
-        this.customerEmailPublisher = customerEmailPublisher;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     public CustomerDto getCustomerById(Long customerId) {
@@ -71,12 +74,34 @@ public class CustomerService implements CustomerConverter {
         customerRepository.save(customer);
 
         // Publish welcome email
-        customerEmailPublisher.sendWelcomeEmail(
+        kafkaProducerService.publishWelcomeEmailEvent(
             String.valueOf(customer.getCustomerId()),
             customer.getEmail(),
             customer.getFirstName() != null ? customer.getFirstName() : "Customer",
             "customer-service"
         );
         return mapToDto(customer);
+    }
+
+    public void createCustomer(String email, String firstName, String lastName, String contactNumber) {
+        var customer = new Customer();
+        if (customer.getCustomerId() == null)
+            customer.setCustomerId(sequenceGeneratorService.getNextCustomerSequence("midnight_customer_sequences"));
+        customer.setContactNumber(contactNumber);
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setEmail(email);
+        customer.setCreatedAt(LocalDateTime.now());
+        customer.setUpdatedAt(LocalDateTime.now());
+        // save the Customer
+        customerRepository.save(customer);
+
+        // Publish welcome email
+        kafkaProducerService.publishWelcomeEmailEvent(
+            String.valueOf(customer.getCustomerId()),
+            customer.getEmail(),
+            customer.getFirstName() != null ? customer.getFirstName() : "Customer",
+            "customer-service"
+        );
     }
 }

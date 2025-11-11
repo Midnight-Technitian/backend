@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="customer_search">
+    <div id="customerSearchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCustomerSearchModal()">&times;</span>
+            <h2>Search Customer</h2>
+            <p>Enter the customer's email address to search for their account:</p>
+
+            <form id="searchCustomerForm" onsubmit="searchCustomer(event)">
+                <label for="searchEmail">Customer Email</label>
+                <input type="email" id="searchEmail" name="searchEmail"
+                       placeholder="customer@example.com" required>
+
+                <button type="submit" class="submit-btn">Search</button>
+            </form>
+
+            <div id="customerSearchResult" style="display: none; margin-top: 20px;"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

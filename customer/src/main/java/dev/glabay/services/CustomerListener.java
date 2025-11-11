@@ -1,6 +1,7 @@
 package dev.glabay.services;
 
 import dev.glabay.customer.services.CustomerService;
+import dev.glabay.kafka.events.customer.CustomerRegisteredEvent;
 import dev.glabay.kafka.events.user.UserRegisteredEvent;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
@@ -24,6 +25,17 @@ public class CustomerListener {
         System.out.println("Received event: " + event);
         var userDto = event.userDto();
         customerService.createCustomer(userDto);
+    }
+
+    @KafkaListener(topics = "customer-created", groupId = "customer-service")
+    public void handleCustomerRegistered(CustomerRegisteredEvent event) {
+        System.out.println("Received event: " + event);
+        customerService.createCustomer(
+            event.customerEmail(),
+            event.firstName(),
+            event.lastName(),
+            event.contactNumber()
+        );
     }
 }
 

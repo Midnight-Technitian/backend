@@ -1,5 +1,6 @@
-package dev.glabay.customer.email;
+package dev.glabay.services;
 
+import dev.glabay.dtos.CustomerDto;
 import dev.glabay.kafka.KafkaTopics;
 import dev.glabay.kafka.email.EmailSendRequest;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,15 +10,19 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class CustomerEmailPublisher {
+public class KafkaProducerService {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public CustomerEmailPublisher(KafkaTemplate<String, Object> kafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendWelcomeEmail(String customerId, String recipientEmail, String customerName, String triggeredBy) {
+    public void publishCustomerCreatedAnalyticEvent(CustomerDto dto, String employeeId) {
+        kafkaTemplate.send(KafkaTopics.CUSTOMER_CREATED_ANALYTIC.getTopicName(), dto);
+    }
+
+    public void publishWelcomeEmailEvent(String customerId, String recipientEmail, String customerName, String triggeredBy) {
         String emailId = "email-" + customerId + "-" + UUID.randomUUID();
         String correlationId = UUID.randomUUID().toString();
 

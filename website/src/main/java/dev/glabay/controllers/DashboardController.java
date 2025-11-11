@@ -162,12 +162,6 @@ public class DashboardController {
             .retrieve()
             .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
             .getBody();
-        // fetch a list of available services
-        var services = restClient.get()
-            .uri("http://localhost:8080/api/v1/services")
-            .retrieve()
-            .toEntity(new ParameterizedTypeReference<Collection<ServiceDto>>() {})
-            .getBody();
         // fetch customer Open Service Tickets (up to a maximum of 6)
         var openTickets = restClient.get()
             .uri("http://localhost:8081/api/v1/tickets/customer?email={email}", email)
@@ -175,16 +169,7 @@ public class DashboardController {
             .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
             .getBody();
         // fetch customer Devices (up to a maximum of 6)
-        var devices = new ArrayList<CustomerDeviceDto>();
-        var deviceResponseSpec = restClient.get()
-            .uri("http://localhost:8084/api/v1/devices?email={email}", email)
-            .retrieve();
-
-        var deviceStatus = deviceResponseSpec.toBodilessEntity().getStatusCode();
-        if (deviceStatus.is2xxSuccessful())
-            devices = deviceResponseSpec.body(new ParameterizedTypeReference<>() {});
-
-        var deviceTypes = List.of(DeviceType.values());
+        var devices = getCustomerDevices(email);
 
         var unhealthyDevices = new ArrayList<Long>();
         for (var ticket : openTickets) {
@@ -194,10 +179,10 @@ public class DashboardController {
             unhealthyDevices.add(deviceId);
         }
 
-        model.addAttribute("deviceTypes", deviceTypes);
+        model.addAttribute("deviceTypes", getDeviceTypes());
         model.addAttribute("customerEmail", email);
         model.addAttribute("customer", customerDto);
-        model.addAttribute("services", services);
+        model.addAttribute("services", getServices());
         model.addAttribute("openTickets", openTickets);
         model.addAttribute("devices", devices);
         model.addAttribute("devicesInRepair", unhealthyDevices);
@@ -291,12 +276,14 @@ public class DashboardController {
             .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
             .getBody();
 
+        model.addAttribute("services", getServices());
+        model.addAttribute("deviceTypes", getDeviceTypes());
+        model.addAttribute("devices", getCustomerDevices(email));
         model.addAttribute("employee", employeeDto.get());
         model.addAttribute("openTickets", Objects.isNull(openTickets) ? List.of() : openTickets);
         model.addAttribute("claimedTickets", Objects.isNull(claimedTickets) ? List.of() : claimedTickets);
         return "dashboards/tickets/dashboard";
     }
-
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('MANAGER')")
@@ -366,6 +353,34 @@ public class DashboardController {
         return "dashboards/admin/dashboard";
     }
 
+    private Collection<ServiceDto> getServices() {
+        var services = restClient.get()
+            .uri("http://localhost:8080/api/v1/services")
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<Collection<ServiceDto>>() {})
+            .getBody();
+        if (services == null)
+            return List.of();
+        return services;
+    }
+
+    private List<DeviceType> getDeviceTypes() {
+        return List.of(DeviceType.values());
+    }
+
+    private List<CustomerDeviceDto> getCustomerDevices(String email) {
+        var devices = new ArrayList<CustomerDeviceDto>();
+        var deviceResponseSpec = restClient.get()
+            .uri("http://localhost:8084/api/v1/devices?email={email}", email)
+            .retrieve();
+
+        var deviceStatus = deviceResponseSpec.toBodilessEntity().getStatusCode();
+        if (deviceStatus.is2xxSuccessful())
+            devices = deviceResponseSpec.body(new ParameterizedTypeReference<>() {});
+        if (devices == null)
+            return List.of();
+        return devices;
+    }
 
     private Optional<EmployeeDto> getEmployee(String email) {
         var responseSpec = restClient.get()

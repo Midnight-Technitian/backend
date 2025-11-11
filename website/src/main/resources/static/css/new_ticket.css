@@ -54,6 +54,39 @@ input, select, textarea {
     background: #473bc1;
 }
 
+.customer-found {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    padding: 15px;
+    color: #155724;
+}
+
+.customer-not-found {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 5px;
+    padding: 15px;
+    color: #856404;
+}
+
+.customer-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 15px;
+    color: #721c24;
+}
+
+#customerSearchResult h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+#customerSearchResult p {
+    margin: 5px 0;
+}
+
 .close {
     float: right;
     font-size: 24px;

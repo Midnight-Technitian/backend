@@ -25,8 +25,8 @@
                     </th:block>
                 </select>
 
-                <label for="deviceName">Device Name/Type</label>
-                <input type="text" id="deviceName" name="deviceName" placeholder="e.g. Gaming Desktop" required>
+                <label for="deviceName">Device issue</label>
+                <input type="text" id="deviceName" name="deviceName" placeholder="e.g. Needs re-imaging" required>
 
                 <label for="serviceId">Service Type</label>
                 <!-- TODO: Fetch a list of services from the backend -->
@@ -37,7 +37,7 @@
                     </option>
                 </select>
 
-                <label for="description">Description</label>
+                <label for="description">Description in detail</label>
                 <textarea id="description" name="description" rows="4" placeholder="Describe the issue or request..." required></textarea>
 
                 <button type="submit" class="submit-btn">Submit Ticket</button>

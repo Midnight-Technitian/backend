@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="new_customer">
+    <div id="newCustomerModel" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNewCustomerModal()">&times;</span>
+            <h2>New Customer Registration</h2>
+            <form id="newServiceRequest" onsubmit="submitNewCustomerRegistration(event)">
+                <!--  Have the customerId as an element in the form, so that it can be sent with the request  -->
+                <label for="customerEmail">Contact email</label>
+                <input type="text" id="customerEmail" name="customerEmail" placeholder="customer@some-domain.com" required>
+
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="e.g. John" required>
+
+                <label for="lastName">last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="e.g. Doe" required>
+
+                <label for="contactNumber">Contact Number</label>
+                <input type="text" id="contactNumber" name="contactNumber" placeholder="e.g. 1-800-555-1234" required>
+
+                <button type="submit" class="submit-btn">Create Customer</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

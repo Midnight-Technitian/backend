@@ -2,6 +2,7 @@ package dev.glabay.services;
 
 import dev.glabay.dtos.UserProfileDto;
 import dev.glabay.kafka.KafkaTopics;
+import dev.glabay.kafka.events.customer.CustomerRegisteredEvent;
 import dev.glabay.kafka.events.device.CustomerDeviceRegistrationEvent;
 import dev.glabay.kafka.events.ticket.ServiceTicketCreationEvent;
 import dev.glabay.kafka.events.user.UserRegisteredEvent;
@@ -30,6 +31,12 @@ public class KafkaEventService {
         var event = new UserRegisteredEvent(dto, ipAddress);
         kafkaTemplate.send(KafkaTopics.USER_REGISTRATION.getTopicName(), dto.email(), event);
         logger.info("User Registered Event sent to Kafka {}", event);
+    }
+
+    public void publishCustomerRegistration(String email, String firstName, String lastName, String contactNumber,  String employeeId) {
+        var event = new CustomerRegisteredEvent(email, firstName, lastName, contactNumber, employeeId);
+        kafkaTemplate.send(KafkaTopics.CUSTOMER_CREATION.getTopicName(), email, event);
+        logger.info("Customer Registered Event sent to Kafka {}", event);
     }
 
     public void publishDeviceRegistration(RegisteringDevice body) {
