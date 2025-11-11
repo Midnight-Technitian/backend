@@ -87,4 +87,11 @@ public class EmployeeService implements EmployeeConverter {
             model.setUpdatedAt(LocalDateTime.now());
         return employeeRepository.save(model);
     }
+
+    public EmployeeDto getEmployeeById(String employeeId) {
+        var optionalEmployee = employeeRepository.findById(employeeId);
+        return optionalEmployee
+            .map(this::mapToDto)
+            .orElse(null);
+    }
 }

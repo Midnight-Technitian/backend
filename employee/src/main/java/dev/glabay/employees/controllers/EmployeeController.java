@@ -57,7 +57,7 @@ public class EmployeeController implements EmployeeConverter {
     }
 
     @GetMapping
-    private ResponseEntity<EmployeeDto> getEmployee(@RequestParam("email") String email) {
+    private ResponseEntity<EmployeeDto> getEmployeeByEmail(@RequestParam("email") String email) {
         // TODO: Verify the email is an email
         if (!employeeService.employeeExists(email)) {
             logger.info("Employee does not exist with email: {}", email);
@@ -66,6 +66,16 @@ public class EmployeeController implements EmployeeConverter {
         var dto = employeeService.findEmployeeDtoByEmail(email);
         if (dto == null) {
             logger.error("Error getting employee with email: {}", email);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/single")
+    private ResponseEntity<EmployeeDto> getEmployeeById(@RequestParam("employeeId") String employeeId) {
+        var dto = employeeService.getEmployeeById(employeeId);
+        if (dto == null) {
+            logger.error("Error getting employee with ID: {}", employeeId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);

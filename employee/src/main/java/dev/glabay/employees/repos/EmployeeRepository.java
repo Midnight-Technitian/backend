@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
     boolean existsByEmailIgnoreCase(String email);
     Optional<Employee> findByEmailIgnoreCase(String email);
+    Optional<Employee> findByEmployeeId(String employeeId);
 }

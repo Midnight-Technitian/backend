@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Profile - Midnight Technician</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/employee_profile.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/EmployeeSchedule.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+
+<!-- Header -->
+<div class="dashboard-header">
+    <div class="container text-center">
+        <h1 class="welcome-title">Employee Profile</h1>
+        <p class="welcome-subtitle">View employee details and work schedule</p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container dashboard-container">
+
+    <!-- Employee Info Card -->
+    <section class="employee-info-section">
+        <div class="employee-info-card">
+            <div class="employee-profile-image">
+                <!-- Profile Image or Default SVG -->
+                <div th:if="${employee.profileImageUrl != null && !employee.profileImageUrl.isEmpty()}">
+                    <img th:src="${employee.profileImageUrl}" alt="Employee Profile" class="profile-img">
+                </div>
+                <div th:unless="${employee.profileImageUrl != null && !employee.profileImageUrl.isEmpty()}" class="profile-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="128" height="128">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="employee-info-details">
+                <h2 class="employee-name" th:text="${employee.firstName + ' ' + employee.lastName}">John Doe</h2>
+                <p class="employee-id" th:text="'ID: ' + ${employee.employeeId}">ID: E-102</p>
+                <p class="employee-position" th:text="${employee.positionTitle}">Senior Technician</p>
+                <p class="employee-status">
+                    <span class="status-badge" th:classappend="${employee.status}" th:text="${employee.status}">ACTIVE</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Employee Details Grid -->
+    <section class="employee-details-section">
+        <div class="details-grid">
+
+            <!-- Contact Information -->
+            <div class="detail-card">
+                <h3 class="detail-title">Contact Information</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value" th:text="${employee.email}">john.doe@example.com</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Contact Number:</span>
+                    <span class="detail-value" th:text="${employee.contactNumber}">+1 (555) 123-4567</span>
+                </div>
+            </div>
+
+            <!-- Employment Information -->
+            <div class="detail-card">
+                <h3 class="detail-title">Employment Information</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Start Date:</span>
+                    <span class="detail-value" th:text="${employee.employeeStartDate}">2024-01-15</span>
+                </div>
+                <div class="detail-item" th:if="${employee.employeeEndDate != null}">
+                    <span class="detail-label">End Date:</span>
+                    <span class="detail-value" th:text="${employee.employeeEndDate}">N/A</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Last Login:</span>
+                    <span class="detail-value" th:text="${employee.lastLoginAt}">2025-11-10 14:30</span>
+                </div>
+            </div>
+
+            <!-- Record Information -->
+            <div class="detail-card">
+                <h3 class="detail-title">Record Information</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Created At:</span>
+                    <span class="detail-value" th:text="${employee.createdAt}">2024-01-01 09:00</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Last Updated:</span>
+                    <span class="detail-value" th:text="${employee.updatedAt}">2025-11-10 08:15</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Created By:</span>
+                    <span class="detail-value" th:text="${employee.createdBy}">admin</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Updated By:</span>
+                    <span class="detail-value" th:text="${employee.updatedBy}">manager</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weekly Schedule Section -->
+    <section class="schedule-section">
+        <div class="schedule-header">
+            <div>
+                <h2 class="section-title">Weekly Schedule</h2>
+                <p class="week-dates" th:text="${currentWeekStart + ' - ' + currentWeekEnd}">Nov 11 - Nov 17, 2025</p>
+            </div>
+        </div>
+
+        <div class="schedule-table-container">
+            <table class="weekly-schedule-table">
+                <thead>
+                <tr>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="shift-cell"
+                        data-day="MONDAY"
+                        th:attr="data-shift=${scheduleMap.get('MONDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('MONDAY') != null ? scheduleMap.get('MONDAY').startTime() + ' - ' + scheduleMap.get('MONDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                    <td class="shift-cell"
+                        data-day="TUESDAY"
+                        th:attr="data-shift=${scheduleMap.get('TUESDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('TUESDAY') != null ? scheduleMap.get('TUESDAY').startTime() + ' - ' + scheduleMap.get('TUESDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                    <td class="shift-cell"
+                        data-day="WEDNESDAY"
+                        th:attr="data-shift=${scheduleMap.get('WEDNESDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('WEDNESDAY') != null ? scheduleMap.get('WEDNESDAY').startTime() + ' - ' + scheduleMap.get('WEDNESDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                    <td class="shift-cell"
+                        data-day="THURSDAY"
+                        th:attr="data-shift=${scheduleMap.get('THURSDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('THURSDAY') != null ? scheduleMap.get('THURSDAY').startTime() + ' - ' + scheduleMap.get('THURSDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                    <td class="shift-cell"
+                        data-day="FRIDAY"
+                        th:attr="data-shift=${scheduleMap.get('FRIDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('FRIDAY') != null ? scheduleMap.get('FRIDAY').startTime() + ' - ' + scheduleMap.get('FRIDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                    <td class="shift-cell"
+                        data-day="SATURDAY"
+                        th:attr="data-shift=${scheduleMap.get('SATURDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('SATURDAY') != null ? scheduleMap.get('SATURDAY').startTime() + ' - ' + scheduleMap.get('SATURDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                    <td class="shift-cell"
+                        data-day="SUNDAY"
+                        th:attr="data-shift=${scheduleMap.get('SUNDAY')}"
+                        onclick="openShiftModal(this)">
+                        <div class="shift-content">
+                                <span class="shift-time"
+                                      th:text="${scheduleMap.get('SUNDAY') != null ? scheduleMap.get('SUNDAY').startTime() + ' - ' + scheduleMap.get('SUNDAY').endTime() : 'Off'}">
+                                    Off
+                                </span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="schedule-tip">💡 <strong>Tip:</strong> Click on any day to edit or add a shift</p>
+    </section>
+
+    <!-- Work Hours Section -->
+    <section class="work-hours-section">
+        <h2 class="section-title">Current Period Work Hours</h2>
+        <div class="work-hours-card">
+            <div class="work-hours-grid">
+                <div class="work-hours-item">
+                    <div class="work-hours-icon">📅</div>
+                    <div class="work-hours-data">
+                        <span class="work-hours-label">Days Worked</span>
+                        <span class="work-hours-value">--</span>
+                    </div>
+                </div>
+                <div class="work-hours-item">
+                    <div class="work-hours-icon">⏰</div>
+                    <div class="work-hours-data">
+                        <span class="work-hours-label">Hours Worked</span>
+                        <span class="work-hours-value">--</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-muted text-center mt-3">Work tracking data will be displayed here</p>
+        </div>
+    </section>
+
+    <footer class="dashboard-footer">
+        <p class="tagline"><em>Midnight Technician – Empowering Your Team.</em></p>
+    </footer>
+</div>
+
+<!-- Shift Modal -->
+<div id="shiftModal" class="shift-modal">
+    <div class="shift-modal-content">
+        <div class="shift-modal-header">
+            <h2 id="modalTitle">Add Shift</h2>
+            <button class="modal-close-btn" onclick="closeShiftModal()">&times;</button>
+        </div>
+
+        <form id="shiftForm" onsubmit="saveShift(event)">
+            <input type="hidden" id="employeeId" th:value="${employee.employeeId}">
+            <input type="hidden" id="selectedDay" value="">
+
+            <div class="form-group">
+                <label for="dayDisplay">Day</label>
+                <input type="text" id="dayDisplay" class="form-control" readonly>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group form-group-half">
+                    <label for="startTimeInput">Start Time</label>
+                    <input type="time"
+                           id="startTimeInput"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="form-group form-group-half">
+                    <label for="endTimeInput">End Time</label>
+                    <input type="time"
+                           id="endTimeInput"
+                           class="form-control"
+                           required>
+                </div>
+            </div>
+
+            <div class="shift-modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeShiftModal()">Cancel</button>
+                <button type="button" class="btn-delete" id="deleteBtn" onclick="deleteShift()" style="display: none;">Delete</button>
+                <button type="submit" class="btn-save">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="shiftModalBackdrop" class="shift-modal-backdrop" onclick="closeShiftModal()"></div>
+
+</body>
+</html>

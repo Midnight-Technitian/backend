@@ -360,6 +360,127 @@ public class DashboardController {
         return "dashboards/admin/dashboard";
     }
 
+    @GetMapping("/admin/employee")
+    @PreAuthorize("hasRole('MANAGER')")
+    public String getEmployeeProfile(
+        @RequestParam("id") String employeeId,
+        HttpServletRequest request,
+        Model model
+    ) {
+        var email = request.getRemoteUser();
+        var managerDto = getEmployee(email);
+        if (managerDto.isEmpty()) {
+            logger.debug("Failed to retrieve manager data for email: {}", email);
+            return "redirect:/error";
+        }
+
+        var employeeResponseSpec = restClient.get()
+            .uri("http://localhost:8082/api/v1/employees/single?employeeId={employeeId}", employeeId)
+            .retrieve();
+
+        var employeeStatus = employeeResponseSpec.toBodilessEntity().getStatusCode();
+        if (employeeStatus == HttpStatus.NOT_FOUND) {
+            logger.debug("Employee with ID {} not found", employeeId);
+            return "redirect:/error";
+        }
+
+        var employeeDto = employeeResponseSpec.body(new ParameterizedTypeReference<EmployeeDto>() {});
+        if (employeeDto == null) {
+            logger.debug("Failed to retrieve employee data for ID: {}", employeeId);
+            return "redirect:/error";
+        }
+
+        // Fetch current week schedule for this employee
+        var currentWeekStart = java.time.LocalDate.now()
+            .with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        var currentWeekEnd = currentWeekStart.plusDays(6);
+
+        var scheduleResponseSpec = restClient.get()
+            .uri("http://localhost:8086/api/v1/schedules/{employeeId}", employeeId)
+            .retrieve();
+
+        var scheduleMap = new java.util.HashMap<String, dev.glabay.dtos.Shift>();
+
+        // Only process if we got a successful response
+        var scheduleStatus = scheduleResponseSpec.toBodilessEntity().getStatusCode();
+        if (scheduleStatus.is2xxSuccessful()) {
+            var scheduleDto = scheduleResponseSpec.body(new ParameterizedTypeReference<ScheduleDto>() {});
+            if (scheduleDto != null && scheduleDto.shifts() != null) {
+                for (var shift : scheduleDto.shifts()) {
+                    scheduleMap.put(shift.day().name(), shift);
+                }
+            }
+        }
+
+        // Format dates for display
+        var dateFormatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+        model.addAttribute("manager", managerDto.get());
+        model.addAttribute("employee", employeeDto);
+        model.addAttribute("scheduleMap", scheduleMap);
+        model.addAttribute("currentWeekStart", currentWeekStart.format(dateFormatter));
+        model.addAttribute("currentWeekEnd", currentWeekEnd.format(dateFormatter));
+
+        return "dashboards/admin/employee_profile_view";
+    }
+
+    @GetMapping("/admin/schedules")
+    @PreAuthorize("hasRole('MANAGER')")
+    public String getScheduleManagement(HttpServletRequest request, Model model) {
+        var email = request.getRemoteUser();
+        var managerDto = getEmployee(email);
+        if (managerDto.isEmpty()) {
+            logger.debug("Failed to retrieve manager data for email: {}", email);
+            return "redirect:/error";
+        }
+
+        var employees = restClient.get()
+            .uri("http://localhost:8082/api/v1/employees/all")
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<List<EmployeeDto>>() {})
+            .getBody();
+
+        // Calculate current week and next week dates
+        var currentWeekStart = java.time.LocalDate.now()
+            .with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        var currentWeekEnd = currentWeekStart.plusDays(6);
+        var nextWeekStart = currentWeekStart.plusDays(7);
+        var nextWeekEnd = nextWeekStart.plusDays(6);
+
+        // Fetch schedules for current week
+        var currentWeekSchedules = restClient.get()
+            .uri("http://localhost:8086/api/v1/schedules/week?weekStart={weekStart}", currentWeekStart)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<List<ScheduleDto>>() {})
+            .getBody();
+
+        // Fetch schedules for next week
+        var nextWeekSchedules = restClient.get()
+            .uri("http://localhost:8086/api/v1/schedules/week?weekStart={weekStart}", nextWeekStart)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<List<ScheduleDto>>() {})
+            .getBody();
+
+        // Create maps for easy lookup: "employeeId_DAY" -> Shift
+        var currentWeekScheduleMap = createScheduleMap(currentWeekSchedules);
+        var nextWeekScheduleMap = createScheduleMap(nextWeekSchedules);
+
+        // Format dates for display
+        var dateFormatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+        model.addAttribute("manager", managerDto.get());
+        model.addAttribute("employees", Objects.isNull(employees) ? List.of() : employees);
+        model.addAttribute("currentWeekScheduleMap", currentWeekScheduleMap);
+        model.addAttribute("nextWeekScheduleMap", nextWeekScheduleMap);
+        model.addAttribute("currentWeekStart", currentWeekStart.format(dateFormatter));
+        model.addAttribute("currentWeekEnd", currentWeekEnd.format(dateFormatter));
+        model.addAttribute("nextWeekStart", nextWeekStart.format(dateFormatter));
+        model.addAttribute("nextWeekEnd", nextWeekEnd.format(dateFormatter));
+
+        return "dashboards/admin/schedule_management";
+    }
+
+
     private Collection<ServiceDto> getServices() {
         var services = restClient.get()
             .uri("http://localhost:8080/api/v1/services")
@@ -402,4 +523,17 @@ public class DashboardController {
         return Optional.ofNullable(responseSpec.body(new ParameterizedTypeReference<>() {}));
     }
 
+    private Map<String, Shift> createScheduleMap(List<ScheduleDto> schedules) {
+        var scheduleMap = new HashMap<String, Shift>();
+        for (var schedule : schedules) {
+            var employeeId = schedule.employeeId();
+            if (schedule.shifts() != null) {
+                for (var shift : schedule.shifts()) {
+                    var key = employeeId + "_" + shift.day().name();
+                    scheduleMap.put(key, shift);
+                }
+            }
+        }
+        return scheduleMap;
+    }
 }

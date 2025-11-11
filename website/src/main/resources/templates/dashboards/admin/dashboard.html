@@ -35,6 +35,12 @@
                 <p th:text="${#lists.size(employees)} + ' active'">8 active</p>
             </button>
 
+            <a href="/dashboard/admin/schedules" class="action-card">
+                <div class="action-icon">📅</div>
+                <h3>Manage Schedules</h3>
+                <p>Weekly planning</p>
+            </a>
+
             <div class="action-card">
                 <div class="action-icon">✅</div>
                 <h3>Monthly Report</h3>
@@ -57,7 +63,7 @@
                 <h3 class="ticket-title" th:text="${employee.firstName + ' ' + employee.lastName}">John Doe</h3>
 <!--                <p class="ticket-description" th:text="'Tickets Assigned: ' + ${employee.openTicketsCount}">Tickets Assigned: 5</p>-->
                 <div class="ticket-footer">
-                    <button class="ticket-view-btn">View Profile</button>
+                    <a th:href="@{/dashboard/admin/employee(id=${employee.employeeId})}" class="ticket-view-btn">View Profile</a>
                 </div>
             </div>
         </div>

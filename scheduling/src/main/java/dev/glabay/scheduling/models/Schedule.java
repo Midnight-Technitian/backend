@@ -1,5 +1,6 @@
 package dev.glabay.scheduling.models;
 
+import dev.glabay.dtos.Shift;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

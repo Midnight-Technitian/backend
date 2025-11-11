@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Management - Midnight Technician</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/schedule_management.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/ScheduleManagement.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+
+<!-- Header -->
+<div class="dashboard-header">
+    <div class="container text-center">
+        <h1 class="welcome-title">Schedule Management</h1>
+        <p class="welcome-subtitle">Manage your team's weekly schedules</p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container dashboard-container">
+
+    <!-- THIS WEEK SECTION -->
+    <section class="week-section">
+        <div class="week-section-header">
+            <div class="week-info">
+                <h2 class="week-title">This Week</h2>
+                <p class="week-dates" th:text="${currentWeekStart + ' - ' + currentWeekEnd}">Nov 11 - Nov 17, 2025</p>
+            </div>
+            <button class="btn-add-schedule" onclick="openScheduleModal('current')">
+                <span class="btn-icon">➕</span>
+                Add Shift
+            </button>
+        </div>
+
+        <div class="schedule-table-wrapper">
+            <table class="schedule-table">
+                <thead>
+                <tr>
+                    <th class="employee-column">Employee</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td class="employee-name-cell">
+                        <div class="employee-info">
+                            <span class="employee-name" th:text="${employee.firstName + ' ' + employee.lastName}">John Doe</span>
+                            <span class="employee-id" th:text="${employee.employeeId}">E-102</span>
+                        </div>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='MONDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_MONDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_MONDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_MONDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_MONDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='TUESDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_TUESDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_TUESDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_TUESDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_TUESDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='WEDNESDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='THURSDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_THURSDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_THURSDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_THURSDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_THURSDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='FRIDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_FRIDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_FRIDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_FRIDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_FRIDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='SATURDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_SATURDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_SATURDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_SATURDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_SATURDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='SUNDAY',
+                                     data-week='current',
+                                     data-shift=${currentWeekScheduleMap.get(employee.employeeId + '_SUNDAY')}"
+                        onclick="openScheduleModal('current', this)">
+                            <span class="schedule-time"
+                                  th:text="${currentWeekScheduleMap.get(employee.employeeId + '_SUNDAY') != null ? currentWeekScheduleMap.get(employee.employeeId + '_SUNDAY').startTime() + '-' + currentWeekScheduleMap.get(employee.employeeId + '_SUNDAY').endTime() : '--'}">--</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="schedule-legend">
+            <p><strong>Tip:</strong> Click on any cell to edit the schedule for that employee and day</p>
+        </div>
+    </section>
+
+    <!-- NEXT WEEK SECTION -->
+    <section class="week-section">
+        <div class="week-section-header">
+            <div class="week-info">
+                <h2 class="week-title">Next Week</h2>
+                <p class="week-dates" th:text="${nextWeekStart + ' - ' + nextWeekEnd}">Nov 18 - Nov 24, 2025</p>
+            </div>
+            <div class="week-actions">
+                <button class="btn-email-schedule" onclick="emailNextWeekSchedule()">
+                    <span class="btn-icon">📧</span>
+                    Email Schedule
+                </button>
+                <button class="btn-add-schedule" onclick="openScheduleModal('next')">
+                    <span class="btn-icon">➕</span>
+                    Add Shift
+                </button>
+            </div>
+        </div>
+
+        <div class="schedule-table-wrapper">
+            <table class="schedule-table">
+                <thead>
+                <tr>
+                    <th class="employee-column">Employee</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td class="employee-name-cell">
+                        <div class="employee-info">
+                            <span class="employee-name" th:text="${employee.firstName + ' ' + employee.lastName}">John Doe</span>
+                            <span class="employee-id" th:text="${employee.employeeId}">E-102</span>
+                        </div>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='MONDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_MONDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_MONDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_MONDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_MONDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='TUESDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_TUESDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_TUESDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_TUESDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_TUESDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='WEDNESDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_WEDNESDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='THURSDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_THURSDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_THURSDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_THURSDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_THURSDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='FRIDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_FRIDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_FRIDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_FRIDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_FRIDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='SATURDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_SATURDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_SATURDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_SATURDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_SATURDAY').endTime() : '--'}">--</span>
+                    </td>
+                    <td class="schedule-cell"
+                        th:attr="data-employee-id=${employee.employeeId},
+                                     data-employee-name=${employee.firstName + ' ' + employee.lastName},
+                                     data-day='SUNDAY',
+                                     data-week='next',
+                                     data-shift=${nextWeekScheduleMap.get(employee.employeeId + '_SUNDAY')}"
+                        onclick="openScheduleModal('next', this)">
+                            <span class="schedule-time"
+                                  th:text="${nextWeekScheduleMap.get(employee.employeeId + '_SUNDAY') != null ? nextWeekScheduleMap.get(employee.employeeId + '_SUNDAY').startTime() + '-' + nextWeekScheduleMap.get(employee.employeeId + '_SUNDAY').endTime() : '--'}">--</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="schedule-legend">
+            <p><strong>Tip:</strong> Click on any cell to edit next week's schedule. Use the "Email Schedule" button to notify employees.</p>
+        </div>
+    </section>
+
+    <footer class="dashboard-footer">
+        <p class="tagline"><em>Midnight Technician – Empowering Your Team.</em></p>
+    </footer>
+</div>
+
+<!-- Schedule Modal -->
+<div id="scheduleModal" class="schedule-modal">
+    <div class="schedule-modal-content">
+        <div class="schedule-modal-header">
+            <h2 id="modalTitle">Add Schedule Entry</h2>
+            <button class="modal-close-btn" onclick="closeScheduleModal()">&times;</button>
+        </div>
+
+        <form id="scheduleForm" onsubmit="saveSchedule(event)">
+            <input type="hidden" id="weekType" value="current">
+
+            <div class="form-group">
+                <label for="employeeSelect">Employee</label>
+                <select id="employeeSelect" class="form-control" required>
+                    <option value="">Select an employee...</option>
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.employeeId}"
+                            th:text="${employee.firstName + ' ' + employee.lastName + ' (' + employee.employeeId + ')'}">
+                        John Doe (E-102)
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="daySelect">Day of Week</label>
+                <select id="daySelect" class="form-control" required>
+                    <option value="">Select a day...</option>
+                    <option value="MONDAY">Monday</option>
+                    <option value="TUESDAY">Tuesday</option>
+                    <option value="WEDNESDAY">Wednesday</option>
+                    <option value="THURSDAY">Thursday</option>
+                    <option value="FRIDAY">Friday</option>
+                    <option value="SATURDAY">Saturday</option>
+                    <option value="SUNDAY">Sunday</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group form-group-half">
+                    <label for="startTimeInput">Start Time</label>
+                    <input type="time"
+                           id="startTimeInput"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="form-group form-group-half">
+                    <label for="endTimeInput">End Time</label>
+                    <input type="time"
+                           id="endTimeInput"
+                           class="form-control"
+                           required>
+                </div>
+            </div>
+
+            <div class="schedule-modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeScheduleModal()">Cancel</button>
+                <button type="button" class="btn-delete" id="deleteBtn" onclick="deleteSchedule()" style="display: none;">Delete</button>
+                <button type="submit" class="btn-save">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="scheduleModalBackdrop" class="schedule-modal-backdrop" onclick="closeScheduleModal()"></div>
+
+</body>
+</html>
