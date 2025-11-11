@@ -191,6 +191,22 @@ public class TicketingController {
         return new ResponseEntity<>(openTickets, HttpStatus.OK);
     }
 
+    @GetMapping("/employee")
+    private ResponseEntity<List<ServiceTicketDto>> getAllOpenTicketsForEmployee(
+        @RequestParam("employeeId") String employeeId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "15") int size
+    ) {
+        var openTickets = ticketingService.getAllTicketsForEmployee(employeeId, page, size);
+
+        if (openTickets.isEmpty()) {
+            logger.error("No open tickets found");
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(openTickets, HttpStatus.OK);
+    }
+
     @GetMapping("/unclaimed")
     private ResponseEntity<List<ServiceTicketDto>> getOpenUnclaimedTickets(
         @RequestParam(defaultValue = "0") int page,

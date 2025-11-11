@@ -270,6 +270,12 @@ public class DashboardController {
             .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
             .getBody();
 
+        var employeeActiveTickets = restClient.get()
+            .uri("http://localhost:8081/api/v1/tickets/employee?employeeId={employeeId}", employeeDto.get().employeeId())
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
+            .getBody();
+
         var claimedTickets = restClient.get()
             .uri("http://localhost:8081/api/v1/tickets/claimed")
             .retrieve()
@@ -280,6 +286,7 @@ public class DashboardController {
         model.addAttribute("deviceTypes", getDeviceTypes());
         model.addAttribute("devices", getCustomerDevices(email));
         model.addAttribute("employee", employeeDto.get());
+        model.addAttribute("employeeActiveTickets", Objects.isNull(employeeActiveTickets) ? List.of() : employeeActiveTickets);
         model.addAttribute("openTickets", Objects.isNull(openTickets) ? List.of() : openTickets);
         model.addAttribute("claimedTickets", Objects.isNull(claimedTickets) ? List.of() : claimedTickets);
         return "dashboards/tickets/dashboard";

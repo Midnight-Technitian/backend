@@ -224,4 +224,14 @@ public class TicketingService {
             .toList();
     }
 
+    public List<ServiceTicketDto> getAllTicketsForEmployee(String employeeId, int page, int size) {
+        if (size <= 0)
+            size = 15;
+        var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        return ticketRepository.findAllByEmployeeId(employeeId).stream()
+            .map(ServiceTicket::mapToDto)
+            .toList();
+    }
+
 }
