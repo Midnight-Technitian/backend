@@ -100,12 +100,13 @@ function saveShift(event) {
     console.log('Saving shift:', { employeeId, ...shiftData });
 
     // Make API call to save the schedule (current week)
-    fetch(`/api/schedules/shift?employeeId=${employeeId}&weekType=current`, {
+    csrfFetch(`/api/schedules/shift?employeeId=${employeeId}&weekType=current`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(shiftData)
+        body: JSON.stringify(shiftData),
+        redirectOn401: true
     })
         .then(response => {
             if (!response.ok) {
@@ -136,8 +137,9 @@ function deleteShift() {
     console.log('Deleting shift for:', employeeId, day);
 
     // Make API call to delete the schedule
-    fetch(`/api/schedules/shift?employeeId=${employeeId}&day=${day}&weekType=current`, {
+    csrfFetch(`/api/schedules/shift?employeeId=${employeeId}&day=${day}&weekType=current`, {
         method: 'DELETE',
+        redirectOn401: true
     })
         .then(response => {
             if (!response.ok) {
