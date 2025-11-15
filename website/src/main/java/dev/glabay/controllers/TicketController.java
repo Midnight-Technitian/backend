@@ -35,11 +35,10 @@ public class TicketController {
     @PostMapping()
     private String updateServiceTicket(@RequestBody ServiceTicketDto body) {
         var serviceNoteDto = restClient.put()
-            .uri("http://localhost:8081/api/v1/tickets")
+            .uri("http://ticketing/api/v1/tickets")
             .body(body)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<ServiceTicketDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<ServiceTicketDto>() {});
 
         if (serviceNoteDto == null)
             return "redirect:/error";
@@ -50,11 +49,10 @@ public class TicketController {
     @PostMapping("/notes")
     private String postNewServiceTicketNotes(@RequestBody ServiceNote body) {
         var serviceNoteDto = restClient.post()
-            .uri("http://localhost:8081/api/v1/tickets/note")
+            .uri("http://ticketing/api/v1/tickets/note")
             .body(body)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<ServiceTicketDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<ServiceTicketDto>() {});
 
         if (serviceNoteDto == null)
             return "redirect:/error";
@@ -66,7 +64,7 @@ public class TicketController {
     private String closeServiceTicket(@RequestParam("ticketId") String ticketId) {
         // TODO: Validate the provided String matches the expect pattern: 'TICKET-1'
         var responseSpec = restClient.put()
-            .uri("http://localhost:8081/api/v1/tickets/close?ticketId={ticketId}", ticketId)
+            .uri("http://ticketing/api/v1/tickets/close?ticketId={ticketId}", ticketId)
             .retrieve();
 
         if (responseSpec.toBodilessEntity().getStatusCode() != HttpStatus.OK)
@@ -82,7 +80,7 @@ public class TicketController {
     ) {
         // TODO: Validate the provided String matches the expect pattern: 'TICKET-1', 'EMPLOYEE-1'
         var responseSpec = restClient.put()
-            .uri("http://localhost:8081/api/v1/tickets/claim?" +
+            .uri("http://ticketing/api/v1/tickets/claim?" +
                     "ticketId={ticketId}&" +
                     "employeeId={employeeId}",
                 ticketId,

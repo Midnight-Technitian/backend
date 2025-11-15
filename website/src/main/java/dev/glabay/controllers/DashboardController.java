@@ -44,13 +44,12 @@ public class DashboardController {
         var email = request.getRemoteUser();
         // fetch the customer data object
         var customerDto = restClient.get()
-            .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+            .uri("http://customer/api/v1/customers/email?email={email}", email)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<CustomerDto>() {});
 
         var ticketResponseSpec = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets?ticketId={ticketId}", ticketId)
+            .uri("http://ticketing/api/v1/tickets?ticketId={ticketId}", ticketId)
             .retrieve();
 
         var ticketStatus = ticketResponseSpec.toBodilessEntity().getStatusCode();
@@ -65,7 +64,7 @@ public class DashboardController {
         // TODO: Check if the Ticket is connected with the Customer, else redirect to error page
 
         var deviceResponseSpec = restClient.get()
-            .uri("http://localhost:8084/api/v1/devices/device?deviceId={deviceId}", serviceTicketDto.getCustomerDeviceId())
+            .uri("http://customer-device/api/v1/devices/device?deviceId={deviceId}", serviceTicketDto.getCustomerDeviceId())
                 .retrieve();
 
         var deviceStatus = deviceResponseSpec.toBodilessEntity().getStatusCode();
@@ -79,7 +78,7 @@ public class DashboardController {
         var deviceDto = optionalDeviceDto.get();
 
         var serviceResponseSpec = restClient.get()
-            .uri("http://localhost:8080/api/v1/services/{serviceId}", serviceTicketDto.getServiceId())
+            .uri("http://services/api/v1/services/{serviceId}", serviceTicketDto.getServiceId())
                 .retrieve();
 
         var serviceStatusCode = serviceResponseSpec.toBodilessEntity().getStatusCode();
@@ -105,16 +104,14 @@ public class DashboardController {
     public String getCustomerTicketHistoryDashboard(HttpServletRequest request, Model model) {
         var email = request.getRemoteUser();
         var customerDto = restClient.get()
-            .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+            .uri("http://customer/api/v1/customers/email?email={email}", email)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<CustomerDto>() {});
 
         var ticketHistory = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/customer/history?email={email}", email)
+            .uri("http://ticketing/api/v1/tickets/customer/history?email={email}", email)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
 
         model.addAttribute("customer", customerDto);
         model.addAttribute("ticketHistory", ticketHistory);
@@ -130,19 +127,18 @@ public class DashboardController {
     ) {
         var email = request.getRemoteUser();
         var customerDto = restClient.get()
-            .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+            .uri("http://customer/api/v1/customers/email?email={email}", email)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<CustomerDto>() {});
 
         // fetch customer Devices (up to a maximum of 6)
         var device = restClient.get()
-            .uri("http://localhost:8084/api/v1/devices/device?deviceId={deviceId}", deviceId)
+            .uri("http://customer-device/api/v1/devices/device?deviceId={deviceId}", deviceId)
             .retrieve()
             .body(new ParameterizedTypeReference<CustomerDeviceDto>() {});
 
         var ticketHistory = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/customer/device?deviceId={deviceId}", deviceId)
+            .uri("http://ticketing/api/v1/tickets/customer/device?deviceId={deviceId}", deviceId)
             .retrieve()
             .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
 
@@ -158,16 +154,14 @@ public class DashboardController {
         var email = request.getRemoteUser();
         // fetch the customer data object
         var customerDto = restClient.get()
-            .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+            .uri("http://customer/api/v1/customers/email?email={email}", email)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<CustomerDto>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<CustomerDto>() {});
         // fetch customer Open Service Tickets (up to a maximum of 6)
         var openTickets = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/customer?email={email}", email)
+            .uri("http://ticketing/api/v1/tickets/customer?email={email}", email)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
         // fetch customer Devices (up to a maximum of 6)
         var devices = getCustomerDevices(email);
 
@@ -205,7 +199,7 @@ public class DashboardController {
         }
 
         var ticketResponseSpec = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets?ticketId={ticketId}", ticketId)
+            .uri("http://ticketing/api/v1/tickets?ticketId={ticketId}", ticketId)
             .retrieve();
 
         var ticketStatus = ticketResponseSpec.toBodilessEntity().getStatusCode();
@@ -218,7 +212,7 @@ public class DashboardController {
         var serviceTicketDto = optionalServiceTicketDto.get();
 
         var deviceResponseSpec = restClient.get()
-            .uri("http://localhost:8084/api/v1/devices/device?deviceId={deviceId}", serviceTicketDto.getCustomerDeviceId())
+            .uri("http://customer-device/api/v1/devices/device?deviceId={deviceId}", serviceTicketDto.getCustomerDeviceId())
             .retrieve();
 
         var deviceStatus = deviceResponseSpec.toBodilessEntity().getStatusCode();
@@ -232,7 +226,7 @@ public class DashboardController {
         var deviceDto = optionalDeviceDto.get();
 
         var serviceResponseSpec = restClient.get()
-            .uri("http://localhost:8080/api/v1/services/{serviceId}", serviceTicketDto.getServiceId())
+            .uri("http://services/api/v1/services/{serviceId}", serviceTicketDto.getServiceId())
             .retrieve();
 
         var serviceStatusCode = serviceResponseSpec.toBodilessEntity().getStatusCode();
@@ -265,22 +259,19 @@ public class DashboardController {
         }
 
         var openTickets = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/unclaimed")
+            .uri("http://ticketing/api/v1/tickets/unclaimed")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
 
         var employeeActiveTickets = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/employee?employeeId={employeeId}", employeeDto.get().employeeId())
+            .uri("http://ticketing/api/v1/tickets/employee?employeeId={employeeId}", employeeDto.get().employeeId())
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
 
         var claimedTickets = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/claimed")
+            .uri("http://ticketing/api/v1/tickets/claimed")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
 
         model.addAttribute("services", getServices());
         model.addAttribute("deviceTypes", getDeviceTypes());
@@ -303,34 +294,30 @@ public class DashboardController {
         }
 
         var employees = restClient.get()
-            .uri("http://localhost:8082/api/v1/employees/all")
+            .uri("http://employee/api/v1/employees/all")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<EmployeeDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<EmployeeDto>>() {});
 
         var customers = restClient.get()
-            .uri("http://localhost:8083/api/v1/customers")
+            .uri("http://customer/api/v1/customers")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<CustomerDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<CustomerDto>>() {});
 
         var recentTickets = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/recent")
+            .uri("http://ticketing/api/v1/tickets/recent")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceTicketDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceTicketDto>>() {});
 
         var openCount = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/open-count")
+            .uri("http://ticketing/api/v1/tickets/open-count")
             .retrieve()
             .toEntity(Long.class)
             .getBody();
 
         var closedCount = restClient.get()
-            .uri("http://localhost:8081/api/v1/tickets/closed-count")
+            .uri("http://ticketing/api/v1/tickets/closed-count")
             .retrieve()
-            .toEntity(Long.class)
-            .getBody();
+            .body(Long.class);
 
         var emptyEmployee = new EmployeeDto(
             "",
@@ -375,7 +362,7 @@ public class DashboardController {
         }
 
         var employeeResponseSpec = restClient.get()
-            .uri("http://localhost:8082/api/v1/employees/single?employeeId={employeeId}", employeeId)
+            .uri("http://employee/api/v1/employees/single?employeeId={employeeId}", employeeId)
             .retrieve();
 
         var employeeStatus = employeeResponseSpec.toBodilessEntity().getStatusCode();
@@ -396,7 +383,7 @@ public class DashboardController {
         var currentWeekEnd = currentWeekStart.plusDays(6);
 
         var scheduleResponseSpec = restClient.get()
-            .uri("http://localhost:8086/api/v1/schedules/{employeeId}", employeeId)
+            .uri("http://scheduling/api/v1/schedules/{employeeId}", employeeId)
             .retrieve();
 
         var scheduleMap = new java.util.HashMap<String, dev.glabay.dtos.Shift>();
@@ -435,10 +422,9 @@ public class DashboardController {
         }
 
         var employees = restClient.get()
-            .uri("http://localhost:8082/api/v1/employees/all")
+            .uri("http://employee/api/v1/employees/all")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<EmployeeDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<EmployeeDto>>() {});
 
         // Calculate current week and next week dates
         var currentWeekStart = java.time.LocalDate.now()
@@ -449,17 +435,15 @@ public class DashboardController {
 
         // Fetch schedules for current week
         var currentWeekSchedules = restClient.get()
-            .uri("http://localhost:8086/api/v1/schedules/week?weekStart={weekStart}", currentWeekStart)
+            .uri("http://scheduling/api/v1/schedules/week?weekStart={weekStart}", currentWeekStart)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ScheduleDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ScheduleDto>>() {});
 
         // Fetch schedules for next week
         var nextWeekSchedules = restClient.get()
-            .uri("http://localhost:8086/api/v1/schedules/week?weekStart={weekStart}", nextWeekStart)
+            .uri("http://scheduling/api/v1/schedules/week?weekStart={weekStart}", nextWeekStart)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ScheduleDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ScheduleDto>>() {});
 
         // Create maps for easy lookup: "employeeId_DAY" -> Shift
         var currentWeekScheduleMap = createScheduleMap(currentWeekSchedules);
@@ -483,10 +467,9 @@ public class DashboardController {
 
     private Collection<ServiceDto> getServices() {
         var services = restClient.get()
-            .uri("http://localhost:8080/api/v1/services")
+            .uri("http://services/api/v1/services")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<Collection<ServiceDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<Collection<ServiceDto>>() {});
         if (services == null)
             return List.of();
         return services;
@@ -499,7 +482,7 @@ public class DashboardController {
     private List<CustomerDeviceDto> getCustomerDevices(String email) {
         var devices = new ArrayList<CustomerDeviceDto>();
         var deviceResponseSpec = restClient.get()
-            .uri("http://localhost:8084/api/v1/devices?email={email}", email)
+            .uri("http://customer-device/api/v1/devices?email={email}", email)
             .retrieve();
 
         var deviceStatus = deviceResponseSpec.toBodilessEntity().getStatusCode();
@@ -512,7 +495,7 @@ public class DashboardController {
 
     private Optional<EmployeeDto> getEmployee(String email) {
         var responseSpec = restClient.get()
-            .uri("http://localhost:8082/api/v1/employees?email={email}", email)
+            .uri("http://employee/api/v1/employees?email={email}", email)
             .retrieve();
 
         var status = responseSpec.toBodilessEntity().getStatusCode();

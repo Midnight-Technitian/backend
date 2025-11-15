@@ -6,17 +6,11 @@ plugins {
 
 group = 'dev.glabay'
 version = '0.0.1-SNAPSHOT'
-description = 'customer'
+description = 'eureka'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
-    }
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
     }
 }
 
@@ -26,26 +20,13 @@ repositories {
 }
 
 ext {
+    // Spring Cloud BOM aligned to Boot 4.0.0-M3
     set('springCloudVersion', "2025.1.0-M4")
 }
 
 dependencies {
-    implementation(project(":shared"))
-
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0")
-
-    implementation("org.springframework.kafka:spring-kafka:4.0.0-M3")
-
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

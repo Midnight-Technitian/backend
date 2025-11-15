@@ -47,7 +47,7 @@ public class ApiRequestController {
             var weekStart = calculateWeekStart(weekType);
 
             var response = restClient.post()
-                .uri("http://localhost:8086/api/v1/schedules/shift?employeeId={employeeId}&weekStart={weekStart}",
+                .uri("http://scheduling/api/v1/schedules/shift?employeeId={employeeId}&weekStart={weekStart}",
                     employeeId, weekStart)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(shift)
@@ -71,7 +71,7 @@ public class ApiRequestController {
             var weekStart = calculateWeekStart(weekType);
 
             var response = restClient.delete()
-                .uri("http://localhost:8086/api/v1/schedules/shift?employeeId={employeeId}&day={day}&weekStart={weekStart}",
+                .uri("http://scheduling/api/v1/schedules/shift?employeeId={employeeId}&day={day}&weekStart={weekStart}",
                     employeeId, day, weekStart)
                 .retrieve()
                 .toBodilessEntity();
@@ -93,7 +93,7 @@ public class ApiRequestController {
     @PostMapping("/employee")
     private String postNewEmployee(@RequestBody EmployeeDto body) {
         var deviceDto = restClient.post()
-            .uri("http://localhost:8082/api/v1/employees")
+            .uri("http://employee/api/v1/employees")
             .body(body)
             .retrieve()
             .body(new ParameterizedTypeReference<EmployeeDto>() {});
@@ -110,7 +110,7 @@ public class ApiRequestController {
     private ResponseEntity<Void> punchIn(@RequestParam("employeeId") String employeeId) {
         try {
             restClient.post()
-                .uri("http://localhost:8086/api/v1/schedule/clock-in?employeeId={employeeId}", employeeId)
+                .uri("http://scheduling/api/v1/schedule/clock-in?employeeId={employeeId}", employeeId)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                     (_, response) -> {
@@ -135,7 +135,7 @@ public class ApiRequestController {
     private ResponseEntity<Void> punchOut(@RequestParam("employeeId") String employeeId) {
         try {
             restClient.post()
-                .uri("http://localhost:8086/api/v1/schedule/clock-out?employeeId={employeeId}", employeeId)
+                .uri("http://scheduling/api/v1/schedule/clock-out?employeeId={employeeId}", employeeId)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                     (_, response) -> {
@@ -160,7 +160,7 @@ public class ApiRequestController {
     private ResponseEntity<CustomerDto> searchCustomerByEmail(@RequestParam("email") String email) {
         try {
             var customer = restClient.get()
-                .uri("http://localhost:8083/api/v1/customers/email?email={email}", email)
+                .uri("http://customer/api/v1/customers/email?email={email}", email)
                 .retrieve()
                 .body(CustomerDto.class);
             logger.info("Customer found by email: {}", email);
@@ -176,7 +176,7 @@ public class ApiRequestController {
     private ResponseEntity<List<CustomerDeviceDto>> getCustomerDeviceByEmail(@RequestParam("email") String email) {
         try {
             var devices = restClient.get()
-                .uri("http://localhost:8084/api/v1/devices?email={email}", email)
+                .uri("http://customer-device/api/v1/devices?email={email}", email)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<CustomerDeviceDto>>() {});
             logger.info("Customer devices retrieved successfully");

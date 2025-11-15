@@ -26,10 +26,9 @@ public class HomeController {
     @GetMapping({"/", "/home", "/index"})
     public String getHomePage(Model model) {
         var serviceList = restClient.get()
-            .uri("http://localhost:8080/api/v1/services")
+            .uri("http://services/api/v1/services")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ServiceDto>>() {})
-            .getBody();
+            .body(new ParameterizedTypeReference<List<ServiceDto>>() {});
         model.addAttribute("servicesOffered", serviceList);
         return "index";
     }
