@@ -50,20 +50,20 @@ public class RefreshTokenService {
 
     @Transactional
     public IssueResult issue(String userEmail, String userAgent, String ip) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiresAt = now.plusDays(refreshTtlDays);
+        var now = LocalDateTime.now();
+        var expiresAt = now.plusDays(refreshTtlDays);
 
-        String raw = tokenGenerator.generate256Bit();
-        String hash = hashingService.hash(raw);
+        var raw = tokenGenerator.generate256Bit();
+        var hash = hashingService.hash(raw);
 
-        RefreshToken entity = new RefreshToken();
-        entity.setId(UUID.randomUUID());
-        entity.setUserEmail(userEmail);
-        entity.setTokenHash(hash);
-        entity.setIssuedAt(now);
-        entity.setExpiresAt(expiresAt);
-        entity.setUserAgent(userAgent);
-        entity.setIp(ip);
+        var entity = new RefreshToken();
+            entity.setId(UUID.randomUUID());
+            entity.setUserEmail(userEmail);
+            entity.setTokenHash(hash);
+            entity.setIssuedAt(now);
+            entity.setExpiresAt(expiresAt);
+            entity.setUserAgent(userAgent);
+            entity.setIp(ip);
 
         repository.save(entity);
         return new IssueResult(entity.getId(), raw, expiresAt);
@@ -74,12 +74,12 @@ public class RefreshTokenService {
      */
     @Transactional(readOnly = true)
     public Optional<ActiveToken> validateActive(String rawToken) {
-        String hash = hashingService.hash(rawToken);
-        Optional<RefreshToken> found = repository.findByTokenHashAndRevokedAtIsNull(hash);
+        var hash = hashingService.hash(rawToken);
+        var found = repository.findByTokenHashAndRevokedAtIsNull(hash);
         if (found.isEmpty()) {
             return Optional.empty();
         }
-        RefreshToken token = found.get();
+        var token = found.get();
         if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
             return Optional.empty();
         }
@@ -93,14 +93,14 @@ public class RefreshTokenService {
      */
     @Transactional
     public RotateResult rotate(String rawToken, String userAgent, String ip) {
-        String hash = hashingService.hash(rawToken);
-        Optional<RefreshToken> opt = repository.findByTokenHash(hash);
+        var hash = hashingService.hash(rawToken);
+        var opt = repository.findByTokenHash(hash);
         if (opt.isEmpty()) {
             // Unknown token; treat as invalid
             return RotateResult.invalid();
         }
-        RefreshToken current = opt.get();
-        LocalDateTime now = LocalDateTime.now();
+        var current = opt.get();
+        var now = LocalDateTime.now();
 
         if (current.getRevokedAt() != null) {
             if (detectReuse) {
@@ -122,7 +122,7 @@ public class RefreshTokenService {
         }
 
         // Create a new token and link it
-        IssueResult issued = issue(current.getUserEmail(), userAgent, ip);
+        var issued = issue(current.getUserEmail(), userAgent, ip);
 
         // revoke current and link to new id
         current.setRevokedAt(now);

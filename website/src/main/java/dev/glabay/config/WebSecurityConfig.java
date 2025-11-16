@@ -48,13 +48,15 @@ public class WebSecurityConfig {
                     "/home",
                     "/index",
                     "/error",
-                    "/auth/login",
                     "/auth/register",
+                    "/auth/login",
+                    "/auth/logout",
+                    "/auth/refresh",
                     "/css/**",
                     "/img/**",
+                    "/js/**",
                     "/webjars/**"
                 ).permitAll()
-                .requestMatchers("/auth/login", "/auth/refresh", "/auth/logout").permitAll()
                 // User-Related (requires a logged-in user to have a ROLE_USER to access)
                 .requestMatchers("/dashboard/**").hasRole("USER")
                 .requestMatchers("/api/**").authenticated()

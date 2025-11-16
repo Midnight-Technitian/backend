@@ -7,7 +7,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -97,20 +96,16 @@ public class JwtService {
             .getBody();
     }
 
-    @SuppressWarnings("unchecked")
     public List<String> extractRoles(Claims claims) {
-        Object raw = claims.get("roles");
-        if (raw instanceof List<?>) {
-            List<?> list = (List<?>) raw;
-            List<String> roles = new ArrayList<>();
-            for (Object o : list) {
-                if (o != null) roles.add(o.toString());
-            }
+        var raw = claims.get("roles");
+        if (raw instanceof List<?> list) {
+            var roles = new ArrayList<String>();
+            for (var o : list)
+                roles.add(o.toString());
             return roles;
         }
-        if (raw instanceof String s) {
+        if (raw instanceof String s)
             return Arrays.asList(s.split(","));
-        }
         return Collections.emptyList();
     }
 }
