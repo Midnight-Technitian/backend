@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import dev.glabay.feaures.users.CustomUserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -91,7 +90,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-            var accessToken = jwtService.generateAccessToken(email, email, roles);
+            var accessToken = jwtService.generateAccessToken(email, roles);
             var issued = refreshTokenService.issue(email, request.getHeader("User-Agent"), ip);
 
             cookieHelper.setAccessCookie(response, accessToken, Duration.ofMinutes(accessTtlMinutes));
@@ -133,7 +132,7 @@ public class AuthController {
         // Load authorities for access token
         var user = userDetailsService.loadUserByUsername(email);
         var roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        var access = jwtService.generateAccessToken(email, email, roles);
+        var access = jwtService.generateAccessToken(email, roles);
 
         cookieHelper.setAccessCookie(response, access, Duration.ofMinutes(accessTtlMinutes));
         cookieHelper.setRefreshCookie(response, result.newRawToken, Duration.ofDays(refreshTtlDays));

@@ -50,12 +50,11 @@ public class JwtService {
         this.signingKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateAccessToken(String subject, String email, Collection<String> roles) {
+    public String generateAccessToken(String subject, Collection<String> roles) {
         var now = Instant.now();
         var exp = now.plus(accessTtlMinutes, ChronoUnit.MINUTES);
 
         var claims = new HashMap<String, Object>();
-            claims.put("email", email);
             claims.put("roles", new ArrayList<>(roles));
 
         return Jwts.builder()
@@ -113,10 +112,5 @@ public class JwtService {
             return Arrays.asList(s.split(","));
         }
         return Collections.emptyList();
-    }
-
-    public Optional<String> extractEmail(Claims claims) {
-        Object email = claims.get("email");
-        return Optional.ofNullable(email == null ? null : email.toString());
     }
 }
