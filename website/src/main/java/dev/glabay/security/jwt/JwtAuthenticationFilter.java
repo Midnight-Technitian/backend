@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @Component
+@NullMarked
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String ACCESS_COOKIE = "mt_at";
@@ -35,13 +36,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                    @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain
     ) throws ServletException, IOException {
         try {
             var token = extractCookie(request, ACCESS_COOKIE);
-            if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (!token.isBlank() && SecurityContextHolder.getContext().getAuthentication() == null) {
                 if (jwtService.isTokenValid(token)) {
                     var claims = jwtService.parseClaims(token);
                     var principal = claims.getSubject();
@@ -65,11 +66,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String extractCookie(HttpServletRequest request, String name) {
         var cookies = request.getCookies();
-        if (cookies == null) return null;
+        if (cookies == null) return "";
         for (var c : cookies) {
             if (name.equals(c.getName()))
                 return c.getValue();
         }
-        return null;
+        return "";
     }
 }
+
